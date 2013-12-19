@@ -1,5 +1,5 @@
 //
-//  DPCalendarMonthlyView.h
+//  DPCalendarHorizontalScrollCell.h
 //  DPCalendar
 //
 //  Created by Ethan Fang on 19/12/13.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCalendarMonthlyView : UIView<UICollectionViewDataSource, UICollectionViewDelegate>
-
-
+@interface DPCalendarHorizontalScrollCell : UICollectionViewCell
 
 @end

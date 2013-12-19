@@ -21,7 +21,7 @@
     if (self) {
         [self setBackgroundColor:[UIColor redColor]];
         [self.layer setBorderColor:[UIColor blueColor].CGColor];
-        [self.layer setBorderWidth:2];
+        [self.layer setBorderWidth:0.5];
         
         self.textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [self addSubview:self.textLabel];

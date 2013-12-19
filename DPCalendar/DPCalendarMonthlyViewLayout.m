@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Ethan Fang. All rights reserved.
 //
 
-#import "DPCalendarViewLayout.h"
+#import "DPCalendarMonthlyViewLayout.h"
 
-@implementation DPCalendarViewLayout
+@implementation DPCalendarMonthlyViewLayout
 
 - (id)init {
     if (self = [super init]) {

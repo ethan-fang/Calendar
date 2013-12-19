@@ -7,7 +7,7 @@
 //
 
 #import "DPCalendarTestViewController.h"
-#import "DPCalendarViewLayout.h"
+#import "DPCalendarMonthlyViewLayout.h"
 
 @interface DPCalendarTestViewController ()
 
@@ -35,9 +35,7 @@
 }
 
 -(void) commonInit {
-    DPCalendarViewLayout *layout = [[DPCalendarViewLayout alloc] init];
-    _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:self.view.bounds
-                       collectionViewLayout:layout];
+    _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:_monthlyView];
 }
 

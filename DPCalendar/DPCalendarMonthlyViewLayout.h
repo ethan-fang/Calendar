@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCalendarViewLayout : UICollectionViewFlowLayout
+@interface DPCalendarMonthlyViewLayout : UICollectionViewFlowLayout
 
 @end
