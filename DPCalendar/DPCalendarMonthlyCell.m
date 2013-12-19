@@ -8,15 +8,29 @@
 
 #import "DPCalendarMonthlyCell.h"
 
+@interface DPCalendarMonthlyCell()
+
+@property (nonatomic, strong) UILabel *textLabel;
+@end
+
 @implementation DPCalendarMonthlyCell
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        [self setBackgroundColor:[UIColor redColor]];
+        [self.layer setBorderColor:[UIColor blueColor].CGColor];
+        [self.layer setBorderWidth:2];
+        
+        self.textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [self addSubview:self.textLabel];
     }
     return self;
+}
+
+-(void)setText:(NSString *)text {
+    self.textLabel.text = text;
 }
 
 /*

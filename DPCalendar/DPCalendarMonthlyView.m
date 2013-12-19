@@ -7,6 +7,9 @@
 //
 
 #import "DPCalendarMonthlyView.h"
+#import "DPCalendarMonthlyCell.h"
+
+NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentifier";
 
 @implementation DPCalendarMonthlyView
 
@@ -14,7 +17,23 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        [self commonInit];
+    }
+    return self;
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+-(id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout {
+    self = [super initWithFrame:frame collectionViewLayout:layout];
+    if (self) {
+        [self commonInit];
     }
     return self;
 }
@@ -26,14 +45,46 @@
     self.showsVerticalScrollIndicator = NO;
     self.dataSource = self;
     self.delegate = self;
+    
+    self.dayCellClass     = DPCalendarMonthlyCell.class;
+    
+    [self registerUICollectionViewClasses];
+}
+
+- (void)registerUICollectionViewClasses {
+    [self registerClass:self.dayCellClass
+        forCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier];
+    
+//    [_collectionView registerClass:self.weekdayCellClass
+//        forCellWithReuseIdentifier:MNCalendarViewWeekdayCellIdentifier];
+//    
+//    [_collectionView registerClass:self.headerViewClass
+//        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+//               withReuseIdentifier:MNCalendarHeaderViewIdentifier];
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    DPCalendarMonthlyCell *cell =
+    [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
+                                              forIndexPath:indexPath];
+    cell.text = [NSString stringWithFormat:@"%d", indexPath.row];
+    return cell;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 0;
+    return 42;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout*)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    return CGSizeMake(45, 50);
 }
 
 @end

@@ -35,10 +35,8 @@
 }
 
 -(void) commonInit {
-    self.view = [DPCalendarMonthlyView new];
-    
     DPCalendarViewLayout *layout = [[DPCalendarViewLayout alloc] init];
-    _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectZero
+    _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:self.view.bounds
                        collectionViewLayout:layout];
     [self.view addSubview:_monthlyView];
 }

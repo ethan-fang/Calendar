@@ -10,6 +10,8 @@
 
 @interface DPCalendarMonthlyView : UICollectionView<UICollectionViewDataSource, UICollectionViewDelegate>
 
-
+@property(nonatomic,strong) Class headerViewClass;
+@property(nonatomic,strong) Class weekdayCellClass;
+@property(nonatomic,strong) Class dayCellClass;
 
 @end

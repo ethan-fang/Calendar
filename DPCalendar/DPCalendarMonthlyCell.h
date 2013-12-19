@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCalendarMonthlyCell : UICollectionReusableView
+@interface DPCalendarMonthlyCell : UICollectionViewCell
+
+@property (nonatomic, strong) NSString *text;
 
 @end
