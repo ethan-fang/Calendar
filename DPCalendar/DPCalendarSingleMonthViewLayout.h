@@ -1,5 +1,5 @@
 //
-//  DPCalendarMonthlyCell.h
+//  DPCalendarViewLayout.h
 //  DPCalendar
 //
 //  Created by Ethan Fang on 19/12/13.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCalendarMonthlyCell : UICollectionViewCell
-
-@property (nonatomic, strong) NSString *text;
+@interface DPCalendarSingleMonthViewLayout : UICollectionViewFlowLayout
 
 @end

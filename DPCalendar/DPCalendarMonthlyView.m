@@ -7,9 +7,9 @@
 //
 
 #import "DPCalendarMonthlyView.h"
-#import "DPCalendarMonthlyCell.h"
-#import "DPCalendarMonthlyViewLayout.h"
-#import "DPCalendarHorizontalScrollCell.h"
+#import "DPCalendarSingleMonthCell.h"
+#import "DPCalendarSingleMonthViewLayout.h"
+#import "DPCalendarMonthlyHorizontalScrollCell.h"
 @interface DPCalendarMonthlyView()
 
 @property (nonatomic, strong) UICollectionView *singleMonthView;
@@ -47,12 +47,13 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 }
 
 - (void) commonInit {
+    self.backgroundColor = [UIColor yellowColor];
     self.monthlyViewHeightRatio = 0.9;
     self.backgroundColor = [UIColor colorWithRed:.96f green:.96f blue:.96f alpha:1.f];
     self.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.dayCellClass = DPCalendarMonthlyCell.class;
-    self.horizontalCellClass = DPCalendarHorizontalScrollCell.class;
+    self.dayCellClass = DPCalendarSingleMonthCell.class;
+    self.horizontalCellClass = DPCalendarMonthlyHorizontalScrollCell.class;
     
     
     [self registerUICollectionViewClasses];
@@ -60,9 +61,10 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 
 -(UICollectionView *)singleMonthView {
     if (!_singleMonthView) {
-        DPCalendarMonthlyViewLayout *layout = [[DPCalendarMonthlyViewLayout alloc] init];
+        DPCalendarSingleMonthViewLayout *layout = [[DPCalendarSingleMonthViewLayout alloc] init];
         _singleMonthView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height * self.monthlyViewHeightRatio)
                                                collectionViewLayout:layout];
+        
         _singleMonthView.showsHorizontalScrollIndicator = NO;
         _singleMonthView.showsVerticalScrollIndicator = NO;
         _singleMonthView.dataSource = self;
@@ -75,10 +77,12 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 -(UICollectionView *)monthsView {
     if (!_monthsView) {
         UICollectionViewFlowLayout *horizontalLayout = [[UICollectionViewFlowLayout alloc] init];
+        horizontalLayout.sectionInset = UIEdgeInsetsZero;
+        horizontalLayout.minimumInteritemSpacing = 0.f;
+        horizontalLayout.minimumLineSpacing = 0.f;
         horizontalLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         horizontalLayout.footerReferenceSize = CGSizeZero;
-        horizontalLayout.footerReferenceSize = CGSizeZero;
-        _monthsView = [[UICollectionView alloc] initWithFrame:CGRectMake(self.bounds.size.height * self.monthlyViewHeightRatio, 0, self.bounds.size.width, self.bounds.size.height * (1 -self.monthlyViewHeightRatio))
+        _monthsView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height * self.monthlyViewHeightRatio, self.bounds.size.width, self.bounds.size.height * (1 -self.monthlyViewHeightRatio))
                                               collectionViewLayout:horizontalLayout];
         _monthsView.showsHorizontalScrollIndicator = NO;
         _monthsView.showsVerticalScrollIndicator = NO;
@@ -93,13 +97,6 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     [self.singleMonthView registerClass:self.dayCellClass
         forCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier];
     [self.monthsView registerClass:self.horizontalCellClass forCellWithReuseIdentifier:DPCalendarHorizontalCellIdentifier];
-    
-//    [_collectionView registerClass:self.weekdayCellClass
-//        forCellWithReuseIdentifier:MNCalendarViewWeekdayCellIdentifier];
-//    
-//    [_collectionView registerClass:self.headerViewClass
-//        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-//               withReuseIdentifier:MNCalendarHeaderViewIdentifier];
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -108,12 +105,13 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (collectionView == self.monthsView) {
-        DPCalendarHorizontalScrollCell *cell =
+        DPCalendarMonthlyHorizontalScrollCell *cell =
         [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarHorizontalCellIdentifier
                                                   forIndexPath:indexPath];
+        [cell setYear:2000 setMonth:12];
         return cell;
     } else if (collectionView == self.singleMonthView) {
-        DPCalendarMonthlyCell *cell =
+        DPCalendarSingleMonthCell *cell =
         [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                                   forIndexPath:indexPath];
         cell.text = [NSString stringWithFormat:@"%d", indexPath.row];
@@ -124,15 +122,28 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 42;
+    if (collectionView == self.monthsView) {
+        //200 years
+        return 12 * 200;
+    } else if (collectionView == self.singleMonthView) {
+        return 42;
+    } else {
+        return 0;
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout*)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (collectionView == self.monthsView) {
+        return CGSizeMake(self.bounds.size.width / 4, self.bounds.size.height * (1 - self.monthlyViewHeightRatio));
+    } else if (collectionView == self.singleMonthView) {
+        return CGSizeMake(45, 70);
+    } else {
+        return CGSizeZero;
+    }
     
     
-    return CGSizeMake(45, 70);
 }
 
 @end

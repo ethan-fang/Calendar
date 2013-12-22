@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 Ethan Fang. All rights reserved.
 //
 
-#import "DPCalendarMonthlyCell.h"
+#import "DPCalendarSingleMonthCell.h"
 
-@interface DPCalendarMonthlyCell()
+@interface DPCalendarSingleMonthCell()
 
 @property (nonatomic, strong) UILabel *textLabel;
 @end
 
-@implementation DPCalendarMonthlyCell
+@implementation DPCalendarSingleMonthCell
 
 - (id)initWithFrame:(CGRect)frame
 {

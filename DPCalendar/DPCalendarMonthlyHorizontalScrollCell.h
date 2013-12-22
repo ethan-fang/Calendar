@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCalendarHorizontalScrollCell : UICollectionViewCell
-
+@interface DPCalendarMonthlyHorizontalScrollCell : UICollectionViewCell
+- (void) setYear:(int)year setMonth:(int)month;
 @end
