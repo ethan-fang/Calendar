@@ -17,13 +17,9 @@
 
 //Circular and infinite uiscrollviews, currIndex is used for indicating the current page
 @property (nonatomic) int currIndex;
-@property (nonatomic, strong) UICollectionView *pageOneView;
-@property (nonatomic, strong) UICollectionView *pageTwoView;
-@property (nonatomic, strong) UICollectionView *pageThreeView;
 
-@property (nonatomic, strong) NSDate *pageOneMonth;
-@property (nonatomic, strong) NSDate *pageTwoMonth;
-@property (nonatomic, strong) NSDate *pageThreeMonth;
+@property (nonatomic, strong) NSMutableArray *pagingMonths;
+@property (nonatomic, strong) NSMutableArray *pagingViews;
 
 @property (nonatomic, strong) NSDate *selectedMonth;
 
@@ -82,6 +78,10 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     self.daysInWeek = 7;
     self.dayHeaderHeight = 30.0f;
     self.dayCellHeight = 70.0f;
+    
+    self.pagingMonths = @[].mutableCopy;
+    self.pagingViews = @[].mutableCopy;
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     self.weekdaySymbols = formatter.shortWeekdaySymbols;
     
@@ -121,13 +121,19 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
         _monthsScrollView.pagingEnabled = YES;
         _monthsScrollView.delegate = self;
         
-        self.pageOneView = [self singleMonthViewInFrame:_monthsScrollView.bounds];
-        self.pageTwoView = [self singleMonthViewInFrame:CGRectMake(_monthsScrollView.bounds.size.width, 0, _monthsScrollView.bounds.size.width, _monthsScrollView.bounds.size.height)];
-        self.pageThreeView = [self singleMonthViewInFrame:CGRectMake(_monthsScrollView.bounds.size.width * 2, 0, _monthsScrollView.bounds.size.width, _monthsScrollView.bounds.size.height)];
+        NSDate *today = [NSDate date];
+        [self.pagingMonths addObject:[today dateByAddingYears:0 months:-1 days:0]];
+        [self.pagingMonths addObject:today];
+        [self.pagingMonths addObject:[today dateByAddingYears:0 months:1 days:0]];
         
-        [_monthsScrollView addSubview:self.pageOneView];
-        [_monthsScrollView addSubview:self.pageTwoView];
-        [_monthsScrollView addSubview:self.pageThreeView];
+        [self.pagingViews addObject:[self singleMonthViewInFrame:_monthsScrollView.bounds]];
+        [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(_monthsScrollView.bounds.size.width, 0, _monthsScrollView.bounds.size.width, _monthsScrollView.bounds.size.height)]];
+        [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(_monthsScrollView.bounds.size.width * 2, 0, _monthsScrollView.bounds.size.width, _monthsScrollView.bounds.size.height)]];
+        
+        [_monthsScrollView addSubview:[self.pagingViews objectAtIndex:0]];
+        [_monthsScrollView addSubview:[self.pagingViews objectAtIndex:1]];
+        [_monthsScrollView addSubview:[self.pagingViews objectAtIndex:2]];
+        
         
         [_monthsScrollView setContentSize:CGSizeMake(self.bounds.size.width * 3, _monthsScrollView.bounds.size.height)];
         [self addSubview:_monthsScrollView];
@@ -205,7 +211,7 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
         [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                                   forIndexPath:indexPath];
         
-        NSDate *monthDate = self.pageTwoMonth;
+        NSDate *monthDate = [self dateOfCollectionView:collectionView];
         NSDate *firstDateInMonth = [self firstVisibleDateOfMonth:monthDate];
         
         NSUInteger day = indexPath.item - self.daysInWeek;
@@ -224,23 +230,23 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     
 }
 
+-(NSDate *) dateOfCollectionView:(UICollectionView *)collectionView {
+    return [self.pagingMonths objectAtIndex:[self.pagingViews indexOfObject:collectionView]];
+}
+
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (collectionView == self.monthsView) {
         return [NSDate monthsDifferenceBetweenStartDate:self.startDate endDate:self.endDate];
     } else {
-        if (collectionView == self.pageTwoView) {
-            NSDate *monthDate = self.pageTwoMonth;
-            
-            NSDateComponents *components =
-            [self.calendar components:NSDayCalendarUnit
-                             fromDate:[self firstVisibleDateOfMonth:monthDate]
-                               toDate:[self lastVisibleDateOfMonth:monthDate]
-                              options:0];
-            
-            return self.daysInWeek + components.day + 1;
-        }
+        NSDate *monthDate = [self dateOfCollectionView:collectionView];
         
-        return 42;
+        NSDateComponents *components =
+        [self.calendar components:NSDayCalendarUnit
+                         fromDate:[self firstVisibleDateOfMonth:monthDate]
+                           toDate:[self lastVisibleDateOfMonth:monthDate]
+                          options:0];
+        
+        return self.daysInWeek + components.day + 1;
     }
 }
 
@@ -269,8 +275,6 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     self.selectedMonth = today;
     self.selectedDate = today;
     
-    self.pageTwoMonth = self.selectedMonth;
-    
     [self.monthsView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[NSDate monthsDifferenceBetweenStartDate:self.startDate endDate:today] inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }
 
@@ -291,8 +295,7 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     [self.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
                      fromDate:date];
     
-    return
-    [[date dp_dateWithDay:-((components.weekday - 1) % self.daysInWeek) calendar:self.calendar] dateByAddingTimeInterval:DP_DAY];
+    return [[date dp_dateWithDay:-((components.weekday - 1) % self.daysInWeek) calendar:self.calendar] dateByAddingTimeInterval:DP_DAY];
 }
 
 - (NSDate *)lastVisibleDateOfMonth:(NSDate *)date {
@@ -307,10 +310,43 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
                 calendar:self.calendar];
 }
 
+- (void) reloadPagingViews {
+    for (UICollectionView *collectionView in self.pagingViews) {
+        [collectionView reloadData];
+    }
+}
+
+- (void) scrollHorizontalMonthsViewToMonth:(NSDate *)month {
+    int months = [NSDate monthsDifferenceBetweenStartDate:self.startDate endDate:month];
+    [self.monthsView selectItemAtIndexPath:[NSIndexPath indexPathForItem:months inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+}
+
 #pragma UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)sender
 {
-    [self.monthsScrollView scrollRectToVisible:self.pageTwoView.frame animated:NO];
+    // All data for the documents are stored in an array (documentTitles).
+    // We keep track of the index that we are scrolling to so that we
+    // know what data to load for each page.
+    if(self.monthsScrollView.contentOffset.x > self.monthsScrollView.frame.size.width)
+    {
+        for (int i = 0; i < self.pagingMonths.count; i++) {
+            NSDate *month = [self.pagingMonths objectAtIndex:i];
+            [self.pagingMonths setObject:[month dateByAddingYears:0 months:1 days:0] atIndexedSubscript:i];
+        }
+    }
+    if(self.monthsScrollView.contentOffset.x < self.monthsScrollView.frame.size.width)
+    {
+        for (int i = 0; i < self.pagingMonths.count; i++) {
+            NSDate *month = [self.pagingMonths objectAtIndex:i];
+            [self.pagingMonths setObject:[month dateByAddingYears:0 months:-1 days:0] atIndexedSubscript:i];
+        }
+    }
+    [self reloadPagingViews];
+    [self scrollHorizontalMonthsViewToMonth:[self.pagingMonths objectAtIndex:1]];
+    
+    [self.monthsScrollView scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
+    
+    
 }
 
 @end
