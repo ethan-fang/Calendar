@@ -37,24 +37,35 @@
 }
 
 - (void) commonInit {
-    [self setBackgroundColor:[UIColor redColor]];
+    
     self.yearLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 20)];
     self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.bounds.size.width, 20)];
     [self addSubview:self.yearLabel];
     [self addSubview:self.monthLabel];
 }
 
-- (void) setYear:(int)year setMonth:(int)month {
-    self.year = year;
-    self.month = month;
+-(void)setDate:(NSDate *)date {
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:date];
     
+    self.year = [components year];
+    self.month = [components month];
     [self setNeedsDisplay];
+}
+
+-(void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    if (self.selected) {
+        [self setBackgroundColor:[UIColor redColor]];
+    } else {
+        [self setBackgroundColor:[UIColor blueColor]];
+    }
 }
 
 - (void)drawRect:(CGRect)rect
 {
     [self.yearLabel setText:[NSString stringWithFormat:@"%d", self.year]];
     [self.monthLabel setText:[NSString stringWithFormat:@"%d", self.month]];
+    
 }
 
 

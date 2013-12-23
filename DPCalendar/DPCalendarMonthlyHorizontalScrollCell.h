@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface DPCalendarMonthlyHorizontalScrollCell : UICollectionViewCell
-- (void) setYear:(int)year setMonth:(int)month;
+- (void) setDate:(NSDate *)date;
 @end

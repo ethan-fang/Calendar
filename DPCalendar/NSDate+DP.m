@@ -1,0 +1,37 @@
+//
+//  NSDate+DP.m
+//  DPCalendar
+//
+//  Created by Ethan Fang on 23/12/13.
+//  Copyright (c) 2013 Ethan Fang. All rights reserved.
+//
+
+#import "NSDate+DP.h"
+
+@implementation NSDate (DP)
+
++ (int) monthsDifferenceBetweenStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSDateComponents *startDateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit fromDate:startDate];
+    NSDateComponents *endDateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit fromDate:endDate];
+    
+    int yearOfStartDate = startDateComponents.year;
+    int monthOfStartDate = startDateComponents.month;
+    
+    int yearOfEndDate = endDateComponents.year;
+    int monthOfEndDate = endDateComponents.month;
+    return yearOfEndDate * 12 + monthOfEndDate - (yearOfStartDate * 12 + monthOfStartDate);
+}
+
+- (NSDate *)dateByAddingYears:(int)years months:(int)months days:(int)days {
+    NSDateComponents* dateComponents = [[NSDateComponents alloc]init];
+    [dateComponents setYear:years];
+    [dateComponents setMonth:months];
+    [dateComponents setDay:days];
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    return [calendar dateByAddingComponents:dateComponents toDate:self options:0];
+}
+
+@end
+

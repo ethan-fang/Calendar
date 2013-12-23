@@ -27,6 +27,7 @@
 		C81663321862886800D7F4B7 /* DPCalendarSingleMonthViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C81663311862886800D7F4B7 /* DPCalendarSingleMonthViewLayout.m */; };
 		C816633518628B8000D7F4B7 /* DPCalendarSingleMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C816633418628B8000D7F4B7 /* DPCalendarSingleMonthCell.m */; };
 		C81663381862C7CA00D7F4B7 /* DPCalendarMonthlyHorizontalScrollCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C81663371862C7CA00D7F4B7 /* DPCalendarMonthlyHorizontalScrollCell.m */; };
+		C816633B1867ADAC00D7F4B7 /* NSDate+DP.m in Sources */ = {isa = PBXBuildFile; fileRef = C816633A1867ADAC00D7F4B7 /* NSDate+DP.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		C816633418628B8000D7F4B7 /* DPCalendarSingleMonthCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarSingleMonthCell.m; sourceTree = "<group>"; };
 		C81663361862C7CA00D7F4B7 /* DPCalendarMonthlyHorizontalScrollCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarMonthlyHorizontalScrollCell.h; sourceTree = "<group>"; };
 		C81663371862C7CA00D7F4B7 /* DPCalendarMonthlyHorizontalScrollCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarMonthlyHorizontalScrollCell.m; sourceTree = "<group>"; };
+		C81663391867ADAC00D7F4B7 /* NSDate+DP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DP.h"; sourceTree = "<group>"; };
+		C816633A1867ADAC00D7F4B7 /* NSDate+DP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DP.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +148,8 @@
 				C81663371862C7CA00D7F4B7 /* DPCalendarMonthlyHorizontalScrollCell.m */,
 				C81663301862886800D7F4B7 /* DPCalendarSingleMonthViewLayout.h */,
 				C81663311862886800D7F4B7 /* DPCalendarSingleMonthViewLayout.m */,
+				C81663391867ADAC00D7F4B7 /* NSDate+DP.h */,
+				C816633A1867ADAC00D7F4B7 /* NSDate+DP.m */,
 			);
 			path = DPCalendar;
 			sourceTree = "<group>";
@@ -281,6 +286,7 @@
 				C81663381862C7CA00D7F4B7 /* DPCalendarMonthlyHorizontalScrollCell.m in Sources */,
 				C81663321862886800D7F4B7 /* DPCalendarSingleMonthViewLayout.m in Sources */,
 				C8166304186271D700D7F4B7 /* main.m in Sources */,
+				C816633B1867ADAC00D7F4B7 /* NSDate+DP.m in Sources */,
 				C816633518628B8000D7F4B7 /* DPCalendarSingleMonthCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

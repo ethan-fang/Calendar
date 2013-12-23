@@ -10,6 +10,8 @@
 #import "DPCalendarSingleMonthCell.h"
 #import "DPCalendarSingleMonthViewLayout.h"
 #import "DPCalendarMonthlyHorizontalScrollCell.h"
+#import "NSDate+DP.h"
+
 @interface DPCalendarMonthlyView()
 
 @property (nonatomic, strong) UICollectionView *singleMonthView;
@@ -20,8 +22,11 @@
 @property(nonatomic,strong) Class dayCellClass;
 
 @property (nonatomic, strong) Class horizontalCellClass;
-
 @property (nonatomic) float monthlyViewHeightRatio;
+
+@property (nonatomic, strong) NSDate *selectedDate;
+@property (nonatomic, strong) NSDate *selectedMonth;
+
 @end
 
 NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentifier";
@@ -31,9 +36,14 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 
 - (id)initWithFrame:(CGRect)frame
 {
+    return [self initWithFrame:frame startDate:nil endDate:nil];
+}
+
+- (id)initWithFrame:(CGRect)frame startDate:(NSDate *)startDate endDate:(NSDate *)endDate
+{
     self = [super initWithFrame:frame];
     if (self) {
-        [self commonInit];
+        [self commonInitWithStartDate:startDate endDate:endDate];
     }
     return self;
 }
@@ -41,12 +51,21 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 -(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self commonInit];
+        [self commonInitWithStartDate:nil endDate:nil];
     }
     return self;
 }
 
-- (void) commonInit {
+- (void) commonInitWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
+    if (!startDate && !endDate) {
+        NSDate *today = [NSDate date];
+        self.startDate = [today dateByAddingYears:-50 months:0 days:0];
+        self.endDate = [today dateByAddingYears:50 months:0 days:0];
+    } else {
+        self.startDate = startDate;
+        self.endDate = endDate;
+    }
+    
     self.backgroundColor = [UIColor yellowColor];
     self.monthlyViewHeightRatio = 0.9;
     self.backgroundColor = [UIColor colorWithRed:.96f green:.96f blue:.96f alpha:1.f];
@@ -55,8 +74,9 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     self.dayCellClass = DPCalendarSingleMonthCell.class;
     self.horizontalCellClass = DPCalendarMonthlyHorizontalScrollCell.class;
     
-    
     [self registerUICollectionViewClasses];
+    
+    [self scrollToCurrentMonth];
 }
 
 -(UICollectionView *)singleMonthView {
@@ -69,6 +89,7 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
         _singleMonthView.showsVerticalScrollIndicator = NO;
         _singleMonthView.dataSource = self;
         _singleMonthView.delegate = self;
+        _singleMonthView.allowsMultipleSelection = NO;
         [self addSubview:_singleMonthView];
     }
     return _singleMonthView;
@@ -88,6 +109,7 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
         _monthsView.showsVerticalScrollIndicator = NO;
         _monthsView.dataSource = self;
         _monthsView.delegate = self;
+        _monthsView.allowsMultipleSelection = NO;
         [self addSubview:_monthsView];
     }
     return _monthsView;
@@ -99,16 +121,16 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     [self.monthsView registerClass:self.horizontalCellClass forCellWithReuseIdentifier:DPCalendarHorizontalCellIdentifier];
 }
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (collectionView == self.monthsView) {
         DPCalendarMonthlyHorizontalScrollCell *cell =
         [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarHorizontalCellIdentifier
                                                   forIndexPath:indexPath];
-        [cell setYear:2000 setMonth:12];
+        NSDate *cellMonth = [self monthForIndexPath:indexPath];
+        [cell setDate:cellMonth];
+        BOOL isSelected = [NSDate monthsDifferenceBetweenStartDate:cellMonth endDate:self.selectedMonth] == 0;
+        [cell setSelected:isSelected];
+        
         return cell;
     } else if (collectionView == self.singleMonthView) {
         DPCalendarSingleMonthCell *cell =
@@ -123,8 +145,7 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (collectionView == self.monthsView) {
-        //200 years
-        return 12 * 200;
+        return [NSDate monthsDifferenceBetweenStartDate:self.startDate endDate:self.endDate];
     } else if (collectionView == self.singleMonthView) {
         return 42;
     } else {
@@ -142,8 +163,23 @@ NSString *const DPCalendarHorizontalCellIdentifier = @"DPCalendarHorizontalCellI
     } else {
         return CGSizeZero;
     }
-    
-    
+}
+
+- (void) scrollToCurrentMonth {
+    NSDate *today = [NSDate new];
+    self.selectedMonth = today;
+    self.selectedDate = today;
+    [self.monthsView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[NSDate monthsDifferenceBetweenStartDate:self.startDate endDate:today] inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+}
+
+- (NSDate *) monthForIndexPath:(NSIndexPath *)indexPath {
+    int monthsAfterStartDate = indexPath.row;
+    NSDateComponents *dateComponents = [NSDateComponents new];
+    dateComponents.month = monthsAfterStartDate;
+    NSDate *newDate = [[NSCalendar currentCalendar]dateByAddingComponents:dateComponents
+                                                                   toDate:self.startDate
+                                                                  options:0];
+    return newDate;
 }
 
 @end
