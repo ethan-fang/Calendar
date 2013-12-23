@@ -33,5 +33,40 @@
     return [calendar dateByAddingComponents:dateComponents toDate:self options:0];
 }
 
+- (instancetype) dp_firstDateOfMonth:(NSCalendar *)calendar {
+    if (nil == calendar) {
+        calendar = [NSCalendar currentCalendar];
+    }
+    
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self];
+    
+    [components setDay:1];
+    
+    return [calendar dateFromComponents:components];
+}
+
+- (instancetype) dp_lastDateOfMonth:(NSCalendar *)calendar {
+    if (nil == calendar) {
+        calendar = [NSCalendar currentCalendar];
+    }
+    
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self];
+    [components setDay:0];
+    [components setMonth:components.month + 1];
+    
+    return [calendar dateFromComponents:components];
+}
+
+- (instancetype)dp_dateWithDay:(NSUInteger)day calendar:(NSCalendar *)calendar {
+    if (nil == calendar) {
+        calendar = [NSCalendar currentCalendar];
+    }
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self];
+    
+    [components setDay:day];
+    
+    return [calendar dateFromComponents:components];
+}
+
 @end
 

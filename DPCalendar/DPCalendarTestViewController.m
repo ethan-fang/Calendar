@@ -7,7 +7,7 @@
 //
 
 #import "DPCalendarTestViewController.h"
-#import "DPCalendarSingleMonthViewLayout.h"
+#import "DPCalendarMonthlySingleMonthViewLayout.h"
 
 @interface DPCalendarTestViewController ()
 

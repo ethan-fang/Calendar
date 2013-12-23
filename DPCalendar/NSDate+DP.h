@@ -13,4 +13,10 @@
 + (int) monthsDifferenceBetweenStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 
 - (NSDate *)dateByAddingYears:(int)years months:(int)months days:(int)days;
+
+- (instancetype)dp_firstDateOfMonth:(NSCalendar *)calendar;
+
+- (instancetype)dp_lastDateOfMonth:(NSCalendar *)calendar;
+
+- (instancetype)dp_dateWithDay:(NSUInteger)day calendar:(NSCalendar *)calendar;
 @end
