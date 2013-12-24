@@ -42,6 +42,9 @@
     self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.bounds.size.width, 20)];
     [self addSubview:self.yearLabel];
     [self addSubview:self.monthLabel];
+    
+    self.cellBackgroundColor = [UIColor blackColor];
+    self.cellSelectedBackgroundColor = [UIColor redColor];
 }
 
 -(void)setDate:(NSDate *)date {
@@ -55,9 +58,9 @@
 -(void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     if (self.selected) {
-        [self setBackgroundColor:[UIColor redColor]];
+        [self setBackgroundColor:self.cellBackgroundColor];
     } else {
-        [self setBackgroundColor:[UIColor blueColor]];
+        [self setBackgroundColor:self.cellSelectedBackgroundColor];
     }
 }
 

@@ -10,4 +10,8 @@
 
 @interface DPCalendarMonthlyHorizontalScrollCell : UICollectionViewCell
 - (void) setDate:(NSDate *)date;
+
+@property (nonatomic, strong) UIColor *cellBackgroundColor;
+@property (nonatomic, strong) UIColor *cellSelectedBackgroundColor;
+
 @end
