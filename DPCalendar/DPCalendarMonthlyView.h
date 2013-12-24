@@ -16,18 +16,27 @@
 
 @interface DPCalendarMonthlyView : UIView<UICollectionViewDataSource, UICollectionViewDelegate>
 
+//Start date of the calendar view. By default it is 50 years before today
 @property (nonatomic, strong) NSDate *startDate;
+
+//End date of the calendar view. By default it is 50 years after today.
 @property (nonatomic, strong) NSDate *endDate;
 
+//Current selected date
 @property (nonatomic, readonly) NSDate *selectedDate;
+
+//Current selected month
 @property (nonatomic, readonly) NSDate *seletecedMonth;
 
 - (id)initWithFrame:(CGRect)frame startDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 
-
 @property(nonatomic,strong) UIColor *separatorColor;
+
+//Background Color for monthly scroll view
+@property(nonatomic, strong) UIColor *monthlyViewBackgroundColor;
 
 @property (nonatomic) CGFloat dayCellHeight;
 @property (nonatomic) CGFloat dayHeaderHeight;
+@property (nonatomic) CGFloat bottomCellHeight;
 
 @end

@@ -24,7 +24,7 @@ void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef co
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -44,6 +44,7 @@ void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef co
                       CGPointMake(self.bounds.size.width, self.bounds.size.height),
                       separatorColor,
                       pixel);
+    
 }
 
 

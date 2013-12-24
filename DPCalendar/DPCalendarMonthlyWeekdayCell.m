@@ -22,7 +22,7 @@
     if (self) {
         self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
         self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        self.titleLabel.font = [UIFont systemFontOfSize:14.f];
+        self.titleLabel.font = [UIFont systemFontOfSize:12.f];
         self.titleLabel.textColor = [UIColor darkTextColor];
         self.titleLabel.highlightedTextColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;

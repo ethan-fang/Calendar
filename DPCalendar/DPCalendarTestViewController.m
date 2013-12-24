@@ -36,6 +36,7 @@
 
 -(void) commonInit {
     _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:self.view.bounds];
+    _monthlyView.separatorColor = [UIColor lightGrayColor];
     [self.view addSubview:_monthlyView];
 }
 

@@ -10,7 +10,7 @@
 
 @interface DPCalendarMonthlySingleMonthCell()
 
-@property (nonatomic, strong) UILabel *textLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSDate *date;
 @end
 
@@ -20,10 +20,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setBackgroundColor:[UIColor lightGrayColor]];
-        
-        self.textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [self addSubview:self.textLabel];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 24, 20)];
+        self.titleLabel.font = [UIFont systemFontOfSize:10.f];
+        self.titleLabel.textColor = [UIColor darkTextColor];
+        self.titleLabel.textAlignment = NSTextAlignmentRight;
+        self.titleLabel.userInteractionEnabled = NO;
+        self.titleLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:self.titleLabel];
     }
     return self;
 }
@@ -34,18 +37,8 @@
     NSDateComponents *components =
     [calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
                      fromDate:date];
-    self.textLabel.text = [NSString stringWithFormat:@"%d", components.day];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.contentView.frame = self.bounds;
-    self.selectedBackgroundView.frame = self.bounds;
-}
-
--(void)setText:(NSString *)text {
-    self.textLabel.text = text;
+    self.titleLabel.text = [NSString stringWithFormat:@"%d", components.day];
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect {
