@@ -7,6 +7,7 @@
 //
 
 #import "DPCalendarWeeklyView.h"
+#import "DPCalendarWeeklyHorizontalScrollCell.h"
 
 @implementation DPCalendarWeeklyView
 

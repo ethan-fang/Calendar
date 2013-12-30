@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCalendarWeeklyView : UIView
+@interface DPCalendarWeeklyView : UIView<UITableViewDataSource, UITableViewDelegate>
+
+
 
 @end
