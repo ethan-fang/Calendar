@@ -9,9 +9,11 @@
 #import "DPCalendarTestViewController.h"
 #import "DPCalendarMonthlySingleMonthViewLayout.h"
 
+#import "DPCalendarMonthlyMainView.h"
+
 @interface DPCalendarTestViewController ()
 
-@property (nonatomic, strong) DPCalendarMonthlyView *monthlyView;
+@property (nonatomic, strong) DPCalendarMonthlyMainView *monthlyMainView;
 
 @end
 
@@ -35,9 +37,8 @@
 }
 
 -(void) commonInit {
-    _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:self.view.bounds];
-    _monthlyView.separatorColor = [UIColor lightGrayColor];
-    [self.view addSubview:_monthlyView];
+    _monthlyMainView = [[DPCalendarMonthlyMainView alloc] initWithFrame:self.view.bounds dayHeaderHeight:30 dayCellHeight:70 bottomCellHeight:40];
+    [self.view addSubview:_monthlyMainView];
 }
 
 - (void)viewDidLoad

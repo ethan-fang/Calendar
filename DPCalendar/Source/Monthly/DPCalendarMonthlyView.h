@@ -14,13 +14,13 @@
 #define DP_WEEK   DP_DAY * 7.f
 #define DP_YEAR   DP_DAY * 365.f
 
-@interface DPCalendarMonthlyView : UIView<UICollectionViewDataSource, UICollectionViewDelegate>
+@protocol DPCalendarMonthlyViewDelegate <NSObject>
 
-//Start date of the calendar view. By default it is 50 years before today
-@property (nonatomic, strong) NSDate *startDate;
+-(void) didScrollToMonth:(NSDate *)month;
 
-//End date of the calendar view. By default it is 50 years after today.
-@property (nonatomic, strong) NSDate *endDate;
+@end
+
+@interface DPCalendarMonthlyView : UIScrollView<UICollectionViewDataSource, UICollectionViewDelegate>
 
 //Current selected date
 @property (nonatomic, readonly) NSDate *selectedDate;
@@ -28,7 +28,7 @@
 //Current selected month
 @property (nonatomic, readonly) NSDate *seletecedMonth;
 
-- (id)initWithFrame:(CGRect)frame startDate:(NSDate *)startDate endDate:(NSDate *)endDate;
+-(id)initWithFrame:(CGRect)frame dayHeaderHeight:(CGFloat )dayHeaderHeight dayCellHeight:(CGFloat )dayCellHeight;
 
 @property(nonatomic,strong) UIColor *separatorColor;
 
@@ -37,6 +37,9 @@
 
 @property (nonatomic) CGFloat dayCellHeight;
 @property (nonatomic) CGFloat dayHeaderHeight;
-@property (nonatomic) CGFloat bottomCellHeight;
+
+@property (nonatomic, weak) id<DPCalendarMonthlyViewDelegate> monthlyViewDelegate;
+
+-(void) scrollToMonth:(NSDate *)month;
 
 @end

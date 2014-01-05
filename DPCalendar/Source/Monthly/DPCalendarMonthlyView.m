@@ -21,10 +21,6 @@
 
 @property (nonatomic, strong) NSMutableArray *pagingMonths;
 @property (nonatomic, strong) NSMutableArray *pagingViews;
-@property (nonatomic, strong) UIScrollView *monthsScrollView;
-
-@property (nonatomic, strong) DPCalendarMonthlyHorizontalScrollView *bottomView;
-
 
 @property(nonatomic,strong) Class monthsHeaderViewClass;
 @property(nonatomic,strong) Class monthsDayCellClass;
@@ -44,96 +40,65 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 
 @implementation DPCalendarMonthlyView
 
-- (id)initWithFrame:(CGRect)frame
-{
-    NSDate *today = [NSDate date];
-    return [self initWithFrame:frame startDate:[today dateByAddingYears:-50 months:0 days:0] endDate:[today dateByAddingYears:50 months:0 days:0]];
-}
-
-- (id)initWithFrame:(CGRect)frame startDate:(NSDate *)startDate endDate:(NSDate *)endDate
-{
+-(id)initWithFrame:(CGRect)frame dayHeaderHeight:(CGFloat )dayHeaderHeight dayCellHeight:(CGFloat )dayCellHeight {
     self = [super initWithFrame:frame];
     if (self) {
-        [self commonInitWithStartDate:startDate endDate:endDate];
+        [self commonInitWithDayHeaderHeight:dayHeaderHeight dayCellHeight:dayCellHeight];
     }
     return self;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        NSDate *today = [NSDate date];
-        [self commonInitWithStartDate:[today dateByAddingYears:-50 months:0 days:0] endDate:[today dateByAddingYears:50 months:0 days:0]];
-    }
-    return self;
-}
-
-- (void) commonInitWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
+- (void) commonInitWithDayHeaderHeight:(CGFloat )dayHeaderHeight dayCellHeight:(CGFloat )dayCellHeight {
     
     self.calendar   = NSCalendar.currentCalendar;
     self.daysInWeek = 7;
     
-    self.dayHeaderHeight = 30.0f;
-    self.dayCellHeight = 70.0f;
-    self.bottomCellHeight = 44.0f;
+
     
     self.pagingMonths = @[].mutableCopy;
     self.pagingViews = @[].mutableCopy;
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     self.weekdaySymbols = formatter.shortWeekdaySymbols;
-    self.startDate = startDate;
-    self.endDate = endDate;
+    self.dayHeaderHeight = dayHeaderHeight;
+    self.dayCellHeight = dayCellHeight;
     
     self.backgroundColor = [UIColor clearColor];
     
     self.monthsDayCellClass = DPCalendarMonthlySingleMonthCell.class;
     self.monthsHeaderViewClass = DPCalendarMonthlyWeekdayCell.class;
     
-    [self monthsScrollView];
-    
-    [self scrollToCurrentMonth];
-    
     self.separatorColor = [UIColor redColor];
     self.monthlyViewBackgroundColor = [UIColor whiteColor];
+    
+    
+    self.showsHorizontalScrollIndicator = NO;
+    self.clipsToBounds = YES;
+    self.contentInset = UIEdgeInsetsZero;
+    self.pagingEnabled = YES;
+    self.delegate = self;
+    
+    NSDate *today = [NSDate date];
+    [self.pagingMonths addObject:[today dateByAddingYears:0 months:-1 days:0]];
+    [self.pagingMonths addObject:today];
+    [self.pagingMonths addObject:[today dateByAddingYears:0 months:1 days:0]];
+    
+    [self.pagingViews addObject:[self singleMonthViewInFrame:self.bounds]];
+    [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(self.bounds.size.width, 0, self.bounds.size.width, self.bounds.size.height)]];
+    [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(self.bounds.size.width * 2, 0, self.bounds.size.width, self.bounds.size.height)]];
+    
+    [self addSubview:[self.pagingViews objectAtIndex:0]];
+    [self addSubview:[self.pagingViews objectAtIndex:1]];
+    [self addSubview:[self.pagingViews objectAtIndex:2]];
+    
+    
+    [self setContentSize:CGSizeMake(self.bounds.size.width * 3, self.bounds.size.height)];
+    
 }
 
 -(void)setMonthlyViewBackgroundColor:(UIColor *)monthlyViewBackgroundColor {
     _monthlyViewBackgroundColor = monthlyViewBackgroundColor;
-    _monthsScrollView.backgroundColor = _monthlyViewBackgroundColor;
-}
-
--(UIScrollView *) monthsScrollView {
-    if (!_monthsScrollView) {
-        float monthsScrollViewHeight = self.dayHeaderHeight + self.dayCellHeight * 6;
-        float y = ((self.bounds.size.height - self.bottomCellHeight) < monthsScrollViewHeight) ? 0 : (self.bounds.size.height - self.bottomCellHeight - monthsScrollViewHeight);
-        
-        _monthsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, y, self.bounds.size.width, self.dayHeaderHeight + self.dayCellHeight * 6)];
-        _monthsScrollView.showsHorizontalScrollIndicator = NO;
-        _monthsScrollView.clipsToBounds = YES;
-        _monthsScrollView.contentInset = UIEdgeInsetsZero;
-        _monthsScrollView.pagingEnabled = YES;
-        _monthsScrollView.delegate = self;
-        
-        NSDate *today = [NSDate date];
-        [self.pagingMonths addObject:[today dateByAddingYears:0 months:-1 days:0]];
-        [self.pagingMonths addObject:today];
-        [self.pagingMonths addObject:[today dateByAddingYears:0 months:1 days:0]];
-        
-        [self.pagingViews addObject:[self singleMonthViewInFrame:_monthsScrollView.bounds]];
-        [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(_monthsScrollView.bounds.size.width, 0, _monthsScrollView.bounds.size.width, _monthsScrollView.bounds.size.height)]];
-        [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(_monthsScrollView.bounds.size.width * 2, 0, _monthsScrollView.bounds.size.width, _monthsScrollView.bounds.size.height)]];
-        
-        [_monthsScrollView addSubview:[self.pagingViews objectAtIndex:0]];
-        [_monthsScrollView addSubview:[self.pagingViews objectAtIndex:1]];
-        [_monthsScrollView addSubview:[self.pagingViews objectAtIndex:2]];
-        
-        
-        [_monthsScrollView setContentSize:CGSizeMake(self.bounds.size.width * 3, _monthsScrollView.bounds.size.height)];
-        [self addSubview:_monthsScrollView];
-        
-    }
-    return _monthsScrollView;
+    self.backgroundColor = _monthlyViewBackgroundColor;
 }
 
 
@@ -152,16 +117,6 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     [singleMonthView registerClass:self.monthsHeaderViewClass forCellWithReuseIdentifier:DPCalendarViewWeekDayCellIdentifier];
     
     return singleMonthView;
-}
-
-
--(DPCalendarMonthlyHorizontalScrollView *)bottomView {
-    if (!_bottomView) {
-        _bottomView = [[DPCalendarMonthlyHorizontalScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - self.bottomCellHeight, self.bounds.size.width, self.bottomCellHeight) currentMonth:[self.pagingMonths objectAtIndex:1] startDate:self.startDate endDate:self.endDate];
-        _bottomView.scrollViewDelegate = self;
-        [self addSubview:_bottomView];
-    }
-    return _bottomView;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -234,7 +189,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     [self.pagingMonths setObject:today atIndexedSubscript:1];
     self.selectedDate = today;
     
-    [self.bottomView scrollToCurrentMonth];
+    [self.monthlyViewDelegate didScrollToMonth:today];
 }
 
 - (NSDate *)firstVisibleDateOfMonth:(NSDate *)date {
@@ -265,14 +220,18 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }
 }
 
-- (void) scrollHorizontalMonthsViewToMonth:(NSDate *)month {
-    [self.bottomView scrollHorizontalMonthsViewToMonth:month];
-}
+
 
 - (void) adjustPreviousAndNextMonthPage {
     NSDate *currentMonth = [self.pagingMonths objectAtIndex:1];
     [self.pagingMonths setObject:[currentMonth dateByAddingYears:0 months:1 days:0] atIndexedSubscript:2];
     [self.pagingMonths setObject:[currentMonth dateByAddingYears:0 months:-1 days:0] atIndexedSubscript:0];
+}
+
+-(void)scrollToMonth:(NSDate *)month {
+    [self.pagingMonths setObject:month atIndexedSubscript:1];
+    [self adjustPreviousAndNextMonthPage];
+    [self reloadPagingViews];
 }
 
 #pragma UIScrollViewDelegate
@@ -281,28 +240,23 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     // All data for the documents are stored in an array (documentTitles).
     // We keep track of the index that we are scrolling to so that we
     // know what data to load for each page.
-    if(self.monthsScrollView.contentOffset.x > self.monthsScrollView.frame.size.width)
+    if(self.contentOffset.x > self.frame.size.width)
     {
         NSDate *currentMonth = [self.pagingMonths objectAtIndex:2];
         [self.pagingMonths setObject:currentMonth atIndexedSubscript:1];
         [self adjustPreviousAndNextMonthPage];
     }
-    if(self.monthsScrollView.contentOffset.x < self.monthsScrollView.frame.size.width)
+    if(self.contentOffset.x < self.frame.size.width)
     {
         NSDate *currentMonth = [self.pagingMonths objectAtIndex:0];
         [self.pagingMonths setObject:currentMonth atIndexedSubscript:1];
         [self adjustPreviousAndNextMonthPage];
     }
     [self reloadPagingViews];
-    [self scrollHorizontalMonthsViewToMonth:[self.pagingMonths objectAtIndex:1]];
-    [self.monthsScrollView scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
+    [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1]];
+    
+    [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
 }
 
-#pragma DPCalendarMonthlyHorizontalScrollViewDelegate
--(void)monthSelected:(NSDate *)month {
-    [self.pagingMonths setObject:month atIndexedSubscript:1];
-    [self adjustPreviousAndNextMonthPage];
-    [self reloadPagingViews];
-}
 
 @end
