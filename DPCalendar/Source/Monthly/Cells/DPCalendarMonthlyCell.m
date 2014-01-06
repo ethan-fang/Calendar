@@ -29,11 +29,7 @@ void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef co
     return self;
 }
 
-
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
+-(void)drawContentView:(CGRect)rect highlighted:(BOOL)highlighted {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGColorRef separatorColor = self.separatorColor.CGColor;
@@ -44,7 +40,6 @@ void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef co
                       CGPointMake(self.bounds.size.width, self.bounds.size.height),
                       separatorColor,
                       pixel);
-    
 }
 
 

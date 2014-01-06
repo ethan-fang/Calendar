@@ -23,7 +23,7 @@
         self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
         self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.titleLabel.font = [UIFont systemFontOfSize:20.f];
-        self.titleLabel.textColor = [UIColor darkTextColor];
+        self.titleLabel.textColor = [UIColor colorWithRed:82/255.0f green:82/255.0f blue:82/255.0f alpha:1];
         self.titleLabel.highlightedTextColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.userInteractionEnabled = NO;
@@ -39,12 +39,8 @@
     [self setNeedsDisplay];
 }
 
-
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    [super drawRect:rect];
+-(void)drawContentView:(CGRect)rect highlighted:(BOOL)highlighted {
+    [super drawContentView:rect highlighted:highlighted];
 }
 
 

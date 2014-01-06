@@ -67,7 +67,7 @@
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     
-    self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.height, self.view.bounds.size.width - 30) dayHeaderHeight:40 dayCellHeight:80];
+    self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.height, self.view.bounds.size.width - 30) delegate:self];
     self.monthlyView.monthlyViewDelegate = self;
     [self.view addSubview:self.monthlyView];
 }
@@ -98,6 +98,24 @@
     [formatter setDateFormat:@"MMMM YYYY"];
     NSString *stringFromDate = [formatter stringFromDate:month];
     [self.monthLabel setText:stringFromDate];
+}
+
+-(BOOL)shouldHighlightItemWithDate:(NSDate *)date {
+    return YES;
+}
+
+-(BOOL)shouldSelectItemWithDate:(NSDate *)date {
+    return YES;
+}
+
+-(void)didSelectItemWithDate:(NSDate *)date {
+    NSLog(@"Select date %@", date);
+}
+
+-(NSDictionary *)monthlyViewAttributes {
+    return @{
+             DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeWeekdayHeight: @40
+             };
 }
 
 @end

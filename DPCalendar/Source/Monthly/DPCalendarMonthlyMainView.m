@@ -50,8 +50,7 @@
         float monthsScrollViewHeight = self.dayHeaderHeight + self.dayCellHeight * 6;
         float y = ((self.bounds.size.height - self.bottomCellHeight) < monthsScrollViewHeight) ? 0 : (self.bounds.size.height - self.bottomCellHeight - monthsScrollViewHeight);
         
-        _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, y, self.bounds.size.width, self.bounds.size.height - self.bottomCellHeight) dayHeaderHeight:self.dayHeaderHeight dayCellHeight:self.dayCellHeight];
-        _monthlyView.monthlyViewDelegate = self;
+        _monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, y, self.bounds.size.width, self.bounds.size.height - self.bottomCellHeight) delegate:self];
         [self addSubview:_monthlyView];
     }
     return _monthlyView;

@@ -20,10 +20,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 24, 20)];
-        self.titleLabel.font = [UIFont systemFontOfSize:10.f];
-        self.titleLabel.textColor = [UIColor darkTextColor];
-        self.titleLabel.textAlignment = NSTextAlignmentRight;
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 24, 20)];
+        self.titleLabel.font = [UIFont systemFontOfSize:15.f];
+        self.titleLabel.textColor = [UIColor colorWithRed:82/255.0f green:82/255.0f blue:82/255.0f alpha:1];
+        self.titleLabel.textAlignment = NSTextAlignmentLeft;
         self.titleLabel.userInteractionEnabled = NO;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:self.titleLabel];
@@ -41,9 +41,15 @@
     [self setNeedsDisplay];
 }
 
-- (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
+-(void)drawContentView:(CGRect)rect highlighted:(BOOL)highlighted {
+    [super drawContentView:rect highlighted:highlighted];
+    //Draw Background
     CGContextRef context = UIGraphicsGetCurrentContext();
+    if (highlighted) {
+        [self drawCellWithColor:[UIColor colorWithRed:224/255.0f green:242/255.0f blue:1 alpha:1] InRect:rect context:context];
+    } else {
+        [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
+    }
     
     CGColorRef separatorColor = self.separatorColor.CGColor;
     
@@ -55,6 +61,8 @@
                       CGPointMake(size.width - pixel, size.height),
                       separatorColor,
                       pixel);
+    
+    
 }
 
 @end

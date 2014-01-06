@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DPCalendarMonthlySingleMonthCell.h"
+
+extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
 
 #define DP_MINUTE 60.f
 #define DP_HOUR   DP_MINUTE * 60.f
@@ -19,10 +23,14 @@
 -(void) didScrollToMonth:(NSDate *)month;
 
 @optional
-- (void) shouldHighlightItemWithDate:(NSData *)date;
-- (void) shouldSelectItemWithDate:(NSDate *)date;
+- (Class) monthlyCellClass;
+- (Class) monthlyWeekdayClassClass;
+
+- (BOOL) shouldHighlightItemWithDate:(NSDate *)date;
+- (BOOL) shouldSelectItemWithDate:(NSDate *)date;
 - (void) didSelectItemWithDate:(NSDate *)date;
 
+- (NSDictionary *) monthlyViewAttributes;
 @end
 
 @interface DPCalendarMonthlyView : UIScrollView<UICollectionViewDataSource, UICollectionViewDelegate>
@@ -38,12 +46,9 @@
 //Background Color for monthly scroll view
 @property(nonatomic, strong) UIColor *monthlyViewBackgroundColor;
 
-@property (nonatomic) CGFloat dayCellHeight;
-@property (nonatomic) CGFloat dayHeaderHeight;
-
 @property (nonatomic, weak) id<DPCalendarMonthlyViewDelegate> monthlyViewDelegate;
 
--(id)initWithFrame:(CGRect)frame dayHeaderHeight:(CGFloat )dayHeaderHeight dayCellHeight:(CGFloat )dayCellHeight;
+-(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 
 -(void) scrollToMonth:(NSDate *)month;
 -(void) scrollToPreviousMonth;

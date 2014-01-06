@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DPBaseCell.h"
 CG_EXTERN void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef color, CGFloat lineWidth);
-@interface DPCalendarMonthlyCell : UICollectionViewCell
+@interface DPCalendarMonthlyCell : DPBaseCell
 
 @property(nonatomic,strong) UIColor *separatorColor;
 
