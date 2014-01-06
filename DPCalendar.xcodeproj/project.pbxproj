@@ -35,6 +35,7 @@
 		C854726B187A14050002DFB1 /* DPCalendarMonthlySingleMonthViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C8547260187A14050002DFB1 /* DPCalendarMonthlySingleMonthViewLayout.m */; };
 		C854726C187A14050002DFB1 /* DPCalendarMonthlyView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8547262187A14050002DFB1 /* DPCalendarMonthlyView.m */; };
 		C8547270187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C854726F187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.m */; };
+		C8A1B52E187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A1B52D187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,8 @@
 		C8547262187A14050002DFB1 /* DPCalendarMonthlyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarMonthlyView.m; sourceTree = "<group>"; };
 		C854726E187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarTestCustomizeViewController.h; sourceTree = "<group>"; };
 		C854726F187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarTestCustomizeViewController.m; sourceTree = "<group>"; };
+		C8A1B52C187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarTestViewMonthlyCell.h; sourceTree = "<group>"; };
+		C8A1B52D187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarTestViewMonthlyCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +179,8 @@
 				C816633A1867ADAC00D7F4B7 /* NSDate+DP.m */,
 				C854726E187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.h */,
 				C854726F187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.m */,
+				C8A1B52C187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.h */,
+				C8A1B52D187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.m */,
 			);
 			path = DPCalendar;
 			sourceTree = "<group>";
@@ -361,6 +366,7 @@
 				C816630B186271D700D7F4B7 /* DPCalendar.xcdatamodeld in Sources */,
 				C8547265187A14050002DFB1 /* DPCalendarMonthlyCell.m in Sources */,
 				C854726A187A14050002DFB1 /* DPCalendarMonthlyMainView.m in Sources */,
+				C8A1B52E187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.m in Sources */,
 				C8547267187A14050002DFB1 /* DPCalendarMonthlySingleMonthCell.m in Sources */,
 				C8547263187A14050002DFB1 /* DPCalendarWeeklyHorizontalScrollCell.m in Sources */,
 				C8547264187A14050002DFB1 /* DPCalendarWeeklyView.m in Sources */,
