@@ -32,6 +32,8 @@
 
 @property(nonatomic) NSUInteger daysInWeek;
 
+@property (nonatomic) BOOL manualScroll;
+
 @end
 
 NSString *const DPCalendarViewWeekDayCellIdentifier = @"DPCalendarViewWeekDayCellIdentifier";
@@ -52,8 +54,6 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     
     self.calendar   = NSCalendar.currentCalendar;
     self.daysInWeek = 7;
-    
-
     
     self.pagingMonths = @[].mutableCopy;
     self.pagingViews = @[].mutableCopy;
@@ -220,8 +220,6 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }
 }
 
-
-
 - (void) adjustPreviousAndNextMonthPage {
     NSDate *currentMonth = [self.pagingMonths objectAtIndex:1];
     [self.pagingMonths setObject:[currentMonth dateByAddingYears:0 months:1 days:0] atIndexedSubscript:2];
@@ -229,9 +227,44 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 }
 
 -(void)scrollToMonth:(NSDate *)month {
+    
+    int scrollToPosition = 1;
+    if ([month compare:[self.pagingMonths objectAtIndex:1]] == NSOrderedDescending) {
+        scrollToPosition = 2;
+    } else if ([month compare:[self.pagingMonths objectAtIndex:1]] == NSOrderedAscending) {
+        scrollToPosition = 0;
+    }
+    [self.pagingMonths setObject:month atIndexedSubscript:scrollToPosition];
     [self.pagingMonths setObject:month atIndexedSubscript:1];
-    [self adjustPreviousAndNextMonthPage];
-    [self reloadPagingViews];
+    [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:scrollToPosition]).frame animated:YES];
+    
+    self.manualScroll = YES;
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.manualScroll) {
+        self.manualScroll = NO;
+        [self adjustPreviousAndNextMonthPage];
+        
+        [self reloadPagingViews];
+        [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
+        [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1]];
+    }
+    
+}
+
+-(void)scrollToPreviousMonth {
+    NSDate *previousMonth = [self.seletedMonth dateByAddingYears:0 months:-1 days:0];
+    [self scrollToMonth:previousMonth];
+}
+
+-(void)scrollToNextMonth {
+    NSDate *previousMonth = [self.seletedMonth dateByAddingYears:0 months:1 days:0];
+    [self scrollToMonth:previousMonth];
+}
+
+-(NSDate *)seletedMonth {
+    return [self.pagingMonths objectAtIndex:1];
 }
 
 #pragma UIScrollViewDelegate
@@ -257,6 +290,5 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     
     [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
 }
-
 
 @end

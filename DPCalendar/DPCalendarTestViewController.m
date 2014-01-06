@@ -10,10 +10,16 @@
 #import "DPCalendarMonthlySingleMonthViewLayout.h"
 
 #import "DPCalendarMonthlyMainView.h"
+#import "DPCalendarMonthlyView.h"
 
 @interface DPCalendarTestViewController ()
 
 @property (nonatomic, strong) DPCalendarMonthlyMainView *monthlyMainView;
+
+
+@property (nonatomic, strong) UIButton *previousButton;
+@property (nonatomic, strong) UIButton *nextButton;
+@property (nonatomic, strong) DPCalendarMonthlyView *monthlyView;
 
 @end
 
@@ -37,8 +43,36 @@
 }
 
 -(void) commonInit {
-    _monthlyMainView = [[DPCalendarMonthlyMainView alloc] initWithFrame:self.view.bounds dayHeaderHeight:30 dayCellHeight:70 bottomCellHeight:40];
-    [self.view addSubview:_monthlyMainView];
+    _monthlyMainView = [[DPCalendarMonthlyMainView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.width) dayHeaderHeight:50 dayCellHeight:100 bottomCellHeight:40];
+//    [self.view addSubview:_monthlyMainView];
+    
+    [self createStepView];
+}
+
+-(void) createStepView {
+    self.previousButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.nextButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.previousButton.frame = CGRectMake(0, 20, 100, 20);
+    self.nextButton.frame = CGRectMake(self.view.bounds.size.height - 100, 20, 100, 20);
+    [self.previousButton setTitle:@"Previous" forState:UIControlStateNormal];
+    [self.nextButton setTitle:@"Next" forState:UIControlStateNormal];
+    
+    [self.previousButton addTarget:self action:@selector(previousButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    [self.nextButton addTarget:self action:@selector(nextButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:self.previousButton];
+    [self.view addSubview:self.nextButton];
+    
+    self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.height, self.view.bounds.size.width - 30) dayHeaderHeight:40 dayCellHeight:80];
+    [self.view addSubview:self.monthlyView];
+}
+
+-(void) previousButtonSelected:(id)button {
+    [self.monthlyView scrollToPreviousMonth];
+}
+
+-(void) nextButtonSelected:(id)button {
+    [self.monthlyView scrollToNextMonth];
 }
 
 - (void)viewDidLoad
@@ -52,5 +86,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

@@ -18,6 +18,10 @@
 
 -(void) didScrollToMonth:(NSDate *)month;
 
+- (void) shouldHighlightItemWithDate:(NSData *)date;
+- (void) shouldSelectItemWithDate:(NSDate *)date;
+- (void) didSelectItemWithDate:(NSDate *)date;
+
 @end
 
 @interface DPCalendarMonthlyView : UIScrollView<UICollectionViewDataSource, UICollectionViewDelegate>
@@ -26,9 +30,7 @@
 @property (nonatomic, readonly) NSDate *selectedDate;
 
 //Current selected month
-@property (nonatomic, readonly) NSDate *seletecedMonth;
-
--(id)initWithFrame:(CGRect)frame dayHeaderHeight:(CGFloat )dayHeaderHeight dayCellHeight:(CGFloat )dayCellHeight;
+@property (nonatomic, readonly) NSDate *seletedMonth;
 
 @property(nonatomic,strong) UIColor *separatorColor;
 
@@ -40,6 +42,10 @@
 
 @property (nonatomic, weak) id<DPCalendarMonthlyViewDelegate> monthlyViewDelegate;
 
+-(id)initWithFrame:(CGRect)frame dayHeaderHeight:(CGFloat )dayHeaderHeight dayCellHeight:(CGFloat )dayCellHeight;
+
 -(void) scrollToMonth:(NSDate *)month;
+-(void) scrollToPreviousMonth;
+-(void) scrollToNextMonth;
 
 @end
