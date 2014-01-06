@@ -227,7 +227,6 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 }
 
 -(void)scrollToMonth:(NSDate *)month {
-    
     int scrollToPosition = 1;
     if ([month compare:[self.pagingMonths objectAtIndex:1]] == NSOrderedDescending) {
         scrollToPosition = 2;
@@ -236,21 +235,18 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }
     [self.pagingMonths setObject:month atIndexedSubscript:scrollToPosition];
     [self.pagingMonths setObject:month atIndexedSubscript:1];
-    [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:scrollToPosition]).frame animated:YES];
     
-    self.manualScroll = YES;
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (self.manualScroll) {
+    __weak typeof(DPCalendarMonthlyView) *weakSelf = self;
+    [UIView animateWithDuration:0.2 animations:^{
+        [weakSelf setContentOffset:((UICollectionView *)[self.pagingViews objectAtIndex:scrollToPosition]).frame.origin];
+    } completion:^(BOOL finished) {
         self.manualScroll = NO;
         [self adjustPreviousAndNextMonthPage];
         
         [self reloadPagingViews];
         [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
         [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1]];
-    }
-    
+    }];
 }
 
 -(void)scrollToPreviousMonth {
