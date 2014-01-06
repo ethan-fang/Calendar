@@ -260,12 +260,13 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         NSDate *currentMonth = [self.pagingMonths objectAtIndex:2];
         [self.pagingMonths setObject:currentMonth atIndexedSubscript:1];
         [self adjustPreviousAndNextMonthPage];
-    }
-    if(self.contentOffset.x < self.frame.size.width)
+    } else if(self.contentOffset.x < self.frame.size.width)
     {
         NSDate *currentMonth = [self.pagingMonths objectAtIndex:0];
         [self.pagingMonths setObject:currentMonth atIndexedSubscript:1];
         [self adjustPreviousAndNextMonthPage];
+    } else {
+        return;
     }
     [self reloadPagingViews];
     [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1]];

@@ -39,9 +39,7 @@
     [self setNeedsDisplay];
 }
 
--(void)drawContentView:(CGRect)rect highlighted:(BOOL)highlighted {
-    [super drawContentView:rect highlighted:highlighted];
-}
+
 
 
 @end

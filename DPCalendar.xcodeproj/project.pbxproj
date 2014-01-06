@@ -35,7 +35,6 @@
 		C854726B187A14050002DFB1 /* DPCalendarMonthlySingleMonthViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C8547260187A14050002DFB1 /* DPCalendarMonthlySingleMonthViewLayout.m */; };
 		C854726C187A14050002DFB1 /* DPCalendarMonthlyView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8547262187A14050002DFB1 /* DPCalendarMonthlyView.m */; };
 		C8547270187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C854726F187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.m */; };
-		C8A1B52B187A689F000DA3D7 /* DPBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A1B52A187A689F000DA3D7 /* DPBaseCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,8 +92,6 @@
 		C8547262187A14050002DFB1 /* DPCalendarMonthlyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarMonthlyView.m; sourceTree = "<group>"; };
 		C854726E187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarTestCustomizeViewController.h; sourceTree = "<group>"; };
 		C854726F187A2A2D0002DFB1 /* DPCalendarTestCustomizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarTestCustomizeViewController.m; sourceTree = "<group>"; };
-		C8A1B529187A689F000DA3D7 /* DPBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPBaseCell.h; sourceTree = "<group>"; };
-		C8A1B52A187A689F000DA3D7 /* DPBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPBaseCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +123,6 @@
 		6643B139187225070024D23E /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				C8A1B528187A67CB000DA3D7 /* Base */,
 				C854724B187A14050002DFB1 /* Weekly */,
 				C8547251187A14050002DFB1 /* Monthly */,
 			);
@@ -263,15 +259,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		C8A1B528187A67CB000DA3D7 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				C8A1B529187A689F000DA3D7 /* DPBaseCell.h */,
-				C8A1B52A187A689F000DA3D7 /* DPBaseCell.m */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -377,7 +364,6 @@
 				C8547267187A14050002DFB1 /* DPCalendarMonthlySingleMonthCell.m in Sources */,
 				C8547263187A14050002DFB1 /* DPCalendarWeeklyHorizontalScrollCell.m in Sources */,
 				C8547264187A14050002DFB1 /* DPCalendarWeeklyView.m in Sources */,
-				C8A1B52B187A689F000DA3D7 /* DPBaseCell.m in Sources */,
 				C8547269187A14050002DFB1 /* DPCalendarMonthlyHorizontalScrollView.m in Sources */,
 				C8166304186271D700D7F4B7 /* main.m in Sources */,
 				C8547266187A14050002DFB1 /* DPCalendarMonthlyHorizontalScrollCell.m in Sources */,

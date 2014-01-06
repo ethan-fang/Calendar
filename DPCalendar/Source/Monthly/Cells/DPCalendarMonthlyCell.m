@@ -25,11 +25,14 @@ void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef co
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+        
+        self.selectedBackgroundView = [UIView new];
+        self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:224/255.0f green:242/255.0f blue:1 alpha:1];
     }
     return self;
 }
 
--(void)drawContentView:(CGRect)rect highlighted:(BOOL)highlighted {
+-(void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGColorRef separatorColor = self.separatorColor.CGColor;

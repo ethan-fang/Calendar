@@ -41,15 +41,10 @@
     [self setNeedsDisplay];
 }
 
--(void)drawContentView:(CGRect)rect highlighted:(BOOL)highlighted {
-    [super drawContentView:rect highlighted:highlighted];
-    //Draw Background
+-(void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
-    if (highlighted) {
-        [self drawCellWithColor:[UIColor colorWithRed:224/255.0f green:242/255.0f blue:1 alpha:1] InRect:rect context:context];
-    } else {
-        [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
-    }
     
     CGColorRef separatorColor = self.separatorColor.CGColor;
     
@@ -61,8 +56,8 @@
                       CGPointMake(size.width - pixel, size.height),
                       separatorColor,
                       pixel);
-    
-    
+
 }
+
 
 @end
