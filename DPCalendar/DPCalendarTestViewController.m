@@ -12,11 +12,11 @@
 #import "DPCalendarMonthlyMainView.h"
 #import "DPCalendarMonthlyView.h"
 
-@interface DPCalendarTestViewController ()
+@interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate>
 
 @property (nonatomic, strong) DPCalendarMonthlyMainView *monthlyMainView;
 
-
+@property (nonatomic, strong) UILabel *monthLabel;
 @property (nonatomic, strong) UIButton *previousButton;
 @property (nonatomic, strong) UIButton *nextButton;
 @property (nonatomic, strong) DPCalendarMonthlyView *monthlyView;
@@ -57,13 +57,18 @@
     [self.previousButton setTitle:@"Previous" forState:UIControlStateNormal];
     [self.nextButton setTitle:@"Next" forState:UIControlStateNormal];
     
+    self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.bounds.size.height - 200) / 2, 20, 200, 20)];
+    [self.monthLabel setTextAlignment:NSTextAlignmentCenter];
+    
     [self.previousButton addTarget:self action:@selector(previousButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.nextButton addTarget:self action:@selector(nextButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     
+    [self.view addSubview:self.monthLabel];
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     
     self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.height, self.view.bounds.size.width - 30) dayHeaderHeight:40 dayCellHeight:80];
+    self.monthlyView.monthlyViewDelegate = self;
     [self.view addSubview:self.monthlyView];
 }
 
@@ -87,5 +92,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma DPCalendarMonthlyViewDelegate
+-(void)didScrollToMonth:(NSDate *)month {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMMM YYYY"];
+    NSString *stringFromDate = [formatter stringFromDate:month];
+    [self.monthLabel setText:stringFromDate];
+}
 
 @end

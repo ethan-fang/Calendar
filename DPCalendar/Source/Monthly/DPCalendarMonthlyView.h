@@ -18,6 +18,7 @@
 
 -(void) didScrollToMonth:(NSDate *)month;
 
+@optional
 - (void) shouldHighlightItemWithDate:(NSData *)date;
 - (void) shouldSelectItemWithDate:(NSDate *)date;
 - (void) didSelectItemWithDate:(NSDate *)date;
