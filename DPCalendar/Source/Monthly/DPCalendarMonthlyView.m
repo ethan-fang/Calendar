@@ -20,6 +20,7 @@ NSString *const DPCalendarMonthlyViewAttributeWeekdayFont = @"DPCalendarMonthlyV
 NSString *const DPCalendarMonthlyViewAttributeSeparatorColor = @"DPCalendarMonthlyViewAttributeSeperatorColor";
 NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek = @"DPCalendarMonthlyViewAttributeStartDayOfWeek";
 NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyViewAttributeMonthRows";
+NSString *const DPCalendarMonthlyViewAttributeEventColors = @"DPCalendarMonthlyViewAttributeEventColors";
 
 #define DPCalendarMonthlyViewAttributeCellHeightDefault 70
 #define DPCalendarMonthlyViewAttributeWeekdayHeightDefault 30
@@ -45,11 +46,11 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 
 @property(nonatomic) NSUInteger daysInWeek;
 
-@property (nonatomic, strong) NSDictionary *eventsForEachDay;
 
-@property (nonatomic, strong) NSOperationQueue *processQueue;
 @property (nonatomic) uint maxEventsPerDay;
-
+@property (nonatomic, strong) NSOperationQueue *processQueue;
+@property (nonatomic, strong) NSDictionary *eventsForEachDay;
+@property (nonatomic, strong) NSArray *eventColors;
 
 @end
 
@@ -95,6 +96,9 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         
         self.separatorColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeSeparatorColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeSeparatorColor] : [UIColor colorWithRed:231/255.0f green:231/255.0f blue:231/255.0f alpha:1];
         self.startDayOfWeek = [attributes objectForKey:DPCalendarMonthlyViewAttributeStartDayOfWeek] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeStartDayOfWeek] intValue] : DPCalendarMonthlyViewAttributeStartDayOfWeekDefault;
+        
+        self.eventColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] :
+        [self defaultEventColors];
     }
     
     self.backgroundColor = [UIColor clearColor];
@@ -124,6 +128,10 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     
     [self setContentSize:CGSizeMake(self.bounds.size.width * 3, self.bounds.size.height)];
     
+}
+
+- (NSArray *)defaultEventColors {
+    return @[[UIColor colorWithRed:1 green:168/255.0f blue:0 alpha:0.5], [UIColor colorWithRed:52/255.0f green:161/255.0f blue:1 alpha:0.5], [UIColor colorWithRed:1 green:48/255.0f blue:47/255.0f alpha:0.5]];
 }
 
 -(void)setMonthlyViewBackgroundColor:(UIColor *)monthlyViewBackgroundColor {
@@ -386,6 +394,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     DPCalendarMonthlySingleMonthCell *cell =
     [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                               forIndexPath:indexPath];
+    cell.eventColors = self.eventColors;
     cell.firstVisiableDateOfMonth = [self dateForCollectionView:collectionView IndexPath:[NSIndexPath indexPathForItem:self.daysInWeek inSection:0]];
     
     NSDate *date = [self dateForCollectionView:collectionView IndexPath:indexPath];

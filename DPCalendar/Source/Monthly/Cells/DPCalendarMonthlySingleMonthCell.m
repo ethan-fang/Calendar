@@ -79,7 +79,7 @@
     for (DPCalendarEvent *event in self.events) {
         NSDate *day = self.date;
         
-        UIColor *color = [UIColor colorWithRed:event.type / 4.0f green:event.type / 4.0f blue:event.type / 4.0f alpha:0.5];
+        UIColor *color = [self.eventColors objectAtIndex:event.type % self.eventColors.count];
         
         [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
         

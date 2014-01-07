@@ -12,6 +12,7 @@
 extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeMonthRows;
+extern NSString *const DPCalendarMonthlyViewAttributeEventColors;
 
 @protocol DPCalendarMonthlyViewDelegate <NSObject>
 

@@ -15,4 +15,6 @@
 
 @property (nonatomic) NSDate *firstVisiableDateOfMonth;
 
+@property (nonatomic, strong) NSArray *eventColors;
+
 @end
