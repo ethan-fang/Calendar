@@ -39,7 +39,7 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 
 @property(nonatomic,strong,readwrite) NSArray *weekdaySymbols;
 
-//
+
 @property (nonatomic, strong) NSDate *selectedDate;
 @property (nonatomic, strong) NSCalendar *calendar;
 
@@ -49,6 +49,7 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 
 @property (nonatomic, strong) NSOperationQueue *processQueue;
 @property (nonatomic) uint maxEventsPerDay;
+
 
 @end
 
@@ -385,6 +386,8 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     DPCalendarMonthlySingleMonthCell *cell =
     [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                               forIndexPath:indexPath];
+    cell.firstVisiableDateOfMonth = [self dateForCollectionView:collectionView IndexPath:[NSIndexPath indexPathForItem:self.daysInWeek inSection:0]];
+    
     NSDate *date = [self dateForCollectionView:collectionView IndexPath:indexPath];
     [cell setDate:date calendar:self.calendar events:[self.eventsForEachDay objectForKey:date]];
     

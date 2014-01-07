@@ -13,4 +13,6 @@
 
 -(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events;
 
+@property (nonatomic) NSDate *firstVisiableDateOfMonth;
+
 @end

@@ -53,12 +53,12 @@
     [self createStepView];
     
     NSMutableArray *events = @[].mutableCopy;
-    NSDate *date = [[NSDate date] dateByAddingYears:0 months:-1 days:0];
+    NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:-15];
     
-    for (int i = 0; i < 60; i++) {
+    for (int i = 0; i < 1; i++) {
         DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
         event.startTime = date;
-        event.endTime = [date dateByAddingYears:0 months:0 days:arc4random() % 4];
+        event.endTime = [date dateByAddingYears:0 months:0 days:15];
         event.title = [NSString stringWithFormat:@"Event %d", i];
         event.type = i % 4;
         date = [date dateByAddingYears:0 months:0 days:1];

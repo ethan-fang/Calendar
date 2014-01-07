@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSArray *events;
+@property (nonatomic, strong) NSCalendar *calendar;
 @end
 
 @implementation DPCalendarMonthlySingleMonthCell
@@ -35,8 +36,9 @@
 }
 
 -(void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events{
-    self.date = [[NSCalendar currentCalendar] dateFromComponents:[[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:date]];
+    self.date = [calendar dateFromComponents:[calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:date]];
     self.events = events;
+    self.calendar = calendar;
     
     NSDateComponents *components =
     [calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
@@ -78,17 +80,15 @@
         NSDate *day = self.date;
         
         UIColor *color = [UIColor colorWithRed:event.type / 4.0f green:event.type / 4.0f blue:event.type / 4.0f alpha:0.5];
-        if ([event.startTime compare:day] == NSOrderedAscending) {
-            [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
-        } else {
-            [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
-            
+        
+        [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
+        
+        if (![event.startTime compare:day] == NSOrderedAscending || ([event.startTime compare:day] == NSOrderedAscending && [self.date isEqualToDate:self.firstVisiableDateOfMonth])) {
             NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
             textStyle.lineBreakMode = NSLineBreakByWordWrapping;
             textStyle.alignment = NSTextAlignmentLeft;
             [[UIColor blackColor] set];
             [event.title drawInRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
-            
         }
         i++;
     }

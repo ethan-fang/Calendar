@@ -13,12 +13,6 @@ extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeMonthRows;
 
-#define DP_MINUTE 60.f
-#define DP_HOUR   DP_MINUTE * 60.f
-#define DP_DAY    DP_HOUR * 24.f
-#define DP_WEEK   DP_DAY * 7.f
-#define DP_YEAR   DP_DAY * 365.f
-
 @protocol DPCalendarMonthlyViewDelegate <NSObject>
 
 -(void) didScrollToMonth:(NSDate *)month;
