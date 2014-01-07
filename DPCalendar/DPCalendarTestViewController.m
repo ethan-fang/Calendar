@@ -116,7 +116,7 @@
 
 -(NSDictionary *)monthlyViewAttributes {
     return @{
-             DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeWeekdayHeight: @40
+             DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeWeekdayHeight: @40, DPCalendarMonthlyViewAttributeMonthRows:@ 5
              };
 }
 

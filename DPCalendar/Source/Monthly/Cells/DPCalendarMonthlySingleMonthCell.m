@@ -41,6 +41,11 @@
     [self setNeedsDisplay];
 }
 
+-(void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    [self setNeedsDisplay];
+}
+
 -(void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
@@ -56,8 +61,16 @@
                       CGPointMake(size.width - pixel, size.height),
                       separatorColor,
                       pixel);
-
+    
+    
+    if (self.isSelected) {
+        [self drawCellWithColor:[UIColor colorWithRed:255/255.0f green:222/255.0f blue:0 alpha:0.5] InRect:rect context:context];
+    } else {
+        [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
+    }
+    
+    [self drawCellWithColor:[UIColor colorWithRed:242/255.0f green:222/255.0f blue:1 alpha:0.5] InRect:CGRectMake(0, 0, rect.size.width, 20) context:context];
+    
 }
-
 
 @end

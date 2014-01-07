@@ -11,6 +11,7 @@
 
 extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
+extern NSString *const DPCalendarMonthlyViewAttributeMonthRows;
 
 #define DP_MINUTE 60.f
 #define DP_HOUR   DP_MINUTE * 60.f
