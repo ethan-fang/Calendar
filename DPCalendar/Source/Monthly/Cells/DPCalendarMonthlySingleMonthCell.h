@@ -11,7 +11,6 @@
 
 @interface DPCalendarMonthlySingleMonthCell : DPCalendarMonthlyCell
 
--(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar;
-
+-(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events;
 
 @end

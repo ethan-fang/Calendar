@@ -12,6 +12,7 @@
 #import "DPCalendarMonthlyHorizontalScrollCell.h"
 #import "NSDate+DP.h"
 #import "DPCalendarMonthlyHorizontalScrollView.h"
+#import "DPCalendarEvent.h"
 
 NSString *const DPCalendarMonthlyViewAttributeCellHeight = @"DPCalendarMonthlyViewCellHeight";
 NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight = @"DPCalendarMonthlyViewHeaderHeight";
@@ -43,6 +44,12 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 @property (nonatomic, strong) NSCalendar *calendar;
 
 @property(nonatomic) NSUInteger daysInWeek;
+
+@property (nonatomic, strong) NSDictionary *eventsForEachDay;
+
+@property (nonatomic, strong) NSOperationQueue *processQueue;
+@property (nonatomic) uint maxEventsPerDay;
+
 @end
 
 NSString *const DPCalendarViewWeekDayCellIdentifier = @"DPCalendarViewWeekDayCellIdentifier";
@@ -61,6 +68,10 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 }
 
 - (void) commonInit{
+    self.processQueue = [[NSOperationQueue alloc] init];
+    self.processQueue.maxConcurrentOperationCount = 4;
+    self.maxEventsPerDay = 4;
+    
     self.calendar   = NSCalendar.currentCalendar;
     self.daysInWeek = 7;
     self.pagingMonths = @[].mutableCopy;
@@ -262,6 +273,61 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     return [self.pagingMonths objectAtIndex:1];
 }
 
+-(void)setEvents:(NSArray *)events {
+    __weak __typeof(&*self)weakSelf = self;
+    [self.processQueue addOperationWithBlock:^{
+        NSMutableDictionary *eventsByDay = [NSMutableDictionary new];
+        NSDate *firstDay = [weakSelf firstVisibleDateOfMonth:[weakSelf.pagingMonths objectAtIndex:1]];
+        NSDate *lastDay = [weakSelf lastVisibleDateOfMonth:[weakSelf.pagingMonths objectAtIndex:1]];
+        while ([firstDay compare:lastDay] != NSOrderedSame) {
+            [eventsByDay setObject:[NSMutableArray new] forKey:firstDay];
+            firstDay = [firstDay dateByAddingYears:0 months:0 days:1];
+        }
+        
+        NSMutableArray *rowIndexs = nil;
+        
+        for (DPCalendarEvent *event in events) {
+            NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+            NSDate *startDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:event.startTime]];
+            
+            NSDate *endDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:[event.endTime dateByAddingYears:0 months:0 days:1]]];
+            
+            NSDate *date = [startDate copy];
+            while ([date compare:endDate] != NSOrderedSame) {
+                if ([eventsByDay objectForKey:date]) {
+                    [((NSMutableArray *)[eventsByDay objectForKey:date]) addObject:event];
+                }
+                date = [date dateByAddingYears:0 months:0 days:1];
+            }
+            NSMutableArray *otherEventsInTheSameDay = [eventsByDay objectForKey:startDate];
+            
+            //Get smallest availability index
+            rowIndexs = @[].mutableCopy;
+            for (int i = 0; i < self.maxEventsPerDay; i++) {
+                [rowIndexs addObject:[NSNumber numberWithInt:0]];
+            }
+            for (DPCalendarEvent *event in otherEventsInTheSameDay) {
+                if (event.rowIndex && event.rowIndex < (rowIndexs.count + 1)) {
+                    [rowIndexs setObject:[NSNumber numberWithInt:1] atIndexedSubscript:(event.rowIndex - 1)];
+                }
+            }
+            int i = 1;
+            while (i < rowIndexs.count && [[rowIndexs objectAtIndex:i - 1] intValue] == 1) {
+                i++;
+            }
+            if (i < self.maxEventsPerDay + 1) {
+                event.rowIndex = i;
+            }
+        }
+        
+        weakSelf.eventsForEachDay = eventsByDay;
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [((UICollectionView *)[weakSelf.pagingViews objectAtIndex:1]) reloadData];
+        }];
+    }];
+}
+
 #pragma UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)sender
 {
@@ -319,8 +385,8 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     DPCalendarMonthlySingleMonthCell *cell =
     [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                               forIndexPath:indexPath];
-    
-    [cell setDate:[self dateForCollectionView:collectionView IndexPath:indexPath] calendar:self.calendar];
+    NSDate *date = [self dateForCollectionView:collectionView IndexPath:indexPath];
+    [cell setDate:date calendar:self.calendar events:[self.eventsForEachDay objectForKey:date]];
     
     cell.separatorColor = self.separatorColor;
     return cell;

@@ -49,6 +49,8 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows;
 
 @property (nonatomic, weak) id<DPCalendarMonthlyViewDelegate> monthlyViewDelegate;
 
+@property (nonatomic, assign) NSArray *events;
+
 -(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 
 -(void) scrollToMonth:(NSDate *)month;

@@ -7,11 +7,14 @@
 //
 
 #import "DPCalendarMonthlySingleMonthCell.h"
+#import "DPCalendarEvent.h"
+#import "NSDate+DP.h"
 
 @interface DPCalendarMonthlySingleMonthCell()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSArray *events;
 @end
 
 @implementation DPCalendarMonthlySingleMonthCell
@@ -31,8 +34,9 @@
     return self;
 }
 
--(void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar {
-    self.date = date;
+-(void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events{
+    self.date = [[NSCalendar currentCalendar] dateFromComponents:[[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:date]];
+    self.events = events;
     
     NSDateComponents *components =
     [calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
@@ -69,7 +73,27 @@
         [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
     }
     
-    [self drawCellWithColor:[UIColor colorWithRed:242/255.0f green:222/255.0f blue:1 alpha:0.5] InRect:CGRectMake(0, 0, rect.size.width, 20) context:context];
+    int i = 1;
+    for (DPCalendarEvent *event in self.events) {
+        NSDate *day = self.date;
+        
+        UIColor *color = [UIColor colorWithRed:event.type / 4.0f green:event.type / 4.0f blue:event.type / 4.0f alpha:0.5];
+        if ([event.startTime compare:day] == NSOrderedAscending) {
+            [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
+        } else {
+            [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
+            
+            NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+            textStyle.lineBreakMode = NSLineBreakByWordWrapping;
+            textStyle.alignment = NSTextAlignmentLeft;
+            [[UIColor blackColor] set];
+            [event.title drawInRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
+            
+        }
+        i++;
+    }
+    
+    
     
 }
 

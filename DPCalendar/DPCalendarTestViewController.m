@@ -13,6 +13,8 @@
 #import "DPCalendarMonthlyView.h"
 
 #import "DPCalendarTestViewMonthlyCell.h"
+#import "DPCalendarEvent.h"
+#import "NSDate+DP.h"
 
 @interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate>
 
@@ -49,6 +51,20 @@
 //    [self.view addSubview:_monthlyMainView];
     
     [self createStepView];
+    
+    NSMutableArray *events = @[].mutableCopy;
+    NSDate *date = [[NSDate date] dateByAddingYears:0 months:-1 days:0];
+    
+    for (int i = 0; i < 60; i++) {
+        DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
+        event.startTime = date;
+        event.endTime = [date dateByAddingYears:0 months:0 days:arc4random() % 4];
+        event.title = [NSString stringWithFormat:@"Event %d", i];
+        event.type = i % 4;
+        date = [date dateByAddingYears:0 months:0 days:1];
+        [events addObject:event];
+    }
+    self.monthlyView.events = events;
 }
 
 -(void) createStepView {
