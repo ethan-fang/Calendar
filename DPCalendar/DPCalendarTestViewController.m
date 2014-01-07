@@ -12,6 +12,8 @@
 #import "DPCalendarMonthlyMainView.h"
 #import "DPCalendarMonthlyView.h"
 
+#import "DPCalendarTestViewMonthlyCell.h"
+
 @interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate>
 
 @property (nonatomic, strong) DPCalendarMonthlyMainView *monthlyMainView;
@@ -116,6 +118,10 @@
     return @{
              DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeWeekdayHeight: @40
              };
+}
+
+-(Class)monthlyCellClass {
+    return [DPCalendarTestViewMonthlyCell class];
 }
 
 

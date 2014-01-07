@@ -8,6 +8,7 @@
 
 #import "DPCalendarTestViewMonthlyCell.h"
 
+
 @implementation DPCalendarTestViewMonthlyCell
 
 - (id)initWithFrame:(CGRect)frame
@@ -21,11 +22,11 @@
 
 -(void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
+    NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    textStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    textStyle.alignment = NSTextAlignmentLeft;
     if (self.unavailabilities.count) {
-        UILabel *unavailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.bounds.size.width, 20)];
-        [unavailLabel setText:[NSString stringWithFormat:@"%d unavailability", self.unavailabilities.count]];
-        [self addSubview:unavailLabel];
+        [[NSString stringWithFormat:@"%d unavailability", self.unavailabilities.count] drawInRect:CGRectMake(0, 20, 100, 20) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
     }
 }
 

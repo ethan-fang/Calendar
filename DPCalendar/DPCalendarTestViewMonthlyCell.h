@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Ethan Fang. All rights reserved.
 //
 
-#import "DPCalendarMonthlyCell.h"
+#import "DPCalendarMonthlySingleMonthCell.h"
 
-@interface DPCalendarTestViewMonthlyCell : DPCalendarMonthlyCell
+@interface DPCalendarTestViewMonthlyCell : DPCalendarMonthlySingleMonthCell
 
 @property (nonatomic, strong) NSArray *unavailabilities;
 @property (nonatomic, strong) NSArray *leave;
