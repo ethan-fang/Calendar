@@ -11,12 +11,16 @@
 
 extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont;
+extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor;
+extern NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek;
 extern NSString *const DPCalendarMonthlyViewAttributeMonthRows;
 extern NSString *const DPCalendarMonthlyViewAttributeEventColors;
 
+
 @protocol DPCalendarMonthlyViewDelegate <NSObject>
 
--(void) didScrollToMonth:(NSDate *)month;
+-(void) didScrollToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
 
 @optional
 - (Class) monthlyCellClass;

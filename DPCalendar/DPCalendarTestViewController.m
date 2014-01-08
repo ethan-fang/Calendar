@@ -138,11 +138,14 @@
 }
 
 #pragma DPCalendarMonthlyViewDelegate
--(void)didScrollToMonth:(NSDate *)month {
+-(void)didScrollToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate{
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MMMM YYYY"];
     NSString *stringFromDate = [formatter stringFromDate:month];
     [self.monthLabel setText:stringFromDate];
+    
+    
+    NSLog(@"%@ to %@", firstDate, lastDate);
 }
 
 -(BOOL)shouldHighlightItemWithDate:(NSDate *)date {
@@ -159,7 +162,8 @@
 
 -(NSDictionary *)monthlyViewAttributes {
     return @{
-             DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeWeekdayHeight: @40, DPCalendarMonthlyViewAttributeMonthRows:@ 5
+             DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeMonthRows:@5,
+             DPCalendarMonthlyViewAttributeWeekdayHeight: @20, DPCalendarMonthlyViewAttributeWeekdayFont: @14
              };
 }
 

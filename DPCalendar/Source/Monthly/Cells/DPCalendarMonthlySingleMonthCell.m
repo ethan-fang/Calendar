@@ -56,6 +56,16 @@
     [self setNeedsDisplay];
 }
 
+-(void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    [self setNeedsDisplay];
+}
+
+-(void)setEnabled:(BOOL)enabled {
+    _enabled = enabled;
+    [self setNeedsDisplay];
+}
+
 #define ROW_HEIGHT 20
 #define ICON_SIZE_MAX 18
 
@@ -74,9 +84,9 @@
                       CGPointMake(size.width - pixel, size.height),
                       separatorColor,
                       pixel);
-    
-    
-    if (self.isSelected) {
+    if (!self.enabled) {
+        [self drawCellWithColor:[UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:1] InRect:rect context:context];
+    } else if (self.isSelected) {
         [self drawCellWithColor:[UIColor colorWithRed:255/255.0f green:222/255.0f blue:0 alpha:0.5] InRect:rect context:context];
     } else {
         [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
