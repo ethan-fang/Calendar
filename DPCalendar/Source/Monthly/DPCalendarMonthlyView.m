@@ -131,7 +131,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 }
 
 - (NSArray *)defaultEventColors {
-    return @[[UIColor colorWithRed:1 green:168/255.0f blue:0 alpha:0.5], [UIColor colorWithRed:52/255.0f green:161/255.0f blue:1 alpha:0.5], [UIColor colorWithRed:1 green:48/255.0f blue:47/255.0f alpha:0.5]];
+    return @[[UIColor colorWithRed:1 green:168/255.0f blue:0 alpha:1], [UIColor colorWithRed:52/255.0f green:161/255.0f blue:1 alpha:1], [UIColor colorWithRed:1 green:48/255.0f blue:47/255.0f alpha:1]];
 }
 
 -(void)setMonthlyViewBackgroundColor:(UIColor *)monthlyViewBackgroundColor {

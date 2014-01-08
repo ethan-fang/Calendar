@@ -56,13 +56,15 @@
     NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:-15];
     
     for (int i = 0; i < 50; i++) {
-        DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
-        event.startTime = date;
-        event.endTime = [date dateByAddingYears:0 months:0 days:4];
-        event.title = [NSString stringWithFormat:@"Event %d", i];
-        event.type = i % 4;
+//        if ((arc4random() % 2) > 0) {
+            DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
+            event.startTime = date;
+            event.endTime = [date dateByAddingYears:0 months:0 days:10];
+            event.title = [NSString stringWithFormat:@"Event %d", i];
+            event.type = i % 4;            [events addObject:event];
+//        }
+        
         date = [date dateByAddingYears:0 months:0 days:1];
-        [events addObject:event];
     }
     self.monthlyView.events = events;
 }

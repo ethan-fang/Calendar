@@ -52,6 +52,8 @@
     [self setNeedsDisplay];
 }
 
+#define ROW_HEIGHT 20
+
 -(void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
@@ -75,25 +77,40 @@
         [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
     }
     
-    int i = 1;
+    int eventsNotShowingCount = 0;
+    
+    NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    textStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    textStyle.alignment = NSTextAlignmentLeft;
+    
     for (DPCalendarEvent *event in self.events) {
+        
         NSDate *day = self.date;
         
         UIColor *color = [self.eventColors objectAtIndex:event.type % self.eventColors.count];
         
-        if (event.rowIndex == 0) {
+        if (event.rowIndex == 0 || ((event.rowIndex + 1) * ROW_HEIGHT > rect.size.height)) {
+            eventsNotShowingCount++;
             continue;
         }
-        [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
+        
+        //Draw Underline
+        [self drawCellWithColor:color InRect:CGRectMake(0, (event.rowIndex + 1) * ROW_HEIGHT, rect.size.width, 1) context:context];
         
         if (!([event.startTime compare:day] == NSOrderedAscending) || ([event.startTime compare:day] == NSOrderedAscending && [self.date isEqualToDate:self.firstVisiableDateOfMonth])) {
-            NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-            textStyle.lineBreakMode = NSLineBreakByWordWrapping;
-            textStyle.alignment = NSTextAlignmentLeft;
+            //Draw Left line
+            [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * ROW_HEIGHT + 3, 2, ROW_HEIGHT - 3) context:context];
+            
+            
             [[UIColor blackColor] set];
-            [event.title drawInRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
+            [event.title drawInRect:CGRectMake(5, event.rowIndex * ROW_HEIGHT + 2, rect.size.width - 5, ROW_HEIGHT - 2) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
         }
-        i++;
+        
+        
+    }
+    if (eventsNotShowingCount > 0) {
+        //show more
+        [[NSString stringWithFormat:@"%d more...", eventsNotShowingCount] drawInRect:CGRectMake(5, (self.events.count - eventsNotShowingCount + 1) * ROW_HEIGHT + 2, rect.size.width - 5, ROW_HEIGHT - 2) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
     }
     
     
