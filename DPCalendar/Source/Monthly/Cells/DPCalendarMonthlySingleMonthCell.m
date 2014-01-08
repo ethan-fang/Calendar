@@ -81,9 +81,12 @@
         
         UIColor *color = [self.eventColors objectAtIndex:event.type % self.eventColors.count];
         
+        if (event.rowIndex == 0) {
+            continue;
+        }
         [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * 20, rect.size.width, 20) context:context];
         
-        if (![event.startTime compare:day] == NSOrderedAscending || ([event.startTime compare:day] == NSOrderedAscending && [self.date isEqualToDate:self.firstVisiableDateOfMonth])) {
+        if (!([event.startTime compare:day] == NSOrderedAscending) || ([event.startTime compare:day] == NSOrderedAscending && [self.date isEqualToDate:self.firstVisiableDateOfMonth])) {
             NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
             textStyle.lineBreakMode = NSLineBreakByWordWrapping;
             textStyle.alignment = NSTextAlignmentLeft;

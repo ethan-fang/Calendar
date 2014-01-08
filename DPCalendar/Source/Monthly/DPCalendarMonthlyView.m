@@ -286,46 +286,78 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     __weak __typeof(&*self)weakSelf = self;
     [self.processQueue addOperationWithBlock:^{
         NSMutableDictionary *eventsByDay = [NSMutableDictionary new];
-        NSDate *firstDay = [weakSelf firstVisibleDateOfMonth:[weakSelf.pagingMonths objectAtIndex:1]];
-        NSDate *lastDay = [weakSelf lastVisibleDateOfMonth:[weakSelf.pagingMonths objectAtIndex:1]];
-        while ([firstDay compare:lastDay] != NSOrderedSame) {
-            [eventsByDay setObject:[NSMutableArray new] forKey:firstDay];
-            firstDay = [firstDay dateByAddingYears:0 months:0 days:1];
-        }
-        
-        NSMutableArray *rowIndexs = nil;
-        
-        for (DPCalendarEvent *event in events) {
-            NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
-            NSDate *startDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:event.startTime]];
+        if (events.count) {
+            /*****************************************************************
+             *
+             * Step1:
+             *      we need to create a dictionary of @{date, array}
+             * to store the events of the current month.
+             *      ie. January 2014 will have a map with keys from
+             * 29/12/2013 - 1/02/2014
+             *
+             *****************************************************************/
+            NSDate *firstDay = [((DPCalendarEvent *)[events objectAtIndex:0]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
             
-            NSDate *endDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:[event.endTime dateByAddingYears:0 months:0 days:1]]];
+            NSDate *iterateDay = firstDay.copy;
+            NSDate *lastDay = [((DPCalendarEvent *)[events objectAtIndex:events.count - 1]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
+            while ([iterateDay compare:lastDay] != NSOrderedSame) {
+                [eventsByDay setObject:[NSMutableArray new] forKey:iterateDay];
+                iterateDay = [iterateDay dateByAddingYears:0 months:0 days:1];
+            }
             
-            NSDate *date = [startDate copy];
-            while ([date compare:endDate] != NSOrderedSame) {
-                if ([eventsByDay objectForKey:date]) {
-                    [((NSMutableArray *)[eventsByDay objectForKey:date]) addObject:event];
+            /*****************************************************************
+             *
+             * Step2:
+             *      Iterate all events and add event to the dictionary, also
+             * calculate the position that we want to show the event (rowIndex).
+             * If the rowIndex value is 0, we don't show that event.
+             *
+             *****************************************************************/
+            NSMutableArray *rowIndexs = nil;
+            for (DPCalendarEvent *event in events) {
+                
+                NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+                NSDate *startDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:event.startTime]];
+                
+                NSDate *endDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:[event.endTime dateByAddingYears:0 months:0 days:1]]];
+                
+                NSDate *date = [startDate copy];
+                
+                /*****************************************************************
+                 *
+                 * Add that event to the corresponding date
+                 *
+                 *****************************************************************/
+                while ([date compare:endDate] != NSOrderedSame) {
+                    if ([eventsByDay objectForKey:date]) {
+                        [((NSMutableArray *)[eventsByDay objectForKey:date]) addObject:event];
+                    }
+                    date = [date dateByAddingYears:0 months:0 days:1];
                 }
-                date = [date dateByAddingYears:0 months:0 days:1];
-            }
-            NSMutableArray *otherEventsInTheSameDay = [eventsByDay objectForKey:startDate];
-            
-            //Get smallest availability index
-            rowIndexs = @[].mutableCopy;
-            for (int i = 0; i < self.maxEventsPerDay; i++) {
-                [rowIndexs addObject:[NSNumber numberWithInt:0]];
-            }
-            for (DPCalendarEvent *event in otherEventsInTheSameDay) {
-                if (event.rowIndex && event.rowIndex < (rowIndexs.count + 1)) {
-                    [rowIndexs setObject:[NSNumber numberWithInt:1] atIndexedSubscript:(event.rowIndex - 1)];
+                NSMutableArray *otherEventsInTheSameDay = [eventsByDay objectForKey:startDate];
+                
+                /*****************************************************************
+                 *
+                 * We check the available max rowIndex and set it to the event.
+                 * If that is no available position, we keep it as 0.
+                 *
+                 *****************************************************************/
+                rowIndexs = @[].mutableCopy;
+                for (int i = 0; i < self.maxEventsPerDay; i++) {
+                    [rowIndexs addObject:[NSNumber numberWithInt:0]];
                 }
-            }
-            int i = 1;
-            while (i < rowIndexs.count && [[rowIndexs objectAtIndex:i - 1] intValue] == 1) {
-                i++;
-            }
-            if (i < self.maxEventsPerDay + 1) {
-                event.rowIndex = i;
+                for (DPCalendarEvent *event in otherEventsInTheSameDay) {
+                    if (event.rowIndex && event.rowIndex < (rowIndexs.count + 1)) {
+                        [rowIndexs setObject:[NSNumber numberWithInt:1] atIndexedSubscript:(event.rowIndex - 1)];
+                    }
+                }
+                int i = 1;
+                while ((i < rowIndexs.count + 1) && ([[rowIndexs objectAtIndex:i - 1] intValue] == 1)) {
+                    i++;
+                }
+                if (i < self.maxEventsPerDay + 1) {
+                    event.rowIndex = i;
+                }
             }
         }
         

@@ -68,5 +68,10 @@
     return [calendar dateFromComponents:components];
 }
 
+-(instancetype)dp_dateWithoutTimeWithCalendar:(NSCalendar *)calendar {
+    NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+    return [calendar dateFromComponents:[calendar components:preservedComponents fromDate:self]];
+}
+
 @end
 

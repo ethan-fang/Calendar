@@ -55,10 +55,10 @@
     NSMutableArray *events = @[].mutableCopy;
     NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:-15];
     
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 50; i++) {
         DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
         event.startTime = date;
-        event.endTime = [date dateByAddingYears:0 months:0 days:15];
+        event.endTime = [date dateByAddingYears:0 months:0 days:4];
         event.title = [NSString stringWithFormat:@"Event %d", i];
         event.type = i % 4;
         date = [date dateByAddingYears:0 months:0 days:1];
