@@ -8,14 +8,17 @@
 
 #import "DPCalendarMonthlySingleMonthCell.h"
 #import "DPCalendarEvent.h"
+#import "DPCalendarIconEvent.h"
 #import "NSDate+DP.h"
 
 @interface DPCalendarMonthlySingleMonthCell()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSDate *date;
-@property (nonatomic, strong) NSArray *events;
 @property (nonatomic, strong) NSCalendar *calendar;
+
+@property (nonatomic, strong) NSArray *events;
+@property (nonatomic, strong) NSArray *iconEvents;
 @end
 
 @implementation DPCalendarMonthlySingleMonthCell
@@ -35,9 +38,10 @@
     return self;
 }
 
--(void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events{
+-(void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events iconEvents:(NSArray *)iconEvents {
     self.date = [calendar dateFromComponents:[calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:date]];
     self.events = events;
+    self.iconEvents = iconEvents;
     self.calendar = calendar;
     
     NSDateComponents *components =
@@ -53,6 +57,7 @@
 }
 
 #define ROW_HEIGHT 20
+#define ICON_SIZE_MAX 18
 
 -(void)drawRect:(CGRect)rect {
     [super drawRect:rect];
@@ -82,6 +87,21 @@
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentLeft;
+    
+    float iconX = CGRectGetMaxX(self.titleLabel.frame) + 4.0f;
+    for (int i = 0; i < self.iconEvents.count; i++) {
+        DPCalendarIconEvent *event = [self.iconEvents objectAtIndex:i];
+        BOOL isWidthLonger = event.icon.size.width > event.icon.size.height;
+        float scale = ICON_SIZE_MAX / (isWidthLonger ? event.icon.size.width : event.icon.size.height);
+        float width = isWidthLonger ? ICON_SIZE_MAX : event.icon.size.width * scale;
+        float height = isWidthLonger ? event.icon.size.height * scale : ICON_SIZE_MAX;
+        if (iconX + width > rect.size.width) {
+            
+        } else {
+            [event.icon drawInRect:CGRectMake(iconX, (ICON_SIZE_MAX - height) / 2, width, height)];
+            iconX += width + 4.0f;
+        }
+    }
     
     for (DPCalendarEvent *event in self.events) {
         

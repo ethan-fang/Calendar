@@ -14,6 +14,7 @@
 
 #import "DPCalendarTestViewMonthlyCell.h"
 #import "DPCalendarEvent.h"
+#import "DPCalendarIconEvent.h"
 #import "NSDate+DP.h"
 
 @interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate>
@@ -53,7 +54,12 @@
     [self createStepView];
     
     NSMutableArray *events = @[].mutableCopy;
+    NSMutableArray *iconEvents = @[].mutableCopy;
+
+    
     NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:-15];
+    UIImage *icon = [UIImage imageNamed:@"IconCamera"];
+    UIImage *greyIcon = [UIImage imageNamed:@"IconDateGrey"];
     
     for (int i = 0; i < 50; i++) {
 //        if ((arc4random() % 2) > 0) {
@@ -61,12 +67,31 @@
             event.startTime = date;
             event.endTime = [date dateByAddingYears:0 months:0 days:10];
             event.title = [NSString stringWithFormat:@"Event %d", i];
-            event.type = i % 4;            [events addObject:event];
+            event.type = i % 3;
+            [events addObject:event];
+        
+        
+            DPCalendarIconEvent *iconEvent = [DPCalendarIconEvent new];
+            iconEvent.startTime = date;
+            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:1];
+            iconEvent.title = [NSString stringWithFormat:@"Event %d", i];
+            iconEvent.icon = icon;
+            [iconEvents addObject:iconEvent];
+            
+            iconEvent = [DPCalendarIconEvent new];
+            iconEvent.startTime = date;
+            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:1];
+            iconEvent.title = [NSString stringWithFormat:@"Event %d", i];
+            iconEvent.icon = greyIcon;
+            [iconEvents addObject:iconEvent];
 //        }
         
         date = [date dateByAddingYears:0 months:0 days:1];
     }
+
     self.monthlyView.events = events;
+    self.monthlyView.iconEvents = iconEvents;
+    
 }
 
 -(void) createStepView {

@@ -45,6 +45,7 @@ extern NSString *const DPCalendarMonthlyViewAttributeEventColors;
 @property (nonatomic, weak) id<DPCalendarMonthlyViewDelegate> monthlyViewDelegate;
 
 @property (nonatomic, assign) NSArray *events;
+@property (nonatomic, assign) NSArray *iconEvents;
 
 -(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 

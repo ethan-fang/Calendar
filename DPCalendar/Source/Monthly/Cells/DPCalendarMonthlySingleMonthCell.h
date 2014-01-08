@@ -11,7 +11,7 @@
 
 @interface DPCalendarMonthlySingleMonthCell : DPCalendarMonthlyCell
 
--(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events;
+-(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events iconEvents:(NSArray *)iconEvents;
 
 @property (nonatomic) NSDate *firstVisiableDateOfMonth;
 

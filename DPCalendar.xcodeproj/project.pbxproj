@@ -37,6 +37,11 @@
 		C8A1B52E187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A1B52D187A8497000DA3D7 /* DPCalendarTestViewMonthlyCell.m */; };
 		C8A1B561187BA60C000DA3D7 /* DPCalendarEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A1B560187BA60C000DA3D7 /* DPCalendarEvent.m */; };
 		C8D180D4187BD29A001AA86D /* NSDate+DP.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D180D3187BD29A001AA86D /* NSDate+DP.m */; };
+		C8D18104187CE764001AA86D /* DPCalendarIconEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D18103187CE763001AA86D /* DPCalendarIconEvent.m */; };
+		C8D1810B187CFDB6001AA86D /* IconCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = C8D18107187CFDB6001AA86D /* IconCamera.png */; };
+		C8D1810C187CFDB6001AA86D /* IconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C8D18108187CFDB6001AA86D /* IconCamera@2x.png */; };
+		C8D1810D187CFDB6001AA86D /* IconDateGrey.png in Resources */ = {isa = PBXBuildFile; fileRef = C8D18109187CFDB6001AA86D /* IconDateGrey.png */; };
+		C8D1810E187CFDB6001AA86D /* IconDateGrey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C8D1810A187CFDB6001AA86D /* IconDateGrey@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +103,12 @@
 		C8A1B560187BA60C000DA3D7 /* DPCalendarEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarEvent.m; sourceTree = "<group>"; };
 		C8D180D2187BD29A001AA86D /* NSDate+DP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DP.h"; sourceTree = "<group>"; };
 		C8D180D3187BD29A001AA86D /* NSDate+DP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DP.m"; sourceTree = "<group>"; };
+		C8D18102187CE763001AA86D /* DPCalendarIconEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DPCalendarIconEvent.h; path = DPCalendar/Source/DPCalendarIconEvent.h; sourceTree = SOURCE_ROOT; };
+		C8D18103187CE763001AA86D /* DPCalendarIconEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DPCalendarIconEvent.m; path = DPCalendar/Source/DPCalendarIconEvent.m; sourceTree = SOURCE_ROOT; };
+		C8D18107187CFDB6001AA86D /* IconCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconCamera.png; sourceTree = "<group>"; };
+		C8D18108187CFDB6001AA86D /* IconCamera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconCamera@2x.png"; sourceTree = "<group>"; };
+		C8D18109187CFDB6001AA86D /* IconDateGrey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconDateGrey.png; sourceTree = "<group>"; };
+		C8D1810A187CFDB6001AA86D /* IconDateGrey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconDateGrey@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +140,8 @@
 		6643B139187225070024D23E /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C8D18102187CE763001AA86D /* DPCalendarIconEvent.h */,
+				C8D18103187CE763001AA86D /* DPCalendarIconEvent.m */,
 				C8D180D2187BD29A001AA86D /* NSDate+DP.h */,
 				C8D180D3187BD29A001AA86D /* NSDate+DP.m */,
 				C854724B187A14050002DFB1 /* Weekly */,
@@ -143,6 +156,7 @@
 		C81662E9186271D700D7F4B7 = {
 			isa = PBXGroup;
 			children = (
+				C8D18105187CFDB6001AA86D /* Assets */,
 				6643B139187225070024D23E /* Source */,
 				C81662FD186271D700D7F4B7 /* DPCalendar */,
 				C816631A186271D800D7F4B7 /* DPCalendarTests */,
@@ -269,6 +283,26 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		C8D18105187CFDB6001AA86D /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C8D18106187CFDB6001AA86D /* Images */,
+			);
+			name = Assets;
+			path = DPCalendar/Assets;
+			sourceTree = "<group>";
+		};
+		C8D18106187CFDB6001AA86D /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C8D18107187CFDB6001AA86D /* IconCamera.png */,
+				C8D18108187CFDB6001AA86D /* IconCamera@2x.png */,
+				C8D18109187CFDB6001AA86D /* IconDateGrey.png */,
+				C8D1810A187CFDB6001AA86D /* IconDateGrey@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -345,8 +379,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8D1810C187CFDB6001AA86D /* IconCamera@2x.png in Resources */,
+				C8D1810B187CFDB6001AA86D /* IconCamera.png in Resources */,
+				C8D1810E187CFDB6001AA86D /* IconDateGrey@2x.png in Resources */,
 				C8166302186271D700D7F4B7 /* InfoPlist.strings in Resources */,
 				C816630D186271D800D7F4B7 /* Images.xcassets in Resources */,
+				C8D1810D187CFDB6001AA86D /* IconDateGrey.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +417,7 @@
 				C8166304186271D700D7F4B7 /* main.m in Sources */,
 				C8547266187A14050002DFB1 /* DPCalendarMonthlyHorizontalScrollCell.m in Sources */,
 				C854726C187A14050002DFB1 /* DPCalendarMonthlyView.m in Sources */,
+				C8D18104187CE764001AA86D /* DPCalendarIconEvent.m in Sources */,
 				C8547268187A14050002DFB1 /* DPCalendarMonthlyWeekdayCell.m in Sources */,
 				C8A1B561187BA60C000DA3D7 /* DPCalendarEvent.m in Sources */,
 				C8D180D4187BD29A001AA86D /* NSDate+DP.m in Sources */,

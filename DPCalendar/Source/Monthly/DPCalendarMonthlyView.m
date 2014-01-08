@@ -50,6 +50,7 @@ NSString *const DPCalendarMonthlyViewAttributeEventColors = @"DPCalendarMonthlyV
 @property (nonatomic) uint maxEventsPerDay;
 @property (nonatomic, strong) NSOperationQueue *processQueue;
 @property (nonatomic, strong) NSDictionary *eventsForEachDay;
+@property (nonatomic, strong) NSDictionary *iconEventsForEachDay;
 @property (nonatomic, strong) NSArray *eventColors;
 
 @end
@@ -282,7 +283,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     return [self.pagingMonths objectAtIndex:1];
 }
 
--(void)setEvents:(NSArray *)events {
+-(void)setEvents:(NSArray *)events{
     __weak __typeof(&*self)weakSelf = self;
     [self.processQueue addOperationWithBlock:^{
         NSMutableDictionary *eventsByDay = [NSMutableDictionary new];
@@ -291,8 +292,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
              *
              * Step1:
              *      we need to create a dictionary of @{date, array}
-             * to store the events of the current month.
-             *      ie. January 2014 will have a map with keys from
+             * to store the events. ie. January 2014 will have a map with keys from
              * 29/12/2013 - 1/02/2014
              *
              *****************************************************************/
@@ -369,6 +369,66 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }];
 }
 
+-(void)setIconEvents:(NSArray *)iconEvents {
+    __weak __typeof(&*self)weakSelf = self;
+    [self.processQueue addOperationWithBlock:^{
+        NSMutableDictionary *eventsByDay = [NSMutableDictionary new];
+        if (iconEvents.count) {
+            /*****************************************************************
+             *
+             * Step1:
+             *      we need to create a dictionary of @{date, array}
+             * to store the events.
+             *      ie. have a map with keys from
+             * 29/12/2013 - 1/02/2014
+             *
+             *****************************************************************/
+            NSDate *firstDay = [((DPCalendarEvent *)[iconEvents objectAtIndex:0]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
+            
+            NSDate *iterateDay = firstDay.copy;
+            NSDate *lastDay = [((DPCalendarEvent *)[iconEvents objectAtIndex:iconEvents.count - 1]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
+            while ([iterateDay compare:lastDay] != NSOrderedSame) {
+                [eventsByDay setObject:[NSMutableArray new] forKey:iterateDay];
+                iterateDay = [iterateDay dateByAddingYears:0 months:0 days:1];
+            }
+            
+            /*****************************************************************
+             *
+             * Step2:
+             *      Iterate all events and add event to the dictionary
+             *
+             *****************************************************************/
+            for (DPCalendarEvent *event in iconEvents) {
+                
+                NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+                NSDate *startDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:event.startTime]];
+                NSDate *endDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:[event.endTime dateByAddingYears:0 months:0 days:1]]];
+                
+                NSDate *date = [startDate copy];
+                
+                /*****************************************************************
+                 *
+                 * Add that event to the corresponding date
+                 *
+                 *****************************************************************/
+                while ([date compare:endDate] != NSOrderedSame) {
+                    if ([eventsByDay objectForKey:date]) {
+                        [((NSMutableArray *)[eventsByDay objectForKey:date]) addObject:event];
+                    }
+                    date = [date dateByAddingYears:0 months:0 days:1];
+                }
+                
+            }
+        }
+        
+        weakSelf.iconEventsForEachDay = eventsByDay;
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [((UICollectionView *)[weakSelf.pagingViews objectAtIndex:1]) reloadData];
+        }];
+    }];
+}
+
 #pragma UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)sender
 {
@@ -430,7 +490,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     cell.firstVisiableDateOfMonth = [self dateForCollectionView:collectionView IndexPath:[NSIndexPath indexPathForItem:self.daysInWeek inSection:0]];
     
     NSDate *date = [self dateForCollectionView:collectionView IndexPath:indexPath];
-    [cell setDate:date calendar:self.calendar events:[self.eventsForEachDay objectForKey:date]];
+    [cell setDate:date calendar:self.calendar events:[self.eventsForEachDay objectForKey:date] iconEvents:[self.iconEventsForEachDay objectForKey:date]];
     
     cell.separatorColor = self.separatorColor;
     return cell;
