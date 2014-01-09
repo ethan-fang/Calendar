@@ -173,7 +173,10 @@
 -(NSDictionary *)monthlyViewAttributes {
     return @{
              DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeMonthRows:@5,
-             DPCalendarMonthlyViewAttributeWeekdayHeight: @20, DPCalendarMonthlyViewAttributeWeekdayFont: @14
+             DPCalendarMonthlyViewAttributeWeekdayHeight: @20, DPCalendarMonthlyViewAttributeWeekdayFont: @14,
+             
+             DPCalendarMonthlyViewAttributeCellSelectedColor: [UIColor colorWithRed:242/255.0f green:242/255.0f blue:1 alpha:0.5],
+             DPCalendarMonthlyViewAttributeCellDisabledColor: [UIColor colorWithRed:239/255.0f green:239/255.0f blue:244/255.0f alpha:0.5]
              };
 }
 
