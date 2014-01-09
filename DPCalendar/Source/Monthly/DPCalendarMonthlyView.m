@@ -13,6 +13,7 @@
 #import "NSDate+DP.h"
 #import "DPCalendarMonthlyHorizontalScrollView.h"
 #import "DPCalendarEvent.h"
+#import "DPCalendarIconEvent.h"
 
 NSString *const DPCalendarMonthlyViewAttributeCellHeight = @"DPCalendarMonthlyViewCellHeight";
 NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight = @"DPCalendarMonthlyViewHeaderHeight";
@@ -299,10 +300,14 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
              * 29/12/2013 - 1/02/2014
              *
              *****************************************************************/
-            NSDate *firstDay = [((DPCalendarEvent *)[events objectAtIndex:0]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
-            
+            NSDate *firstDay = [((DPCalendarEvent *)[events objectAtIndex:0]).startTime dp_dateWithoutTimeWithCalendar:self.calendar];
+            NSDate *lastDay = [((DPCalendarEvent *)[events objectAtIndex:events.count - 1]).endTime dp_dateWithoutTimeWithCalendar:self.calendar];
+            for (DPCalendarEvent *event in events) {
+                if ([lastDay compare:event.endTime] == NSOrderedAscending) {
+                    lastDay = event.endTime;
+                }
+            }
             NSDate *iterateDay = firstDay.copy;
-            NSDate *lastDay = [((DPCalendarEvent *)[events objectAtIndex:events.count - 1]).endTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
             while ([iterateDay compare:lastDay] != NSOrderedDescending) {
                 [eventsByDay setObject:[NSMutableArray new] forKey:iterateDay];
                 iterateDay = [iterateDay dateByAddingYears:0 months:0 days:1];
@@ -386,10 +391,14 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
              * 29/12/2013 - 1/02/2014
              *
              *****************************************************************/
-            NSDate *firstDay = [((DPCalendarEvent *)[iconEvents objectAtIndex:0]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
-            
+            NSDate *firstDay = [((DPCalendarIconEvent *)[iconEvents objectAtIndex:0]).startTime dp_dateWithoutTimeWithCalendar:self.calendar];
+            NSDate *lastDay = [((DPCalendarIconEvent *)[iconEvents objectAtIndex:iconEvents.count - 1]).endTime dp_dateWithoutTimeWithCalendar:self.calendar];
+            for (DPCalendarIconEvent *event in iconEvents) {
+                if ([lastDay compare:event.endTime] == NSOrderedAscending) {
+                    lastDay = event.endTime;
+                }
+            }
             NSDate *iterateDay = firstDay.copy;
-            NSDate *lastDay = [((DPCalendarEvent *)[iconEvents objectAtIndex:iconEvents.count - 1]).endTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
             while ([iterateDay compare:lastDay] != NSOrderedDescending) {
                 [eventsByDay setObject:[NSMutableArray new] forKey:iterateDay];
                 iterateDay = [iterateDay dateByAddingYears:0 months:0 days:1];
@@ -401,7 +410,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
              *      Iterate all events and add event to the dictionary
              *
              *****************************************************************/
-            for (DPCalendarEvent *event in iconEvents) {
+            for (DPCalendarIconEvent *event in iconEvents) {
                 
                 NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
                 NSDate *startDate = [weakSelf.calendar dateFromComponents:[weakSelf.calendar components:preservedComponents fromDate:event.startTime]];

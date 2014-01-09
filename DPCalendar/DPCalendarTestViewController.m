@@ -57,7 +57,7 @@
     NSMutableArray *iconEvents = @[].mutableCopy;
 
     
-    NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:-15];
+    NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:0];
     UIImage *icon = [UIImage imageNamed:@"IconCamera"];
     UIImage *greyIcon = [UIImage imageNamed:@"IconDateGrey"];
     
@@ -65,10 +65,17 @@
 //        if ((arc4random() % 2) > 0) {
             DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
             event.startTime = date;
-            event.endTime = [date dateByAddingYears:0 months:0 days:10];
+            event.endTime = [date dateByAddingYears:0 months:0 days:3];
             event.title = [NSString stringWithFormat:@"Event %d", i];
             event.type = i % 3;
             [events addObject:event];
+        
+        event = [[DPCalendarEvent alloc] init];
+        event.startTime = date;
+        event.endTime = [date dateByAddingYears:0 months:0 days:0];
+        event.title = [NSString stringWithFormat:@"Event %d", i];
+        event.type = i % 3;
+        [events addObject:event];
         
         
             DPCalendarIconEvent *iconEvent = [DPCalendarIconEvent new];
