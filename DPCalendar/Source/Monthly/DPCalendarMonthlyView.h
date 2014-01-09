@@ -19,6 +19,9 @@ extern NSString *const DPCalendarMonthlyViewAttributeCellRowHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeEventColors;
 extern NSString *const DPCalendarMonthlyViewAttributeIconEventFont;
 extern NSString *const DPCalendarMonthlyViewAttributeIconEventBkgColors;
+extern NSString *const DPCalendarMonthlyViewAttributeCellDisabledColor;
+extern NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor;
+extern NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor;
 
 extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor;
 

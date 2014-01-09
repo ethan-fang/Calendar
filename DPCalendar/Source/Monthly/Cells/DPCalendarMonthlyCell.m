@@ -18,6 +18,11 @@ void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef co
     CGContextSetAllowsAntialiasing(c, true);
 }
 
+@interface DPCalendarMonthlyCell()
+
+
+@end
+
 @implementation DPCalendarMonthlyCell
 
 - (id)initWithFrame:(CGRect)frame

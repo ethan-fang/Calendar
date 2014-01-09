@@ -16,6 +16,14 @@
 @property (nonatomic) NSDate *firstVisiableDateOfMonth;
 @property (nonatomic) BOOL enabled;
 
+@property (nonatomic, strong) UIFont *dayFont;
+@property (nonatomic, strong) UIFont *eventFont;
+@property (nonatomic) CGFloat rowHeight;
 @property (nonatomic, strong) NSArray *eventColors;
+@property (nonatomic, strong) UIFont *iconEventFont;
+@property (nonatomic, strong) NSArray *iconEventBkgColors;
 
+@property (nonatomic, strong) UIColor *disabledColor;
+@property (nonatomic, strong) UIColor *selectedColor;
+@property (nonatomic, strong) UIColor *highlightedColor;
 @end

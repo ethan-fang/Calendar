@@ -15,13 +15,24 @@
 #import "DPCalendarEvent.h"
 #import "DPCalendarIconEvent.h"
 
-NSString *const DPCalendarMonthlyViewAttributeCellHeight = @"DPCalendarMonthlyViewCellHeight";
-NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight = @"DPCalendarMonthlyViewHeaderHeight";
+NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight = @"DPCalendarMonthlyViewAttributeWeekdayHeight";
 NSString *const DPCalendarMonthlyViewAttributeWeekdayFont = @"DPCalendarMonthlyViewAttributeWeekdayFont";
-NSString *const DPCalendarMonthlyViewAttributeSeparatorColor = @"DPCalendarMonthlyViewAttributeSeperatorColor";
+
+NSString *const DPCalendarMonthlyViewAttributeCellHeight = @"DPCalendarMonthlyViewAttributeCellHeight";
+NSString *const DPCalendarMonthlyViewAttributeDayFont = @"DPCalendarMonthlyViewAttributeDayFont";
+NSString *const DPCalendarMonthlyViewAttributeEventFont = @"DPCalendarMonthlyViewAttributeEventFont";
+NSString *const DPCalendarMonthlyViewAttributeCellRowHeight = @"DPCalendarMonthlyViewAttributeCellRowHeight";
+NSString *const DPCalendarMonthlyViewAttributeEventColors = @"DPCalendarMonthlyViewAttributeEventColors";
+NSString *const DPCalendarMonthlyViewAttributeIconEventFont = @"DPCalendarMonthlyViewAttributeIconEventFont";
+NSString *const DPCalendarMonthlyViewAttributeIconEventBkgColors = @"DPCalendarMonthlyViewAttributeIconEventBkgColors";
+NSString *const DPCalendarMonthlyViewAttributeCellDisabledColor = @"DPCalendarMonthlyViewAttributeCellDisabledColor";
+NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor = @"DPCalendarMonthlyViewAttributeCellHighlightedColor";
+NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor = @"DPCalendarMonthlyViewAttributeCellSelectedColor";
+
+NSString *const DPCalendarMonthlyViewAttributeSeparatorColor = @"DPCalendarMonthlyViewAttributeSeparatorColor";
+
 NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek = @"DPCalendarMonthlyViewAttributeStartDayOfWeek";
 NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyViewAttributeMonthRows";
-NSString *const DPCalendarMonthlyViewAttributeEventColors = @"DPCalendarMonthlyViewAttributeEventColors";
 
 #define DPCalendarMonthlyViewAttributeCellHeightDefault 70
 #define DPCalendarMonthlyViewAttributeWeekdayHeightDefault 30
@@ -36,6 +47,18 @@ NSString *const DPCalendarMonthlyViewAttributeEventColors = @"DPCalendarMonthlyV
 @property (nonatomic) CGFloat weekdayHeight;
 @property (nonatomic) CGFloat weekdayFontSize;
 @property (nonatomic) int startDayOfWeek;
+
+@property (nonatomic, strong) UIFont *dayFont;
+@property (nonatomic, strong) UIFont *eventFont;
+@property (nonatomic) CGFloat rowHeight;
+@property (nonatomic, strong) NSArray *eventColors;
+@property (nonatomic, strong) UIFont *iconEventFont;
+@property (nonatomic, strong) NSArray *iconEventBkgColors;
+
+@property (nonatomic, strong) UIColor *disabledColor;
+@property (nonatomic, strong) UIColor *selectedColor;
+@property (nonatomic, strong) UIColor *highlightedColor;
+
 
 //3 UICollectionViews
 @property (nonatomic, strong) NSMutableArray *pagingMonths;
@@ -54,7 +77,6 @@ NSString *const DPCalendarMonthlyViewAttributeEventColors = @"DPCalendarMonthlyV
 @property (nonatomic, strong) NSOperationQueue *processQueue;
 @property (nonatomic, strong) NSDictionary *eventsForEachDay;
 @property (nonatomic, strong) NSDictionary *iconEventsForEachDay;
-@property (nonatomic, strong) NSArray *eventColors;
 
 @end
 
@@ -104,6 +126,20 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         
         self.eventColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] :
         [self defaultEventColors];
+        
+        
+        self.dayFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] : [UIFont systemFontOfSize:12];
+        self.eventFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeEventFont] : [UIFont systemFontOfSize:12];
+        self.rowHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] floatValue] : 20.0f;
+        self.iconEventFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] : [UIFont systemFontOfSize:12];
+        self.iconEventBkgColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] :
+        [self defaultEventColors];
+        self.disabledColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellDisabledColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellDisabledColor] :
+        [UIColor redColor];
+        self.selectedColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellSelectedColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellSelectedColor] :
+        [UIColor blueColor];
+        self.highlightedColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] :
+        self.selectedColor;
     }
     
     self.backgroundColor = [UIColor clearColor];
@@ -515,7 +551,20 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     DPCalendarMonthlySingleMonthCell *cell =
     [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                               forIndexPath:indexPath];
+    
     cell.eventColors = self.eventColors;
+    
+    cell.dayFont = self.dayFont;
+    cell.eventFont= self.eventFont;
+    cell.rowHeight = self.rowHeight;
+    cell.eventColors = self.eventColors;
+    cell.iconEventFont = self.iconEventFont;
+    cell.iconEventBkgColors = self.iconEventBkgColors;
+    
+    cell.disabledColor = self.disabledColor;
+    cell.selectedColor = self.selectedColor;
+    cell.highlightedColor = self.highlightedColor;
+    
     cell.firstVisiableDateOfMonth = [self dateForCollectionView:collectionView IndexPath:[NSIndexPath indexPathForItem:self.daysInWeek inSection:0]];
     
     cell.enabled = [self collectionView:collectionView shouldEnableItemAtIndexPath:indexPath];
