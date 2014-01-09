@@ -27,7 +27,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 12, 20)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 14, 18)];
         self.titleLabel.font = [UIFont systemFontOfSize:12.0f];
         self.titleLabel.textColor = [UIColor colorWithRed:82/255.0f green:82/255.0f blue:82/255.0f alpha:1];
         self.titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -43,11 +43,7 @@
     self.events = events;
     self.iconEvents = iconEvents;
     self.calendar = calendar;
-    
-    NSDateComponents *components =
-    [calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
-                     fromDate:date];
-    self.titleLabel.text = [NSString stringWithFormat:@"%d", components.day];
+
     [self setNeedsDisplay];
 }
 
@@ -68,6 +64,8 @@
 
 #define ROW_HEIGHT 20
 
+#define DAY_TEXT_FONT_SIZE 12
+
 #define ICON_SIDE_MAX 14
 #define ICON_TEXT_FONT_SIZE 12
 
@@ -78,14 +76,17 @@
     
     CGColorRef separatorColor = self.separatorColor.CGColor;
     
+    //Draw borders
     CGFloat pixel = 1.f / [UIScreen mainScreen].scale;
-    
     CGSize size = self.bounds.size;
     DPContextDrawLine(context,
                       CGPointMake(size.width - pixel, pixel),
                       CGPointMake(size.width - pixel, size.height),
                       separatorColor,
                       pixel);
+    
+    
+    //Draw background colors
     if (!self.enabled) {
         [self drawCellWithColor:[UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:1] InRect:rect context:context];
     } else if (self.isSelected) {
@@ -94,23 +95,37 @@
         [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
     }
     
-    int eventsNotShowingCount = 0;
-    
+    //Set text style
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentLeft;
+    NSStringDrawingContext *stringContext = [[NSStringDrawingContext alloc] init];
+    stringContext.minimumScaleFactor = 1;
     
-    float iconX = CGRectGetMaxX(self.titleLabel.frame) + 4.0f;
+    //Draw Day
+    NSDateComponents *components =
+    [self.calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
+                fromDate:self.date];
+    NSString *dayString = [NSString stringWithFormat:@"%d", components.day];
+    float dayWidth = [dayString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, DAY_TEXT_FONT_SIZE)
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                            attributes:@{
+                                                         NSFontAttributeName: [UIFont systemFontOfSize:DAY_TEXT_FONT_SIZE]
+                                                         } context:stringContext].size.width;
+    [dayString drawInRect:CGRectMake(2, (ROW_HEIGHT - DAY_TEXT_FONT_SIZE) / 2, dayWidth, DAY_TEXT_FONT_SIZE) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:DAY_TEXT_FONT_SIZE], NSParagraphStyleAttributeName:textStyle}];
+    
+    
+    int eventsNotShowingCount = 0;
+
+    //Draw Icon events
+    float iconX = 2 + dayWidth + 4.0f;
     for (int i = 0; i < self.iconEvents.count; i++) {
         DPCalendarIconEvent *event = [self.iconEvents objectAtIndex:i];
-        
-        NSStringDrawingContext *context = [[NSStringDrawingContext alloc] init];
-        context.minimumScaleFactor = 1;
         CGFloat titleWidth = [event.title boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, ICON_TEXT_FONT_SIZE)
                                                  options:NSStringDrawingUsesLineFragmentOrigin
                                               attributes:@{
                                                            NSFontAttributeName: [UIFont systemFontOfSize:ICON_TEXT_FONT_SIZE]
-                                                           } context:context].size.width;
+                                                           } context:stringContext].size.width;
         
         BOOL isWidthLonger = event.icon.size.width > event.icon.size.height;
         float scale = ICON_SIDE_MAX / (isWidthLonger ? event.icon.size.width : event.icon.size.height);
@@ -118,31 +133,27 @@
         float iconHeight = isWidthLonger ? event.icon.size.height * scale : ICON_SIDE_MAX;
         
         if (event.title.length) {
-            if (iconX + titleWidth + iconWidth + 2 * iconHeight > rect.size.width) {
-                
-                
-                
+            if (iconX + titleWidth + iconWidth> rect.size.width) {
+                //Not enough space
             } else {
-                [self drawRoundedRect:CGRectMake(iconX, (ICON_SIDE_MAX - iconHeight) / 2, titleWidth + iconWidth + iconHeight, iconHeight) radius:iconHeight / 2 withColor:[UIColor redColor]];
+                [self drawRoundedRect:CGRectMake(iconX, 0, titleWidth + iconWidth + iconHeight, ROW_HEIGHT) radius:ROW_HEIGHT / 2 withColor:[UIColor colorWithRed:242/255.0f green:224/255.0f blue:1 alpha:1]];
                 
                 NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
                 textStyle.lineBreakMode = NSLineBreakByWordWrapping;
                 textStyle.alignment = NSTextAlignmentLeft;
                 
-                [event.title drawInRect:CGRectMake(iconX + iconHeight / 2, 0, titleWidth, ICON_TEXT_FONT_SIZE) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:ICON_TEXT_FONT_SIZE], NSParagraphStyleAttributeName:textStyle}];
+                [event.title drawInRect:CGRectMake(iconX + iconHeight / 2, (ROW_HEIGHT - ICON_TEXT_FONT_SIZE) / 2, titleWidth, ICON_TEXT_FONT_SIZE) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:ICON_TEXT_FONT_SIZE], NSParagraphStyleAttributeName:textStyle}];
                 
                 
-                [event.icon drawInRect:CGRectMake(iconHeight / 2 + iconX + titleWidth, (ICON_SIDE_MAX - iconHeight) / 2, iconWidth, iconHeight)];
+                [event.icon drawInRect:CGRectMake(iconHeight / 2 + iconX + titleWidth, (ROW_HEIGHT - iconHeight) / 2, iconWidth, iconHeight)];
                 iconX += iconWidth + titleWidth + iconWidth + 2 * iconHeight + 4.0f;
             }
         } else {
             if (iconX + iconWidth > rect.size.width) {
-                
-                
-                
+                //Not enough space
             } else {
                 
-                [event.icon drawInRect:CGRectMake(iconX, (ICON_SIDE_MAX - iconHeight) / 2, iconWidth, iconHeight)];
+                [event.icon drawInRect:CGRectMake(iconX, (ROW_HEIGHT - iconHeight) / 2, iconWidth, iconHeight)];
                 iconX += iconWidth + 4.0f;
             }
         }
@@ -151,6 +162,7 @@
         
     }
     
+    //Draw Events
     for (DPCalendarEvent *event in self.events) {
         
         NSDate *day = self.date;
@@ -162,8 +174,12 @@
             continue;
         }
         
+        
+        NSDate *tomorrow = [self.date dateByAddingYears:0 months:0 days:1];
+        BOOL isEventEndedToday = [event.endTime compare:tomorrow] == NSOrderedAscending;
+        
         //Draw Underline
-        [self drawCellWithColor:color InRect:CGRectMake(0, (event.rowIndex + 1) * ROW_HEIGHT, rect.size.width, 1) context:context];
+        [self drawCellWithColor:color InRect:CGRectMake(0, (event.rowIndex + 1) * ROW_HEIGHT, rect.size.width - (isEventEndedToday ? 4 : 0), 1) context:context];
         
         if (!([event.startTime compare:day] == NSOrderedAscending) || ([event.startTime compare:day] == NSOrderedAscending && [self.date isEqualToDate:self.firstVisiableDateOfMonth])) {
             //Draw Left line

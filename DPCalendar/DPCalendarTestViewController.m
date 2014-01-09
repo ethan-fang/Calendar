@@ -61,7 +61,7 @@
     UIImage *icon = [UIImage imageNamed:@"IconCamera"];
     UIImage *greyIcon = [UIImage imageNamed:@"IconDateGrey"];
     
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 1; i++) {
 //        if ((arc4random() % 2) > 0) {
             DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
             event.startTime = date;

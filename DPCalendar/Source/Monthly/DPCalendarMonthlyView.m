@@ -302,8 +302,8 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
             NSDate *firstDay = [((DPCalendarEvent *)[events objectAtIndex:0]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
             
             NSDate *iterateDay = firstDay.copy;
-            NSDate *lastDay = [((DPCalendarEvent *)[events objectAtIndex:events.count - 1]).startTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
-            while ([iterateDay compare:lastDay] != NSOrderedSame) {
+            NSDate *lastDay = [((DPCalendarEvent *)[events objectAtIndex:events.count - 1]).endTime dp_dateWithoutTimeWithCalendar:weakSelf.calendar];
+            while ([iterateDay compare:lastDay] != NSOrderedDescending) {
                 [eventsByDay setObject:[NSMutableArray new] forKey:iterateDay];
                 iterateDay = [iterateDay dateByAddingYears:0 months:0 days:1];
             }
