@@ -287,10 +287,13 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     return [self.pagingMonths objectAtIndex:1];
 }
 
--(void)setEvents:(NSArray *)events{
+-(void)setEvents:(NSArray *)passedEvents{
     __weak __typeof(&*self)weakSelf = self;
     [self.processQueue addOperationWithBlock:^{
         NSMutableDictionary *eventsByDay = [NSMutableDictionary new];
+        NSArray *events = [passedEvents sortedArrayUsingComparator:^NSComparisonResult(DPCalendarEvent *obj1, DPCalendarEvent *obj2) {
+            return [obj1.startTime compare: obj2.startTime];
+        }];
         if (events.count) {
             /*****************************************************************
              *
@@ -377,9 +380,12 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }];
 }
 
--(void)setIconEvents:(NSArray *)iconEvents {
+-(void)setIconEvents:(NSArray *)passedIconEvents {
     __weak __typeof(&*self)weakSelf = self;
     [self.processQueue addOperationWithBlock:^{
+        NSArray *iconEvents = [passedIconEvents sortedArrayUsingComparator:^NSComparisonResult(DPCalendarIconEvent *obj1, DPCalendarIconEvent *obj2) {
+            return [obj1.startTime compare: obj2.startTime];
+        }];
         NSMutableDictionary *eventsByDay = [NSMutableDictionary new];
         if (iconEvents.count) {
             /*****************************************************************
