@@ -73,15 +73,14 @@
         
             DPCalendarIconEvent *iconEvent = [DPCalendarIconEvent new];
             iconEvent.startTime = date;
-            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:1];
-            iconEvent.title = [NSString stringWithFormat:@"Event %d", i];
+            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:0];
             iconEvent.icon = icon;
             [iconEvents addObject:iconEvent];
             
             iconEvent = [DPCalendarIconEvent new];
             iconEvent.startTime = date;
-            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:1];
-            iconEvent.title = [NSString stringWithFormat:@"Event %d", i];
+            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:0];
+            iconEvent.title = [NSString stringWithFormat:@"%d", i];
             iconEvent.icon = greyIcon;
             [iconEvents addObject:iconEvent];
 //        }
@@ -112,7 +111,7 @@
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     
-    self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.height, self.view.bounds.size.width - 30) delegate:self];
+    self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, 650, 609) delegate:self];
     self.monthlyView.monthlyViewDelegate = self;
     [self.view addSubview:self.monthlyView];
 }

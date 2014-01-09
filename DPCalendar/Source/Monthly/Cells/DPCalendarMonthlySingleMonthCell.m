@@ -27,8 +27,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 24, 20)];
-        self.titleLabel.font = [UIFont systemFontOfSize:15.f];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 12, 20)];
+        self.titleLabel.font = [UIFont systemFontOfSize:12.0f];
         self.titleLabel.textColor = [UIColor colorWithRed:82/255.0f green:82/255.0f blue:82/255.0f alpha:1];
         self.titleLabel.textAlignment = NSTextAlignmentLeft;
         self.titleLabel.userInteractionEnabled = NO;
@@ -67,7 +67,9 @@
 }
 
 #define ROW_HEIGHT 20
-#define ICON_SIZE_MAX 18
+
+#define ICON_SIDE_MAX 14
+#define ICON_TEXT_FONT_SIZE 12
 
 -(void)drawRect:(CGRect)rect {
     [super drawRect:rect];
@@ -101,16 +103,52 @@
     float iconX = CGRectGetMaxX(self.titleLabel.frame) + 4.0f;
     for (int i = 0; i < self.iconEvents.count; i++) {
         DPCalendarIconEvent *event = [self.iconEvents objectAtIndex:i];
+        
+        NSStringDrawingContext *context = [[NSStringDrawingContext alloc] init];
+        context.minimumScaleFactor = 1;
+        CGFloat titleWidth = [event.title boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, ICON_TEXT_FONT_SIZE)
+                                                 options:NSStringDrawingUsesLineFragmentOrigin
+                                              attributes:@{
+                                                           NSFontAttributeName: [UIFont systemFontOfSize:ICON_TEXT_FONT_SIZE]
+                                                           } context:context].size.width;
+        
         BOOL isWidthLonger = event.icon.size.width > event.icon.size.height;
-        float scale = ICON_SIZE_MAX / (isWidthLonger ? event.icon.size.width : event.icon.size.height);
-        float width = isWidthLonger ? ICON_SIZE_MAX : event.icon.size.width * scale;
-        float height = isWidthLonger ? event.icon.size.height * scale : ICON_SIZE_MAX;
-        if (iconX + width > rect.size.width) {
-            
+        float scale = ICON_SIDE_MAX / (isWidthLonger ? event.icon.size.width : event.icon.size.height);
+        float iconWidth = isWidthLonger ? ICON_SIDE_MAX : event.icon.size.width * scale;
+        float iconHeight = isWidthLonger ? event.icon.size.height * scale : ICON_SIDE_MAX;
+        
+        if (event.title.length) {
+            if (iconX + titleWidth + iconWidth + 2 * iconHeight > rect.size.width) {
+                
+                
+                
+            } else {
+                [self drawRoundedRect:CGRectMake(iconX, (ICON_SIDE_MAX - iconHeight) / 2, titleWidth + iconWidth + iconHeight, iconHeight) radius:iconHeight / 2 withColor:[UIColor redColor]];
+                
+                NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+                textStyle.lineBreakMode = NSLineBreakByWordWrapping;
+                textStyle.alignment = NSTextAlignmentLeft;
+                
+                [event.title drawInRect:CGRectMake(iconX + iconHeight / 2, 0, titleWidth, ICON_TEXT_FONT_SIZE) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:ICON_TEXT_FONT_SIZE], NSParagraphStyleAttributeName:textStyle}];
+                
+                
+                [event.icon drawInRect:CGRectMake(iconHeight / 2 + iconX + titleWidth, (ICON_SIDE_MAX - iconHeight) / 2, iconWidth, iconHeight)];
+                iconX += iconWidth + titleWidth + iconWidth + 2 * iconHeight + 4.0f;
+            }
         } else {
-            [event.icon drawInRect:CGRectMake(iconX, (ICON_SIZE_MAX - height) / 2, width, height)];
-            iconX += width + 4.0f;
+            if (iconX + iconWidth > rect.size.width) {
+                
+                
+                
+            } else {
+                
+                [event.icon drawInRect:CGRectMake(iconX, (ICON_SIDE_MAX - iconHeight) / 2, iconWidth, iconHeight)];
+                iconX += iconWidth + 4.0f;
+            }
         }
+
+        
+        
     }
     
     for (DPCalendarEvent *event in self.events) {
