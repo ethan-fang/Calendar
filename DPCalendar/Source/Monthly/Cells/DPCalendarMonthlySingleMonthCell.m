@@ -179,7 +179,7 @@
         BOOL isEventEndedToday = [event.endTime compare:tomorrow] == NSOrderedAscending;
         
         //Draw Underline
-        [self drawCellWithColor:color InRect:CGRectMake(0, (event.rowIndex + 1) * ROW_HEIGHT, rect.size.width - (isEventEndedToday ? 4 : 0), 1) context:context];
+        [self drawCellWithColor:color InRect:CGRectMake(0, (event.rowIndex + 1) * ROW_HEIGHT, rect.size.width - (isEventEndedToday ? 4 : 0), 0.5f) context:context];
         
         if (!([event.startTime compare:day] == NSOrderedAscending) || ([event.startTime compare:day] == NSOrderedAscending && [self.date isEqualToDate:self.firstVisiableDateOfMonth])) {
             //Draw Left line

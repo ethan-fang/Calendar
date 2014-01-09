@@ -372,7 +372,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         weakSelf.eventsForEachDay = eventsByDay;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [((UICollectionView *)[weakSelf.pagingViews objectAtIndex:1]) reloadData];
+            [weakSelf reloadPagingViews];
         }];
     }];
 }
@@ -436,7 +436,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         weakSelf.iconEventsForEachDay = eventsByDay;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [((UICollectionView *)[weakSelf.pagingViews objectAtIndex:1]) reloadData];
+            [weakSelf reloadPagingViews];
         }];
     }];
 }

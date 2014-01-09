@@ -9,13 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "DPCalendarMonthlySingleMonthCell.h"
 
-extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont;
+
+extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
+extern NSString *const DPCalendarMonthlyViewAttributeDayFont;
+extern NSString *const DPCalendarMonthlyViewAttributeEventFont;
+extern NSString *const DPCalendarMonthlyViewAttributeCellRowHeight;
+extern NSString *const DPCalendarMonthlyViewAttributeEventColors;
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventFont;
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventBkgColors;
+
 extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor;
+
 extern NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek;
 extern NSString *const DPCalendarMonthlyViewAttributeMonthRows;
-extern NSString *const DPCalendarMonthlyViewAttributeEventColors;
 
 
 @protocol DPCalendarMonthlyViewDelegate <NSObject>
