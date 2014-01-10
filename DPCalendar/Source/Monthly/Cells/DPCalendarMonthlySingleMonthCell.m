@@ -48,9 +48,17 @@
 }
 
 -(void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    
     CGContextRef context = UIGraphicsGetCurrentContext();
+    //Draw background colors
+    if (self.isSelected) {
+        [self drawCellWithColor:self.selectedColor InRect:rect context:context];
+    } else if (!self.isInSameMonth) {
+        [self drawCellWithColor:self.noInSameMonthColor InRect:rect context:context];
+    } else {
+        [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
+    }
+    
+    [super drawRect:rect];
     
     CGColorRef separatorColor = self.separatorColor.CGColor;
     
@@ -64,14 +72,7 @@
                       pixel);
     
     
-    //Draw background colors
-    if (self.isSelected) {
-        [self drawCellWithColor:self.selectedColor InRect:rect context:context];
-    } else if (!self.isInSameMonth) {
-        [self drawCellWithColor:self.noInSameMonthColor InRect:rect context:context];
-    } else {
-        [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
-    }
+    
     
     //Set text style
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];

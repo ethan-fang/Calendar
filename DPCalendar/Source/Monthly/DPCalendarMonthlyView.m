@@ -275,7 +275,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
                      fromDate:date];
     
     return
-    [date dp_dateWithDay:components.day + (self.daysInWeek - self.startDayOfWeek - 1) - ((components.weekday - 1) % self.daysInWeek)
+    [date dp_dateWithDay:components.day + (self.daysInWeek + self.startDayOfWeek - 1) - ((components.weekday - 1) % self.daysInWeek)
                 calendar:self.calendar];
 }
 
