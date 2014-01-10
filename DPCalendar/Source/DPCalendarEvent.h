@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;
 
-@property (nonatomic) uint type;
+@property (nonatomic) int colorIndex;
 
 @property (nonatomic) uint rowIndex;
 @end

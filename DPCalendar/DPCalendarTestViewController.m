@@ -72,14 +72,14 @@
         event.startTime = date;
         event.endTime = [date dateByAddingYears:0 months:0 days:3];
         event.title = [NSString stringWithFormat:@"Event %d", i];
-        event.type = i % 3;
+        event.colorIndex = i % 3;
         [events addObject:event];
         
         event = [[DPCalendarEvent alloc] init];
         event.startTime = date;
         event.endTime = [date dateByAddingYears:0 months:0 days:0];
         event.title = [NSString stringWithFormat:@"Event %d", i];
-        event.type = i % 3;
+        event.colorIndex = i % 3;
         [events addObject:event];
         
         
@@ -94,6 +94,7 @@
         iconEvent.endTime = [date dateByAddingYears:0 months:0 days:0];
         iconEvent.title = [NSString stringWithFormat:@"%d", i];
         iconEvent.icon = greyIcon;
+        iconEvent.bkgColorIndex = 1;
         [iconEvents addObject:iconEvent];
         //        }
         
@@ -172,11 +173,24 @@
 
 -(NSDictionary *)monthlyViewAttributes {
     return @{
-             DPCalendarMonthlyViewAttributeCellHeight: @150, DPCalendarMonthlyViewAttributeMonthRows:@5,
-             DPCalendarMonthlyViewAttributeWeekdayHeight: @20, DPCalendarMonthlyViewAttributeWeekdayFont: @14,
+            
+             DPCalendarMonthlyViewAttributeWeekdayHeight: @10, DPCalendarMonthlyViewAttributeWeekdayFont: @8,
              
-             DPCalendarMonthlyViewAttributeCellSelectedColor: [UIColor colorWithRed:242/255.0f green:242/255.0f blue:1 alpha:0.5],
-             DPCalendarMonthlyViewAttributeCellDisabledColor: [UIColor colorWithRed:239/255.0f green:239/255.0f blue:244/255.0f alpha:0.5]
+             DPCalendarMonthlyViewAttributeCellHeight: @150,
+             DPCalendarMonthlyViewAttributeCellSelectedColor: [UIColor colorWithRed:255/255.0f green:194/255.0f blue:3/255.0f alpha:0.5],
+             DPCalendarMonthlyViewAttributeCellRowHeight: @10,
+             DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:8],
+             DPCalendarMonthlyViewAttributeEventFont: [UIFont systemFontOfSize:8],
+             DPCalendarMonthlyViewAttributeIconEventFont : [UIFont systemFontOfSize:8],
+             DPCalendarMonthlyViewAttributeIconEventBkgColors: @[[UIColor clearColor], [UIColor yellowColor]],
+             DPCalendarMonthlyViewAttributeEventColors : @[[UIColor clearColor], [UIColor yellowColor], [UIColor redColor], [UIColor blueColor], [UIColor blackColor]],
+             DPCalendarMonthlyViewAttributeCellNotInSameMonthColor: [UIColor lightGrayColor],
+             DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable: @YES,
+             
+             DPCalendarMonthlyViewAttributeSeparatorColor : [UIColor blackColor],
+             
+             DPCalendarMonthlyViewAttributeStartDayOfWeek: @2,
+             DPCalendarMonthlyViewAttributeMonthRows:@5,
              };
 }
 

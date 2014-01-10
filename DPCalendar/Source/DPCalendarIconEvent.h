@@ -12,8 +12,7 @@
 
 @property (nonatomic) UIImage *icon;
 @property (nonatomic, strong) NSString *title;
-
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;
-
+@property (nonatomic) int bkgColorIndex;
 @end

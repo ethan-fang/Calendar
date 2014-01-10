@@ -14,7 +14,7 @@
 -(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events iconEvents:(NSArray *)iconEvents;
 
 @property (nonatomic) NSDate *firstVisiableDateOfMonth;
-@property (nonatomic) BOOL enabled;
+@property (nonatomic) BOOL isInSameMonth;
 
 @property (nonatomic, strong) UIFont *dayFont;
 @property (nonatomic, strong) UIFont *eventFont;
@@ -23,7 +23,7 @@
 @property (nonatomic, strong) UIFont *iconEventFont;
 @property (nonatomic, strong) NSArray *iconEventBkgColors;
 
-@property (nonatomic, strong) UIColor *disabledColor;
+@property (nonatomic, strong) UIColor *noInSameMonthColor;
 @property (nonatomic, strong) UIColor *selectedColor;
 @property (nonatomic, strong) UIColor *highlightedColor;
 @end

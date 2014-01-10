@@ -42,8 +42,8 @@
     [self setNeedsDisplay];
 }
 
--(void)setEnabled:(BOOL)enabled {
-    _enabled = enabled;
+-(void)setIsInSameMonth:(BOOL)isInSameMonth {
+    _isInSameMonth = isInSameMonth;
     [self setNeedsDisplay];
 }
 
@@ -65,10 +65,10 @@
     
     
     //Draw background colors
-    if (!self.enabled) {
-        [self drawCellWithColor:self.disabledColor InRect:rect context:context];
-    } else if (self.isSelected) {
+    if (self.isSelected) {
         [self drawCellWithColor:self.selectedColor InRect:rect context:context];
+    } else if (!self.isInSameMonth) {
+        [self drawCellWithColor:self.noInSameMonthColor InRect:rect context:context];
     } else {
         [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
     }
@@ -114,7 +114,7 @@
             if (iconX + titleWidth + iconWidth> rect.size.width) {
                 //Not enough space
             } else {
-                [self drawRoundedRect:CGRectMake(iconX, 0, titleWidth + iconWidth + iconHeight, self.rowHeight) radius:self.rowHeight / 2 withColor:[UIColor colorWithRed:242/255.0f green:224/255.0f blue:1 alpha:1]];
+                [self drawRoundedRect:CGRectMake(iconX, 0, titleWidth + iconWidth + iconHeight, self.rowHeight) radius:self.rowHeight / 2 withColor:[self.iconEventBkgColors objectAtIndex:event.bkgColorIndex]];
                 
                 NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
                 textStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -142,7 +142,7 @@
         
         NSDate *day = self.date;
         
-        UIColor *color = [self.eventColors objectAtIndex:event.type % self.eventColors.count];
+        UIColor *color = [self.eventColors objectAtIndex:event.colorIndex % self.eventColors.count];
         
         if (event.rowIndex == 0 || ((event.rowIndex + 1) * self.rowHeight > rect.size.height)) {
             eventsNotShowingCount++;
@@ -162,14 +162,14 @@
             
             
             [[UIColor blackColor] set];
-            [event.title drawInRect:CGRectMake(5, event.rowIndex * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
+            [event.title drawInRect:CGRectMake(5, event.rowIndex * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle}];
         }
         
         
     }
     if (eventsNotShowingCount > 0) {
         //show more
-        [[NSString stringWithFormat:@"%d more...", eventsNotShowingCount] drawInRect:CGRectMake(5, (self.events.count - eventsNotShowingCount + 1) * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12], NSParagraphStyleAttributeName:textStyle}];
+        [[NSString stringWithFormat:@"%d more...", eventsNotShowingCount] drawInRect:CGRectMake(5, (self.events.count - eventsNotShowingCount + 1) * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle}];
     }
     
     
