@@ -51,15 +51,11 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     //Draw background colors
     if (self.isSelected) {
-        [self drawCellWithColor:self.selectedColor InRect:rect context:context];
+        [self drawCellWithColor:self.selectedColor InRect:CGRectMake(0, 1, rect.size.width, rect.size.height - 1) context:context];
     } else if (!self.isInSameMonth) {
-        [self drawCellWithColor:self.noInSameMonthColor InRect:rect context:context];
+        [self drawCellWithColor:self.noInSameMonthColor InRect:CGRectMake(0, 1, rect.size.width, rect.size.height - 1) context:context];
     } else {
-        [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
-    }
-    
-    if ([self.date compare:[[NSDate date] dp_dateWithoutTimeWithCalendar:self.calendar]] == NSOrderedSame) {
-        [self drawCellWithColor:self.todayBannerBkgColor InRect:CGRectMake(0, 0, rect.size.width, self.rowHeight) context:context];
+        [self drawCellWithColor:[UIColor clearColor] InRect:CGRectMake(0, 1, rect.size.width, rect.size.height - 1) context:context];
     }
     
     [super drawRect:rect];
@@ -85,6 +81,11 @@
     NSStringDrawingContext *stringContext = [[NSStringDrawingContext alloc] init];
     stringContext.minimumScaleFactor = 1;
     
+    BOOL isDayToday = [self.date compare:[[NSDate date] dp_dateWithoutTimeWithCalendar:self.calendar]] == NSOrderedSame;
+    if (isDayToday) {
+        [self drawCellWithColor:self.todayBannerBkgColor InRect:CGRectMake(0, 0, rect.size.width, self.rowHeight) context:context];
+    }
+    
     //Draw Day
     NSDateComponents *components =
     [self.calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
@@ -95,7 +96,8 @@
                                             attributes:@{
                                                          NSFontAttributeName: [UIFont systemFontOfSize:self.dayFont.pointSize]
                                                          } context:stringContext].size.width;
-    [dayString drawInRect:CGRectMake(2, (self.rowHeight - self.dayFont.pointSize) / 2, dayWidth, self.dayFont.pointSize) withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle}];
+
+    [dayString drawInRect:CGRectMake(2, (self.rowHeight - self.dayFont.pointSize) / 2, dayWidth, self.dayFont.pointSize) withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:isDayToday ? [UIColor whiteColor] : self.dayTextColor}];
     
     
     int eventsNotShowingCount = 0;
@@ -125,7 +127,7 @@
                 textStyle.lineBreakMode = NSLineBreakByWordWrapping;
                 textStyle.alignment = NSTextAlignmentLeft;
                 
-                [event.title drawInRect:CGRectMake(iconX + iconHeight / 2, (self.rowHeight - self.iconEventFont.pointSize) / 2, titleWidth, self.iconEventFont.pointSize) withAttributes:@{NSFontAttributeName:self.iconEventFont, NSParagraphStyleAttributeName:textStyle}];
+                [event.title drawInRect:CGRectMake(iconX + iconHeight / 2, (self.rowHeight - self.iconEventFont.pointSize) / 2, titleWidth, self.iconEventFont.pointSize) withAttributes:@{NSFontAttributeName:self.iconEventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor whiteColor]}];
                 
                 
                 [event.icon drawInRect:CGRectMake(iconHeight / 2 + iconX + titleWidth, (self.rowHeight - iconHeight) / 2, iconWidth, iconHeight)];
@@ -167,14 +169,14 @@
             
             
             [[UIColor blackColor] set];
-            [event.title drawInRect:CGRectMake(5, event.rowIndex * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle}];
+            [event.title drawInRect:CGRectMake(5, event.rowIndex * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor colorWithRed:67/255.0f green:67/255.0f blue:67/255.0f alpha:1]}];
         }
         
         
     }
     if (eventsNotShowingCount > 0) {
         //show more
-        [[NSString stringWithFormat:@"%d more...", eventsNotShowingCount] drawInRect:CGRectMake(5, (self.events.count - eventsNotShowingCount + 1) * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle}];
+        [[NSString stringWithFormat:@"%d more...", eventsNotShowingCount] drawInRect:CGRectMake(5, (self.events.count - eventsNotShowingCount + 1) * self.rowHeight + 2, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor colorWithRed:67/255.0f green:67/255.0f blue:67/255.0f alpha:1]}];
     }
     
     

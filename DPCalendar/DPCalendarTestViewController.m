@@ -174,25 +174,25 @@
 -(NSDictionary *)monthlyViewAttributes {
     return @{
             
-             DPCalendarMonthlyViewAttributeWeekdayHeight: @10, DPCalendarMonthlyViewAttributeWeekdayFont: @8,
-             
-             DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor:[UIColor lightGrayColor],
-             
-             DPCalendarMonthlyViewAttributeCellHeight: @150,
-             DPCalendarMonthlyViewAttributeCellSelectedColor: [UIColor colorWithRed:255/255.0f green:194/255.0f blue:3/255.0f alpha:0.5],
-             DPCalendarMonthlyViewAttributeCellRowHeight: @10,
-             DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:8],
-             DPCalendarMonthlyViewAttributeEventFont: [UIFont systemFontOfSize:8],
-             DPCalendarMonthlyViewAttributeIconEventFont : [UIFont systemFontOfSize:8],
-             DPCalendarMonthlyViewAttributeIconEventBkgColors: @[[UIColor clearColor], [UIColor yellowColor]],
-             DPCalendarMonthlyViewAttributeEventColors : @[[UIColor clearColor], [UIColor yellowColor], [UIColor redColor], [UIColor blueColor], [UIColor blackColor]],
-             DPCalendarMonthlyViewAttributeCellNotInSameMonthColor: [UIColor lightGrayColor],
+//             DPCalendarMonthlyViewAttributeWeekdayHeight: @10, DPCalendarMonthlyViewAttributeWeekdayFont: @8,
+//             
+//             DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor:[UIColor lightGrayColor],
+//             
+//             DPCalendarMonthlyViewAttributeCellHeight: @150,
+//             DPCalendarMonthlyViewAttributeCellSelectedColor: [UIColor colorWithRed:255/255.0f green:194/255.0f blue:3/255.0f alpha:0.5],
+//             DPCalendarMonthlyViewAttributeCellRowHeight: @10,
+//             DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:8],
+//             DPCalendarMonthlyViewAttributeEventFont: [UIFont systemFontOfSize:8],
+//             DPCalendarMonthlyViewAttributeIconEventFont : [UIFont systemFontOfSize:8],
+//             DPCalendarMonthlyViewAttributeIconEventBkgColors: @[[UIColor clearColor], [UIColor yellowColor]],
+//             DPCalendarMonthlyViewAttributeEventColors : @[[UIColor clearColor], [UIColor yellowColor], [UIColor redColor], [UIColor blueColor], [UIColor blackColor]],
+//             DPCalendarMonthlyViewAttributeCellNotInSameMonthColor: [UIColor yellowColor],
              DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable: @YES,
-             
-             DPCalendarMonthlyViewAttributeSeparatorColor : [UIColor blackColor],
-             
-             DPCalendarMonthlyViewAttributeStartDayOfWeek: @2,
-             DPCalendarMonthlyViewAttributeMonthRows:@5,
+//
+//             DPCalendarMonthlyViewAttributeSeparatorColor : [UIColor blackColor],
+//             
+//             DPCalendarMonthlyViewAttributeStartDayOfWeek: @2,
+             DPCalendarMonthlyViewAttributeMonthRows:@5
              };
 }
 

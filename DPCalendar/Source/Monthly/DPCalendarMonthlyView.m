@@ -22,6 +22,7 @@ NSString *const DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor = @"DPCale
 
 NSString *const DPCalendarMonthlyViewAttributeCellHeight = @"DPCalendarMonthlyViewAttributeCellHeight";
 NSString *const DPCalendarMonthlyViewAttributeDayFont = @"DPCalendarMonthlyViewAttributeDayFont";
+NSString *const DPCalendarMonthlyViewAttributeDayTextColor = @"DPCalendarMonthlyViewAttributeDayTextColor";
 NSString *const DPCalendarMonthlyViewAttributeEventFont = @"DPCalendarMonthlyViewAttributeEventFont";
 NSString *const DPCalendarMonthlyViewAttributeCellRowHeight = @"DPCalendarMonthlyViewAttributeCellRowHeight";
 NSString *const DPCalendarMonthlyViewAttributeEventColors = @"DPCalendarMonthlyViewAttributeEventColors";
@@ -38,8 +39,8 @@ NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek = @"DPCalendarMonth
 NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyViewAttributeMonthRows";
 
 #define DPCalendarMonthlyViewAttributeCellHeightDefault 70
-#define DPCalendarMonthlyViewAttributeWeekdayHeightDefault 30
-#define DPCalendarMonthlyViewAttributeWeekdayFontDefault 12
+#define DPCalendarMonthlyViewAttributeWeekdayHeightDefault 20
+#define DPCalendarMonthlyViewAttributeWeekdayFontDefault 11
 //Sunday
 #define DPCalendarMonthlyViewAttributeStartDayOfWeekDefault 0
 
@@ -52,6 +53,7 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 @property (nonatomic) int startDayOfWeek;
 
 @property (nonatomic, strong) UIFont *dayFont;
+@property (nonatomic, strong) UIColor *dayTextColor;
 @property (nonatomic, strong) UIFont *eventFont;
 @property (nonatomic) CGFloat rowHeight;
 @property (nonatomic, strong) NSArray *eventColors;
@@ -126,25 +128,26 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
             self.cellHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellHeight] floatValue] : DPCalendarMonthlyViewAttributeCellHeightDefault;
         }
         
-        self.separatorColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeSeparatorColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeSeparatorColor] : [UIColor colorWithRed:231/255.0f green:231/255.0f blue:231/255.0f alpha:1];
+        self.separatorColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeSeparatorColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeSeparatorColor] : [UIColor colorWithRed:194/255.0f green:194/255.0f blue:202/255.0f alpha:1];
         self.startDayOfWeek = [attributes objectForKey:DPCalendarMonthlyViewAttributeStartDayOfWeek] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeStartDayOfWeek] intValue] : DPCalendarMonthlyViewAttributeStartDayOfWeekDefault;
         
         self.eventColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] :
         [self defaultEventColors];
         
-        self.todayBannerBkgColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor] : [UIColor blueColor];
+        self.todayBannerBkgColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor] : [UIColor colorWithRed:3/255.f green:138/255.f blue:1 alpha:1];
         
         
         self.dayFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] : [UIFont systemFontOfSize:12];
+        self.dayTextColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] : [UIColor colorWithRed:156/255.0f green:156/255.0f blue:156/255.0f alpha:1];
         self.eventFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeEventFont] : [UIFont systemFontOfSize:12];
         self.rowHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] floatValue] : 20.0f;
         self.iconEventFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] : [UIFont systemFontOfSize:12];
         self.iconEventBkgColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] :
         [self defaultEventColors];
         self.notInSameMonthColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthColor] :
-        [UIColor redColor];
+        [UIColor colorWithRed:239/255.f green:239/255.f blue:244/255.f alpha:1];
         self.selectedColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellSelectedColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellSelectedColor] :
-        [UIColor blueColor];
+        [UIColor colorWithRed:231/255.f green:241/255.f blue:248/255.f alpha:1];
         self.highlightedColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] :
         self.selectedColor;
         
@@ -565,6 +568,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     cell.todayBannerBkgColor = self.todayBannerBkgColor;
     
     cell.dayFont = self.dayFont;
+    cell.dayTextColor = self.dayTextColor;
     cell.eventFont= self.eventFont;
     cell.rowHeight = self.rowHeight;
     cell.eventColors = self.eventColors;

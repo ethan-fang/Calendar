@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UIColor *todayBannerBkgColor;
 
 @property (nonatomic, strong) UIFont *dayFont;
+@property (nonatomic, strong) UIColor *dayTextColor;
 @property (nonatomic, strong) UIFont *eventFont;
 @property (nonatomic) CGFloat rowHeight;
 @property (nonatomic, strong) NSArray *eventColors;
