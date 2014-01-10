@@ -300,11 +300,18 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 }
 
 -(void)scrollToMonth:(NSDate *)month {
+    NSDate *firstDayOfDestinationMonth = [month dp_firstDateOfMonth:self.calendar];
+    NSDate *firstDayOfOriginalMonth = [self.seletedMonth dp_firstDateOfMonth:self.calendar];
+    
     int scrollToPosition = 1;
-    if ([month compare:[self.pagingMonths objectAtIndex:1]] == NSOrderedDescending) {
+    if ([firstDayOfDestinationMonth compare:firstDayOfOriginalMonth] == NSOrderedDescending) {
         scrollToPosition = 2;
-    } else if ([month compare:[self.pagingMonths objectAtIndex:1]] == NSOrderedAscending) {
+    } else if ([firstDayOfOriginalMonth compare:firstDayOfOriginalMonth] == NSOrderedAscending) {
         scrollToPosition = 0;
+    }
+    if (scrollToPosition == 1) {
+        [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1] firstDate:[self firstVisibleDateOfMonth:month] lastDate:[self lastVisibleDateOfMonth:month]];
+        return;
     }
     [self.pagingMonths setObject:month atIndexedSubscript:scrollToPosition];
     [self.pagingMonths setObject:month atIndexedSubscript:1];
