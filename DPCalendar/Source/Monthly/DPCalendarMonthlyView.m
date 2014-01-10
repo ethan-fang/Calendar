@@ -624,8 +624,9 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedDate = [self dateForCollectionView:collectionView IndexPath:indexPath];
     if ([self.monthlyViewDelegate respondsToSelector:@selector(didSelectItemWithDate:)]) {
-        return [self.monthlyViewDelegate didSelectItemWithDate:[self dateForCollectionView:collectionView IndexPath:indexPath]];
+        return [self.monthlyViewDelegate didSelectItemWithDate:self.selectedDate];
     }
 }
 
