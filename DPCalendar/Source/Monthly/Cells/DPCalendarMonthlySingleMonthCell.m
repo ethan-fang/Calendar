@@ -51,11 +51,11 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     //Draw background colors
     if (self.isSelected) {
-        [self drawCellWithColor:self.selectedColor InRect:CGRectMake(0, 1, rect.size.width, rect.size.height - 1) context:context];
+        [self drawCellWithColor:self.selectedColor InRect:rect context:context];
     } else if (!self.isInSameMonth) {
-        [self drawCellWithColor:self.noInSameMonthColor InRect:CGRectMake(0, 1, rect.size.width, rect.size.height - 1) context:context];
+        [self drawCellWithColor:self.noInSameMonthColor InRect:rect context:context];
     } else {
-        [self drawCellWithColor:[UIColor clearColor] InRect:CGRectMake(0, 1, rect.size.width, rect.size.height - 1) context:context];
+        [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
     }
     
     [super drawRect:rect];
