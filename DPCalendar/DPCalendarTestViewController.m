@@ -176,6 +176,8 @@
             
              DPCalendarMonthlyViewAttributeWeekdayHeight: @10, DPCalendarMonthlyViewAttributeWeekdayFont: @8,
              
+             DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor:[UIColor lightGrayColor],
+             
              DPCalendarMonthlyViewAttributeCellHeight: @150,
              DPCalendarMonthlyViewAttributeCellSelectedColor: [UIColor colorWithRed:255/255.0f green:194/255.0f blue:3/255.0f alpha:0.5],
              DPCalendarMonthlyViewAttributeCellRowHeight: @10,

@@ -58,6 +58,10 @@
         [self drawCellWithColor:[UIColor clearColor] InRect:rect context:context];
     }
     
+    if ([self.date compare:[[NSDate date] dp_dateWithoutTimeWithCalendar:self.calendar]] == NSOrderedSame) {
+        [self drawCellWithColor:self.todayBannerBkgColor InRect:CGRectMake(0, 0, rect.size.width, self.rowHeight) context:context];
+    }
+    
     [super drawRect:rect];
     
     CGColorRef separatorColor = self.separatorColor.CGColor;

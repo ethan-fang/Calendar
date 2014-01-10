@@ -18,6 +18,8 @@
 NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight = @"DPCalendarMonthlyViewAttributeWeekdayHeight";
 NSString *const DPCalendarMonthlyViewAttributeWeekdayFont = @"DPCalendarMonthlyViewAttributeWeekdayFont";
 
+NSString *const DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor = @"DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor";
+
 NSString *const DPCalendarMonthlyViewAttributeCellHeight = @"DPCalendarMonthlyViewAttributeCellHeight";
 NSString *const DPCalendarMonthlyViewAttributeDayFont = @"DPCalendarMonthlyViewAttributeDayFont";
 NSString *const DPCalendarMonthlyViewAttributeEventFont = @"DPCalendarMonthlyViewAttributeEventFont";
@@ -56,6 +58,7 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 @property (nonatomic, strong) UIFont *iconEventFont;
 @property (nonatomic, strong) NSArray *iconEventBkgColors;
 
+@property (nonatomic, strong) UIColor *todayBannerBkgColor;
 @property (nonatomic, strong) UIColor *notInSameMonthColor;
 @property (nonatomic, strong) UIColor *selectedColor;
 @property (nonatomic, strong) UIColor *highlightedColor;
@@ -128,6 +131,8 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         
         self.eventColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeEventColors] :
         [self defaultEventColors];
+        
+        self.todayBannerBkgColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor] : [UIColor blueColor];
         
         
         self.dayFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] : [UIFont systemFontOfSize:12];
@@ -557,6 +562,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
                                               forIndexPath:indexPath];
     
     cell.eventColors = self.eventColors;
+    cell.todayBannerBkgColor = self.todayBannerBkgColor;
     
     cell.dayFont = self.dayFont;
     cell.eventFont= self.eventFont;

@@ -16,6 +16,8 @@
 @property (nonatomic) NSDate *firstVisiableDateOfMonth;
 @property (nonatomic) BOOL isInSameMonth;
 
+@property (nonatomic, strong) UIColor *todayBannerBkgColor;
+
 @property (nonatomic, strong) UIFont *dayFont;
 @property (nonatomic, strong) UIFont *eventFont;
 @property (nonatomic) CGFloat rowHeight;

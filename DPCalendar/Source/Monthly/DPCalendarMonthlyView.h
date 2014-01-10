@@ -12,6 +12,8 @@
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont;
 
+extern NSString *const DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor;
+
 extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
 extern NSString *const DPCalendarMonthlyViewAttributeDayFont;
 extern NSString *const DPCalendarMonthlyViewAttributeEventFont;
