@@ -95,28 +95,16 @@
     for (int i = 0; i < 40; i++) {
         if (arc4random() % 2 > 0) {
             int index = arc4random() % 3;
-            DPCalendarEvent *event = [[DPCalendarEvent alloc] init];
-            event.startTime = date;
-            event.endTime = [date dateByAddingYears:0 months:0 days:arc4random() % 3];
-            event.title = [titles objectAtIndex:index];
-            event.colorIndex = index;
+            DPCalendarEvent *event = [[DPCalendarEvent alloc] initWithTitle:[titles objectAtIndex:index] startTime:date endTime:[date dateByAddingYears:0 months:0 days:arc4random() % 3] colorIndex:index];
             [events addObject:event];
         }
         
         if (arc4random() % 2 > 0) {
-            DPCalendarIconEvent *iconEvent = [DPCalendarIconEvent new];
-            iconEvent.startTime = date;
-            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:0];
-            iconEvent.icon = icon;
+            DPCalendarIconEvent *iconEvent = [[DPCalendarIconEvent alloc] initWithStartTime:date endTime:[date dateByAddingYears:0 months:0 days:0] icon:icon];
             [iconEvents addObject:iconEvent];
             
             
-            iconEvent = [DPCalendarIconEvent new];
-            iconEvent.startTime = date;
-            iconEvent.endTime = [date dateByAddingYears:0 months:0 days:0];
-            iconEvent.title = [NSString stringWithFormat:@"%d", i];
-            iconEvent.icon = greyIcon;
-            iconEvent.bkgColorIndex = 1;
+            iconEvent = [[DPCalendarIconEvent alloc] initWithTitle:[NSString stringWithFormat:@"%d", i] startTime:date endTime:[date dateByAddingYears:0 months:0 days:0] icon:greyIcon bkgColorIndex:1];
             [iconEvents addObject:iconEvent];
         }
         
@@ -124,7 +112,8 @@
     }
     
     self.monthlyView.events = events;
-    self.monthlyView.iconEvents = iconEvents;}
+    self.monthlyView.iconEvents = iconEvents;
+}
 
 -(void) previousButtonSelected:(id)button {
     [self.monthlyView scrollToPreviousMonth];

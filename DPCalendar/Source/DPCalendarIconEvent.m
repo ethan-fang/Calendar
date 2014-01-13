@@ -10,4 +10,26 @@
 
 @implementation DPCalendarIconEvent
 
+-(id)initWithStartTime:(NSDate *)startTime endTime:(NSDate *)endTime icon:(UIImage *)icon {
+    self = [super init];
+    if (self) {
+        _startTime = startTime;
+        _endTime = endTime;
+        _icon = icon;
+    }
+    return self;
+}
+
+-(id)initWithTitle:(NSString *)title startTime:(NSDate *)startTime endTime:(NSDate *)endTime icon:(UIImage *)icon bkgColorIndex:(uint)bkgColorIndex{
+    self = [super init];
+    if (self) {
+        _title = title;
+        _startTime = startTime;
+        _endTime = endTime;
+        _icon = icon;
+        _bkgColorIndex = bkgColorIndex;
+    }
+    return self;
+}
+
 @end

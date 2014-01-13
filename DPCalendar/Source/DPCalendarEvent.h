@@ -10,11 +10,13 @@
 
 @interface DPCalendarEvent : NSObject
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSDate *startTime;
-@property (nonatomic, strong) NSDate *endTime;
+@property (nonatomic, readonly) NSString *title;
+@property (nonatomic, readonly) NSDate *startTime;
+@property (nonatomic, readonly) NSDate *endTime;
 
-@property (nonatomic) int colorIndex;
+@property (nonatomic, readonly) uint colorIndex;
 
-@property (nonatomic) uint rowIndex;
+@property (nonatomic, assign) uint rowIndex;
+
+-(id)initWithTitle:(NSString *)title startTime:(NSDate *)startTime endTime:(NSDate *)endTime colorIndex:(uint)colorIndex;
 @end
