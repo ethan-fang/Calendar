@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "DPCalendarMonthlyCell.h"
 
+typedef enum
+{
+    DPCalendarMonthlyViewEventDrawingStyleUnderline,
+    DPCalendarMonthlyViewEventDrawingStyleBar
+} DPCalendarMonthlyViewEventDrawingStyle;
+
 @interface DPCalendarMonthlySingleMonthCell : DPCalendarMonthlyCell
 
 -(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events iconEvents:(NSArray *)iconEvents;
@@ -29,4 +35,6 @@
 @property (nonatomic, strong) UIColor *noInSameMonthColor;
 @property (nonatomic, strong) UIColor *selectedColor;
 @property (nonatomic, strong) UIColor *highlightedColor;
+
+@property (nonatomic) DPCalendarMonthlyViewEventDrawingStyle eventDrawingStyle;
 @end

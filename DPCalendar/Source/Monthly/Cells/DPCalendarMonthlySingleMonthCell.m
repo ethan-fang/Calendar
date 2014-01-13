@@ -60,20 +60,6 @@
     
     [super drawRect:rect];
     
-    CGColorRef separatorColor = self.separatorColor.CGColor;
-    
-    //Draw borders
-    CGFloat pixel = 1.f / [UIScreen mainScreen].scale;
-    CGSize size = self.bounds.size;
-    DPContextDrawLine(context,
-                      CGPointMake(size.width - pixel, pixel),
-                      CGPointMake(size.width - pixel, size.height),
-                      separatorColor,
-                      pixel);
-    
-    
-    
-    
     //Set text style
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -97,13 +83,13 @@
                                                          NSFontAttributeName: [UIFont systemFontOfSize:self.dayFont.pointSize]
                                                          } context:stringContext].size.width;
 
-    [dayString drawInRect:CGRectMake(2, (self.rowHeight - self.dayFont.pointSize) / 2, dayWidth, self.dayFont.pointSize) withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:isDayToday ? [UIColor whiteColor] : self.dayTextColor}];
+    [dayString drawInRect:CGRectMake(rect.size.width - dayWidth - 6, (self.rowHeight - self.dayFont.pointSize) / 2, dayWidth, self.dayFont.pointSize) withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:isDayToday ? [UIColor whiteColor] : self.dayTextColor}];
     
     
     int eventsNotShowingCount = 0;
 
     //Draw Icon events
-    float iconX = 2 + dayWidth + 4.0f;
+    float iconX = 4.0f;
     for (int i = 0; i < self.iconEvents.count; i++) {
         DPCalendarIconEvent *event = [self.iconEvents objectAtIndex:i];
         CGFloat titleWidth = [event.title boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.iconEventFont.pointSize)
@@ -113,9 +99,9 @@
                                                            } context:stringContext].size.width;
         
         BOOL isWidthLonger = event.icon.size.width > event.icon.size.height;
-        float scale = (self.rowHeight - 4) / (isWidthLonger ? event.icon.size.width : event.icon.size.height);
-        float iconWidth = isWidthLonger ? (self.rowHeight - 4) : event.icon.size.width * scale;
-        float iconHeight = isWidthLonger ? event.icon.size.height * scale : (self.rowHeight - 4);
+        float scale = (self.rowHeight - 6) / (isWidthLonger ? event.icon.size.width : event.icon.size.height);
+        float iconWidth = isWidthLonger ? (self.rowHeight - 6) : event.icon.size.width * scale;
+        float iconHeight = isWidthLonger ? event.icon.size.height * scale : (self.rowHeight - 6);
         
         if (event.title.length) {
             if (iconX + titleWidth + iconWidth> rect.size.width) {
@@ -151,7 +137,7 @@
         
         UIColor *color = [self.eventColors objectAtIndex:event.colorIndex % self.eventColors.count];
         
-        if (event.rowIndex == 0 || ((event.rowIndex + 2) * self.rowHeight > rect.size.height)) {
+        if (event.rowIndex == 0 || ((event.rowIndex + 2) * self.rowHeight  > rect.size.height)) {
             eventsNotShowingCount++;
             continue;
         }
@@ -160,12 +146,17 @@
         NSDate *tomorrow = [self.date dateByAddingYears:0 months:0 days:1];
         BOOL isEventEndedToday = [event.endTime compare:tomorrow] == NSOrderedAscending;
         
-        //Draw Underline
-        [self drawCellWithColor:color InRect:CGRectMake(0, (event.rowIndex + 1) * self.rowHeight, rect.size.width - (isEventEndedToday ? 4 : 0), 0.5f) context:context];
+        if (self.eventDrawingStyle == DPCalendarMonthlyViewEventDrawingStyleBar) {
+            //Draw Bar
+            [self drawCellWithColor:[color colorWithAlphaComponent:0.2] InRect:CGRectMake(1, event.rowIndex * self.rowHeight + 3, rect.size.width - (isEventEndedToday ? 4 : 0), self.rowHeight - 3) context:context];
+        } else {
+            //Draw Underline
+            [self drawCellWithColor:color InRect:CGRectMake(1, (event.rowIndex + 1) * self.rowHeight, rect.size.width - (isEventEndedToday ? 4 : 0), 0.5f) context:context];
+        }
         
         if (!([event.startTime compare:day] == NSOrderedAscending) || ([event.startTime compare:day] == NSOrderedAscending && [self.date isEqualToDate:self.firstVisiableDateOfMonth])) {
             //Draw Left line
-            [self drawCellWithColor:color InRect:CGRectMake(0, event.rowIndex * self.rowHeight + 3, 2, self.rowHeight - 3) context:context];
+            [self drawCellWithColor:color InRect:CGRectMake(1, event.rowIndex * self.rowHeight + 3, 2, self.rowHeight - 3) context:context];
             
             
             [[UIColor blackColor] set];
@@ -180,7 +171,16 @@
     }
     
     
+    CGColorRef separatorColor = self.separatorColor.CGColor;
     
+    //Draw borders
+    CGFloat pixel = 1.f / [UIScreen mainScreen].scale;
+    CGSize size = self.bounds.size;
+    DPContextDrawLine(context,
+                      CGPointMake(size.width - pixel, pixel),
+                      CGPointMake(size.width - pixel, size.height),
+                      separatorColor,
+                      pixel);
 }
 
 @end

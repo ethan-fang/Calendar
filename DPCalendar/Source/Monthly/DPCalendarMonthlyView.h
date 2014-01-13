@@ -24,6 +24,7 @@ extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthColor; //
 extern NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor; //Highlight color of the cell
 extern NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor; //Selected color of the cell
 extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable; //Whether the cell that is not in current month can be selected
+extern NSString *const DPCalendarMonthlyViewAttributeEventDrawingStyle;//Drawing style of event
 
 extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor; //Border color of cell
 

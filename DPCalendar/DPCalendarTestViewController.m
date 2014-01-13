@@ -77,7 +77,7 @@
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     [self.monthlyView removeFromSuperview];
-    self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, width, height - 50) delegate:self];
+    self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, 650, 609) delegate:self];
     [self.view addSubview:self.monthlyView];
 }
 
@@ -87,17 +87,19 @@
     
     
     NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:0];
-    UIImage *icon = [UIImage imageNamed:@"IconCamera"];
+    UIImage *icon = [UIImage imageNamed:@"IconPubHol"];
     UIImage *greyIcon = [UIImage imageNamed:@"IconDateGrey"];
     
     NSArray *titles = @[@"Research", @"Study", @"Work"];
     
-    for (int i = 0; i < 40; i++) {
-        if (arc4random() % 2 > 0) {
-            int index = arc4random() % 3;
-            DPCalendarEvent *event = [[DPCalendarEvent alloc] initWithTitle:[titles objectAtIndex:index] startTime:date endTime:[date dateByAddingYears:0 months:0 days:arc4random() % 3] colorIndex:index];
-            [events addObject:event];
-        }
+    for (int i = 0; i < 60; i++) {
+//        if (arc4random() % 2 > 0) {
+//            int index = arc4random() % 3;
+//            DPCalendarEvent *event = [[DPCalendarEvent alloc] initWithTitle:[titles objectAtIndex:index] startTime:date endTime:[date dateByAddingYears:0 months:0 days:arc4random() % 3] colorIndex:index];
+//            [events addObject:event];
+//        }
+        DPCalendarEvent *event = [[DPCalendarEvent alloc] initWithTitle:[NSString stringWithFormat:@"event %d", i] startTime:date endTime:[date dateByAddingYears:0 months:0 days:3] colorIndex:arc4random() % 3];
+        [events addObject:event];
         
         if (arc4random() % 2 > 0) {
             DPCalendarIconEvent *iconEvent = [[DPCalendarIconEvent alloc] initWithStartTime:date endTime:[date dateByAddingYears:0 months:0 days:0] icon:icon];
@@ -105,7 +107,7 @@
             
             
             iconEvent = [[DPCalendarIconEvent alloc] initWithTitle:[NSString stringWithFormat:@"%d", i] startTime:date endTime:[date dateByAddingYears:0 months:0 days:0] icon:greyIcon bkgColorIndex:1];
-            [iconEvents addObject:iconEvent];
+//            [iconEvents addObject:iconEvent];
         }
         
         date = [date dateByAddingYears:0 months:0 days:1];
@@ -157,8 +159,12 @@
 
 -(NSDictionary *) ipadMonthlyViewAttributes {
     return @{
+             DPCalendarMonthlyViewAttributeCellRowHeight: @23,
+//             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
+             
              DPCalendarMonthlyViewAttributeWeekdayFont: [UIFont systemFontOfSize:18],
              DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:14],
+             DPCalendarMonthlyViewAttributeEventFont: [UIFont systemFontOfSize:14],
              DPCalendarMonthlyViewAttributeMonthRows:@5
              };
 }

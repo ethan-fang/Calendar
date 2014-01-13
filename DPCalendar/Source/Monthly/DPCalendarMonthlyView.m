@@ -30,6 +30,7 @@ NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthColor = @"DPCale
 NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor = @"DPCalendarMonthlyViewAttributeCellHighlightedColor";
 NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor = @"DPCalendarMonthlyViewAttributeCellSelectedColor";
 NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable = @"DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable";
+NSString *const DPCalendarMonthlyViewAttributeEventDrawingStyle = @"DPCalendarMonthlyViewAttributeEventDrawingStyle";
 
 NSString *const DPCalendarMonthlyViewAttributeSeparatorColor = @"DPCalendarMonthlyViewAttributeSeparatorColor";
 
@@ -56,6 +57,7 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 @property (nonatomic, strong) NSArray *eventColors;
 @property (nonatomic, strong) UIFont *iconEventFont;
 @property (nonatomic, strong) NSArray *iconEventBkgColors;
+@property (nonatomic) DPCalendarMonthlyViewEventDrawingStyle eventDrawingStyle;
 
 @property (nonatomic, strong) UIColor *todayBannerBkgColor;
 @property (nonatomic, strong) UIColor *notInSameMonthColor;
@@ -147,6 +149,8 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         [UIColor colorWithRed:231/255.f green:241/255.f blue:248/255.f alpha:1];
         self.highlightedColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] :
         self.selectedColor;
+        self.eventDrawingStyle = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventDrawingStyle] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeEventDrawingStyle] intValue] :
+            DPCalendarMonthlyViewEventDrawingStyleBar;
         
         self.isNoInSameMonthCellSeletable = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable] boolValue] : NO;
     }
@@ -181,7 +185,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 }
 
 - (NSArray *)defaultEventColors {
-    return @[[UIColor colorWithRed:1 green:168/255.0f blue:0 alpha:1], [UIColor colorWithRed:52/255.0f green:161/255.0f blue:1 alpha:1], [UIColor colorWithRed:1 green:48/255.0f blue:47/255.0f alpha:1]];
+    return @[[UIColor colorWithRed:254/255.f green:161/255.0f blue:0/255.0f alpha:1], [UIColor colorWithRed:2/255.0f green:63/255.0f blue:155/255.0f alpha:1], [UIColor colorWithRed:255/255.f green:36/255.0f blue:36/255.0f alpha:1]];
 }
 
 - (NSArray *)defaultIconEventColors {
@@ -582,6 +586,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     cell.eventColors = self.eventColors;
     cell.iconEventFont = self.iconEventFont;
     cell.iconEventBkgColors = self.iconEventBkgColors;
+    cell.eventDrawingStyle = self.eventDrawingStyle;
     
     cell.noInSameMonthColor = self.notInSameMonthColor;
     cell.selectedColor = self.selectedColor;
