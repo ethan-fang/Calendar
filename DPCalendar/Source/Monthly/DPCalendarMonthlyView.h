@@ -9,28 +9,26 @@
 #import <UIKit/UIKit.h>
 #import "DPCalendarMonthlySingleMonthCell.h"
 
-extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight;
-extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont;
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight; //Height of weekday cell
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont; //Font of weekday
 
-extern NSString *const DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor;
+extern NSString *const DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor; //Today's color in cell
+extern NSString *const DPCalendarMonthlyViewAttributeCellHeight; //Height of date cell
+extern NSString *const DPCalendarMonthlyViewAttributeDayFont; //Font of day label
+extern NSString *const DPCalendarMonthlyViewAttributeEventFont; //Font of event, which has underline
+extern NSString *const DPCalendarMonthlyViewAttributeCellRowHeight; //Height of event
+extern NSString *const DPCalendarMonthlyViewAttributeEventColors; //Underline color of the event
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventFont; //Font of icon event
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventBkgColors; //Background color of icon event
+extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthColor; //Background color of the cell that is not in current month
+extern NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor; //Highlight color of the cell
+extern NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor; //Selected color of the cell
+extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable; //Whether the cell that is not in current month can be selected
 
-extern NSString *const DPCalendarMonthlyViewAttributeCellHeight;
-extern NSString *const DPCalendarMonthlyViewAttributeDayFont;
-extern NSString *const DPCalendarMonthlyViewAttributeEventFont;
-extern NSString *const DPCalendarMonthlyViewAttributeCellRowHeight;
-extern NSString *const DPCalendarMonthlyViewAttributeEventColors;
-extern NSString *const DPCalendarMonthlyViewAttributeIconEventFont;
-extern NSString *const DPCalendarMonthlyViewAttributeIconEventBkgColors;
-extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthColor;
-extern NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor;
-extern NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor;
-extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable;
+extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor; //Border color of cell
 
-extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor;
-
-extern NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek;
-extern NSString *const DPCalendarMonthlyViewAttributeMonthRows;
-
+extern NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek; //Start day of the week (0 means starting from Sunday)
+extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient function to define the height of cell
 
 @protocol DPCalendarMonthlyViewDelegate <NSObject>
 

@@ -9,9 +9,7 @@
 #import "DPCalendarMonthlyView.h"
 #import "DPCalendarMonthlySingleMonthViewLayout.h"
 #import "DPCalendarMonthlyWeekdayCell.h"
-#import "DPCalendarMonthlyHorizontalScrollCell.h"
 #import "NSDate+DP.h"
-#import "DPCalendarMonthlyHorizontalScrollView.h"
 #import "DPCalendarEvent.h"
 #import "DPCalendarIconEvent.h"
 
@@ -40,16 +38,15 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 
 #define DPCalendarMonthlyViewAttributeCellHeightDefault 70
 #define DPCalendarMonthlyViewAttributeWeekdayHeightDefault 20
-#define DPCalendarMonthlyViewAttributeWeekdayFontDefault 11
 //Sunday
 #define DPCalendarMonthlyViewAttributeStartDayOfWeekDefault 0
 
-@interface DPCalendarMonthlyView()<UIScrollViewDelegate, UICollectionViewDelegate, DPCalendarMonthlyHorizontalScrollViewDelegate>
+@interface DPCalendarMonthlyView()<UIScrollViewDelegate, UICollectionViewDelegate>
 
 //Customize properties
 @property (nonatomic) CGFloat cellHeight;
 @property (nonatomic) CGFloat weekdayHeight;
-@property (nonatomic) CGFloat weekdayFontSize;
+@property (nonatomic, strong) UIFont *weekdayFont;
 @property (nonatomic) int startDayOfWeek;
 
 @property (nonatomic, strong) UIFont *dayFont;
@@ -105,7 +102,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 - (void) commonInit{
     self.processQueue = [[NSOperationQueue alloc] init];
     self.processQueue.maxConcurrentOperationCount = 4;
-    self.maxEventsPerDay = 4;
+    self.maxEventsPerDay = UINT16_MAX;
     
     self.calendar   = NSCalendar.currentCalendar;
     self.daysInWeek = 7;
@@ -118,8 +115,8 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     if ([self.monthlyViewDelegate respondsToSelector:@selector(monthlyViewAttributes)]) {
         NSDictionary *attributes = [self.monthlyViewDelegate monthlyViewAttributes];
         
-        self.weekdayHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayHeight] floatValue] : DPCalendarMonthlyViewAttributeWeekdayHeightDefault;
-        self.weekdayFontSize = [attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayFont] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayFont] floatValue] : DPCalendarMonthlyViewAttributeWeekdayFontDefault;
+        self.weekdayHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayHeight] floatValue] : 20;
+        self.weekdayFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeWeekdayFont] : [UIFont systemFontOfSize:12];
         
         if ([attributes objectForKey:DPCalendarMonthlyViewAttributeMonthRows]) {
             int rows = [[attributes objectForKey:DPCalendarMonthlyViewAttributeMonthRows] intValue];
@@ -138,9 +135,9 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         
         
         self.dayFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] : [UIFont systemFontOfSize:12];
-        self.dayTextColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeDayFont] : [UIColor colorWithRed:156/255.0f green:156/255.0f blue:156/255.0f alpha:1];
+        self.dayTextColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeDayTextColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeDayTextColor] : [UIColor colorWithRed:156/255.0f green:156/255.0f blue:156/255.0f alpha:1];
         self.eventFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeEventFont] : [UIFont systemFontOfSize:12];
-        self.rowHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] floatValue] : 20.0f;
+        self.rowHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] floatValue] : 18.0f;
         self.iconEventFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] : [UIFont systemFontOfSize:12];
         self.iconEventBkgColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] :
         [self defaultEventColors];
@@ -306,7 +303,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     int scrollToPosition = 1;
     if ([firstDayOfDestinationMonth compare:firstDayOfOriginalMonth] == NSOrderedDescending) {
         scrollToPosition = 2;
-    } else if ([firstDayOfOriginalMonth compare:firstDayOfOriginalMonth] == NSOrderedAscending) {
+    } else if ([firstDayOfDestinationMonth compare:firstDayOfOriginalMonth] == NSOrderedAscending) {
         scrollToPosition = 0;
     }
     if (scrollToPosition == 1) {
@@ -560,7 +557,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewWeekDayCellIdentifier
                                                   forIndexPath:indexPath];
         cell.separatorColor = self.separatorColor;
-        cell.fontSize = self.weekdayFontSize;
+        cell.font = self.weekdayFont;
         
         cell.weekday = self.weekdaySymbols[(indexPath.item + self.startDayOfWeek) % self.daysInWeek];
         

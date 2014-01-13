@@ -14,6 +14,6 @@
 @property(nonatomic, readonly) UILabel *titleLabel;
 @property(nonatomic, assign) NSString *weekday;
 
-@property (nonatomic) CGFloat fontSize;
+@property (nonatomic, strong) UIFont *font;
 
 @end

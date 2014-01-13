@@ -151,7 +151,7 @@
         
         UIColor *color = [self.eventColors objectAtIndex:event.colorIndex % self.eventColors.count];
         
-        if (event.rowIndex == 0 || ((event.rowIndex + 1) * self.rowHeight > rect.size.height)) {
+        if (event.rowIndex == 0 || ((event.rowIndex + 2) * self.rowHeight > rect.size.height)) {
             eventsNotShowingCount++;
             continue;
         }

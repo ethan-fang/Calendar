@@ -21,8 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
-        self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        self.titleLabel.font = [UIFont systemFontOfSize:self.fontSize];
+        self.titleLabel.font = self.font;
         self.titleLabel.textColor = [UIColor colorWithRed:82/255.0f green:82/255.0f blue:82/255.0f alpha:1];
         self.titleLabel.highlightedTextColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -39,9 +38,8 @@
     [self setNeedsDisplay];
 }
 
--(void)setFontSize:(CGFloat)fontSize {
-    self.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+-(void)setFont:(UIFont *)font {
+    _font = font;
+    [self.titleLabel setFont:font];
 }
-
-
 @end
