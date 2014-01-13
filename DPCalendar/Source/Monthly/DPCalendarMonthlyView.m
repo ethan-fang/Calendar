@@ -140,7 +140,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         self.rowHeight = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellRowHeight] floatValue] : 18.0f;
         self.iconEventFont = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventFont] : [UIFont systemFontOfSize:12];
         self.iconEventBkgColors = [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeIconEventBkgColors] :
-        [self defaultEventColors];
+        [self defaultIconEventColors];
         self.notInSameMonthColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthColor] :
         [UIColor colorWithRed:239/255.f green:239/255.f blue:244/255.f alpha:1];
         self.selectedColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellSelectedColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellSelectedColor] :
@@ -182,6 +182,10 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 
 - (NSArray *)defaultEventColors {
     return @[[UIColor colorWithRed:1 green:168/255.0f blue:0 alpha:1], [UIColor colorWithRed:52/255.0f green:161/255.0f blue:1 alpha:1], [UIColor colorWithRed:1 green:48/255.0f blue:47/255.0f alpha:1]];
+}
+
+- (NSArray *)defaultIconEventColors {
+    return @[[UIColor clearColor], [UIColor colorWithRed:255/255.0f green:168/255.0f blue:0 alpha:1]];
 }
 
 -(void)setMonthlyViewBackgroundColor:(UIColor *)monthlyViewBackgroundColor {
