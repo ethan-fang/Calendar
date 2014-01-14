@@ -1,5 +1,13 @@
 ![Calendar Ipad view](https://raw.github.com/ethan-fang/DPCalendar/master/github-assets/dpcalendar_ipad.gif)
 
+![Calendar Ipad view](https://raw.github.com/ethan-fang/DPCalendar/master/github-assets/Calendar_ipad_screenshot.png)
+
+![Calendar Ipad view](https://raw.github.com/ethan-fang/DPCalendar/master/github-assets/Calendar_ipad_underline_screenshot.png)
+
+![Calendar Ipad view](https://raw.github.com/ethan-fang/DPCalendar/master/github-assets/Calendar_iphone_screenshot.png)
+
+![Calendar Ipad view](https://raw.github.com/ethan-fang/DPCalendar/master/github-assets/Calendar_iphone_underline_screenshot.png)
+
 # Features
 * Dynamically populate events for each day of the month.
 * Events can cross several days.
