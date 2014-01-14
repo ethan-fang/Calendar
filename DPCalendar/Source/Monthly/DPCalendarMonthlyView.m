@@ -436,7 +436,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [weakSelf reloadPagingViews];
-            complete();
+            if (complete) complete();
         }];
     }];
 }
@@ -504,7 +504,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [weakSelf reloadPagingViews];
-            complete();
+            if (complete) complete();
         }];
     }];
 }
