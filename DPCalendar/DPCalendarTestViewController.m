@@ -158,7 +158,7 @@
 -(NSDictionary *) ipadMonthlyViewAttributes {
     return @{
              DPCalendarMonthlyViewAttributeCellRowHeight: @23,
-//             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
+             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
              
              DPCalendarMonthlyViewAttributeWeekdayFont: [UIFont systemFontOfSize:18],
              DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:14],
@@ -170,6 +170,7 @@
 
 -(NSDictionary *) iphoneMonthlyViewAttributes {
     return @{
+             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
              DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable: @YES,
              DPCalendarMonthlyViewAttributeMonthRows:@3
              };

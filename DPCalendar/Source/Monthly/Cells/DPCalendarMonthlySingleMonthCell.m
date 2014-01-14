@@ -172,7 +172,6 @@
         float width = isEventStartToday ? (isEventEndedToday ? (size.width - EVENT_START_MARGIN - EVENT_END_MARGIN):(size.width - EVENT_START_MARGIN - pixel) ) : (isEventEndedToday ? (size.width-EVENT_END_MARGIN-pixel) : (size.width-pixel));
         
         if (self.eventDrawingStyle == DPCalendarMonthlyViewEventDrawingStyleBar) {
-            
             //Draw Bar
             [self drawCellWithColor:[color colorWithAlphaComponent:0.2] InRect:CGRectMake(startPosition, event.rowIndex * self.rowHeight + ROW_MARGIN, width, self.rowHeight - ROW_MARGIN) context:context];
         } else {
