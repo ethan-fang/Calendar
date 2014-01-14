@@ -61,8 +61,8 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 
 @property (nonatomic, weak) id<DPCalendarMonthlyViewDelegate> monthlyViewDelegate;
 
-@property (nonatomic, assign) NSArray *events;
-@property (nonatomic, assign) NSArray *iconEvents;
+- (void) setEvents:(NSArray *)events complete:(void (^)(void))complete;
+- (void) setIconEvents:(NSArray *)iconEvents complete:(void (^)(void))complete;
 
 -(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 
