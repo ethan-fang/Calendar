@@ -66,11 +66,13 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 
 -(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 
--(void) scrollToMonth:(NSDate *)month;
+-(void) scrollToMonth:(NSDate *)month complete:(void (^)(void))complete;
 -(void) scrollToPreviousMonth;
 -(void) scrollToNextMonth;
 
 - (NSDate *)firstVisibleDateOfMonth:(NSDate *)date;
 - (NSDate *)lastVisibleDateOfMonth:(NSDate *)date;
+
+- (void) clickDate:(NSDate *)date;
 
 @end

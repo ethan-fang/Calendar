@@ -304,7 +304,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     [self.pagingMonths setObject:[currentMonth dateByAddingYears:0 months:-1 days:0] atIndexedSubscript:0];
 }
 
--(void)scrollToMonth:(NSDate *)month {
+-(void)scrollToMonth:(NSDate *)month complete:(void (^)(void))complete{
     NSDate *firstDayOfDestinationMonth = [month dp_firstDateOfMonth:self.calendar];
     NSDate *firstDayOfOriginalMonth = [self.seletedMonth dp_firstDateOfMonth:self.calendar];
     
@@ -316,6 +316,9 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }
     if (scrollToPosition == 1) {
         [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1] firstDate:[self firstVisibleDateOfMonth:month] lastDate:[self lastVisibleDateOfMonth:month]];
+        if (complete) {
+            complete();
+        }
         return;
     }
     [self.pagingMonths setObject:month atIndexedSubscript:scrollToPosition];
@@ -330,17 +333,20 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         [self reloadPagingViews];
         [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
         [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1] firstDate:[self firstVisibleDateOfMonth:month] lastDate:[self lastVisibleDateOfMonth:month]];
+        if (complete) {
+            complete();
+        }
     }];
 }
 
 -(void)scrollToPreviousMonth {
     NSDate *previousMonth = [self.seletedMonth dateByAddingYears:0 months:-1 days:0];
-    [self scrollToMonth:previousMonth];
+    [self scrollToMonth:previousMonth complete:nil];
 }
 
 -(void)scrollToNextMonth {
     NSDate *previousMonth = [self.seletedMonth dateByAddingYears:0 months:1 days:0];
-    [self scrollToMonth:previousMonth];
+    [self scrollToMonth:previousMonth complete:nil];
 }
 
 -(NSDate *)seletedMonth {
@@ -506,6 +512,19 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
             [weakSelf reloadPagingViews];
             if (complete) complete();
         }];
+    }];
+}
+
+- (void) clickDate:(NSDate *)date {
+    [self scrollToMonth:date complete:^{
+        NSDateComponents *components =
+        [self.calendar components:NSDayCalendarUnit
+                         fromDate:[self firstVisibleDateOfMonth:date]
+                           toDate:date
+                          options:0];
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.daysInWeek + components.day inSection:0];
+        [((UICollectionView *)[self.pagingViews objectAtIndex:1]) selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
     }];
 }
 
