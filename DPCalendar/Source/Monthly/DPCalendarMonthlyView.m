@@ -150,13 +150,13 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         self.highlightedColor = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] ? [attributes objectForKey:DPCalendarMonthlyViewAttributeCellHighlightedColor] :
         self.selectedColor;
         self.eventDrawingStyle = [attributes objectForKey:DPCalendarMonthlyViewAttributeEventDrawingStyle] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeEventDrawingStyle] intValue] :
-            DPCalendarMonthlyViewEventDrawingStyleBar;
+        DPCalendarMonthlyViewEventDrawingStyleBar;
         
         self.isNoInSameMonthCellSeletable = [attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable] ? [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable] boolValue] : NO;
     }
     
     self.backgroundColor = [UIColor clearColor];
-
+    
     self.monthlyViewBackgroundColor = [UIColor whiteColor];
     
     
@@ -298,7 +298,12 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         
         NSDate *thisMonth = [self.pagingMonths objectAtIndex:1];
         if ((collectionView == [self.pagingViews objectAtIndex:1]) && self.selectedDate && ([[self firstVisibleDateOfMonth:thisMonth] compare:self.selectedDate] == NSOrderedAscending) && ([[self lastVisibleDateOfMonth:thisMonth] compare:self.selectedDate] == NSOrderedDescending)) {
-            [self clickDate:self.selectedDate];
+            
+            NSIndexPath *indexPath = [self indexPathForCurrentMonthWithDate:self.selectedDate];
+            if ([self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath]) {
+                [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+                [self collectionView:collectionView didSelectItemAtIndexPath:indexPath];
+            }
         }
     }
 }
@@ -520,15 +525,20 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }];
 }
 
+- (NSIndexPath *) indexPathForCurrentMonthWithDate:(NSDate *)date {
+    NSDateComponents *components =
+    [self.calendar components:NSDayCalendarUnit
+                     fromDate:[self firstVisibleDateOfMonth:date]
+                       toDate:date
+                      options:0];
+    
+    return [NSIndexPath indexPathForItem:self.daysInWeek + components.day inSection:0];
+    
+}
+
 - (void) clickDate:(NSDate *)date {
     [self scrollToMonth:date complete:^{
-        NSDateComponents *components =
-        [self.calendar components:NSDayCalendarUnit
-                         fromDate:[self firstVisibleDateOfMonth:date]
-                           toDate:date
-                          options:0];
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.daysInWeek + components.day inSection:0];
+        NSIndexPath *indexPath = [self indexPathForCurrentMonthWithDate:date];
         UICollectionView *collectionView = (UICollectionView *)[self.pagingViews objectAtIndex:1];
         [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
         if ([self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath]) {
@@ -627,7 +637,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     cell.isInSameMonth = [self collectionView:collectionView shouldEnableItemAtIndexPath:indexPath];
     NSDate *date = [self dateForCollectionView:collectionView IndexPath:indexPath];
     [cell setDate:date calendar:self.calendar events:[self.eventsForEachDay objectForKey:date] iconEvents:[self.iconEventsForEachDay objectForKey:date]];
-
+    
     cell.separatorColor = self.separatorColor;
     return cell;
     
