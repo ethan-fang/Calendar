@@ -524,7 +524,11 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
                           options:0];
         
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.daysInWeek + components.day inSection:0];
-        [((UICollectionView *)[self.pagingViews objectAtIndex:1]) selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+        UICollectionView *collectionView = (UICollectionView *)[self.pagingViews objectAtIndex:1];
+        [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+        if ([self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath]) {
+            [self collectionView:collectionView didSelectItemAtIndexPath:indexPath];
+        }
     }];
 }
 
