@@ -37,4 +37,6 @@ typedef enum
 @property (nonatomic, strong) UIColor *highlightedColor;
 
 @property (nonatomic) DPCalendarMonthlyViewEventDrawingStyle eventDrawingStyle;
+
+@property (nonatomic, setter = setIsPreviousSelectedCell:) BOOL isPreviousSelectedCell;
 @end

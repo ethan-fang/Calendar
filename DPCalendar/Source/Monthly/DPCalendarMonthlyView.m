@@ -295,6 +295,11 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 - (void) reloadPagingViews {
     for (UICollectionView *collectionView in self.pagingViews) {
         [collectionView reloadData];
+        
+        NSDate *thisMonth = [self.pagingMonths objectAtIndex:1];
+        if ((collectionView == [self.pagingViews objectAtIndex:1]) && self.selectedDate && ([[self firstVisibleDateOfMonth:thisMonth] compare:self.selectedDate] == NSOrderedAscending) && ([[self lastVisibleDateOfMonth:thisMonth] compare:self.selectedDate] == NSOrderedDescending)) {
+            [self clickDate:self.selectedDate];
+        }
     }
 }
 
@@ -339,14 +344,14 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }];
 }
 
--(void)scrollToPreviousMonth {
+-(void)scrollToPreviousMonthWithComplete:(void (^)(void))complete {
     NSDate *previousMonth = [self.seletedMonth dateByAddingYears:0 months:-1 days:0];
-    [self scrollToMonth:previousMonth complete:nil];
+    [self scrollToMonth:previousMonth complete:complete];
 }
 
--(void)scrollToNextMonth {
+-(void)scrollToNextMonthWithComplete:(void (^)(void))complete {
     NSDate *previousMonth = [self.seletedMonth dateByAddingYears:0 months:1 days:0];
-    [self scrollToMonth:previousMonth complete:nil];
+    [self scrollToMonth:previousMonth complete:complete];
 }
 
 -(NSDate *)seletedMonth {
@@ -622,7 +627,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     cell.isInSameMonth = [self collectionView:collectionView shouldEnableItemAtIndexPath:indexPath];
     NSDate *date = [self dateForCollectionView:collectionView IndexPath:indexPath];
     [cell setDate:date calendar:self.calendar events:[self.eventsForEachDay objectForKey:date] iconEvents:[self.iconEventsForEachDay objectForKey:date]];
-    
+
     cell.separatorColor = self.separatorColor;
     return cell;
     

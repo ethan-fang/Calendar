@@ -64,7 +64,7 @@
     CGRect internalRect = CGRectMake(0, pixel, size.width - pixel, size.height - pixel);
     
     //Draw background colors
-    if (self.isSelected) {
+    if (self.isSelected || self.isPreviousSelectedCell) {
         [self drawCellWithColor:self.selectedColor InRect:internalRect context:context];
     } else if (!self.isInSameMonth) {
         [self drawCellWithColor:self.noInSameMonthColor InRect:internalRect context:context];
@@ -197,9 +197,10 @@
     }
     
     
-    
-    
-    
+}
+
+-(void)setIsPreviousSelectedCell:(BOOL)isPreviousSelectedCell {
+    _isPreviousSelectedCell = isPreviousSelectedCell;
 }
 
 @end

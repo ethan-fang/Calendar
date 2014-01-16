@@ -124,11 +124,11 @@
 }
 
 -(void) previousButtonSelected:(id)button {
-    [self.monthlyView scrollToPreviousMonth];
+    [self.monthlyView scrollToPreviousMonthWithComplete:nil];
 }
 
 -(void) nextButtonSelected:(id)button {
-    [self.monthlyView scrollToNextMonth];
+    [self.monthlyView scrollToNextMonthWithComplete:nil];
 }
 
 -(void) todayButtonSelected:(id)button {
