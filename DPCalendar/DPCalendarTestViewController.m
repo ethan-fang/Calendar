@@ -13,6 +13,7 @@
 #import "DPCalendarEvent.h"
 #import "DPCalendarIconEvent.h"
 #import "NSDate+DP.h"
+#import "DPCalendarTestOptionsViewController.h"
 
 @interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate>
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) UIButton *previousButton;
 @property (nonatomic, strong) UIButton *nextButton;
 @property (nonatomic, strong) UIButton *todayButton;
+@property (nonatomic, strong) UIButton *optionsButton;
 
 @property (nonatomic, strong) NSArray *events;
 @property (nonatomic, strong) NSArray *iconEvents;
@@ -61,6 +63,7 @@
     [self.nextButton removeFromSuperview];
     [self.monthLabel removeFromSuperview];
     [self.todayButton removeFromSuperview];
+    [self.optionsButton removeFromSuperview];
     
     self.previousButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.nextButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -68,9 +71,11 @@
     self.previousButton.frame = CGRectMake(0, 20, 50, 20);
     self.nextButton.frame = CGRectMake(width - 50, 20, 50, 20);
     self.todayButton.frame = CGRectMake(width - 50 * 2, 20, 50, 20);
+    self.optionsButton.frame = CGRectMake(width - 50 * 3, 20, 50, 20);
     [self.previousButton setTitle:@"Previous" forState:UIControlStateNormal];
     [self.nextButton setTitle:@"Next" forState:UIControlStateNormal];
     [self.todayButton setTitle:@"Today" forState:UIControlStateNormal];
+    [self.optionsButton setTitle:@"Option" forState:UIControlStateNormal];
     
     
     self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - 200) / 2, 20, 200, 20)];
@@ -79,6 +84,7 @@
     [self.previousButton addTarget:self action:@selector(previousButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.nextButton addTarget:self action:@selector(nextButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.todayButton addTarget:self action:@selector(todayButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    [self.optionsButton addTarget:self action:@selector(optionsButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.monthLabel];
     [self.view addSubview:self.previousButton];
@@ -135,6 +141,14 @@
     [self.monthlyView clickDate:[NSDate date]];
 }
 
+-(void) optionsButtonSelected:(id)button {
+    if (IDIOM == IPAD) {
+        
+    } else {
+        
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -170,7 +184,7 @@
 -(NSDictionary *) ipadMonthlyViewAttributes {
     return @{
              DPCalendarMonthlyViewAttributeCellRowHeight: @23,
-             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
+//             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
              
              DPCalendarMonthlyViewAttributeWeekdayFont: [UIFont systemFontOfSize:18],
              DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:14],
