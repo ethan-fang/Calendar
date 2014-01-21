@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIButton *previousButton;
 @property (nonatomic, strong) UIButton *nextButton;
 @property (nonatomic, strong) UIButton *todayButton;
+@property (nonatomic, strong) UIButton *createEventButton;
 @property (nonatomic, strong) UIButton *optionsButton;
 
 @property (nonatomic, strong) NSArray *events;
@@ -64,19 +65,23 @@
     [self.monthLabel removeFromSuperview];
     [self.todayButton removeFromSuperview];
     [self.optionsButton removeFromSuperview];
+    [self.createEventButton removeFromSuperview];
     
     self.previousButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.nextButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.todayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.optionsButton  = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.createEventButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.previousButton.frame = CGRectMake(0, 20, 50, 20);
     self.nextButton.frame = CGRectMake(width - 50, 20, 50, 20);
     self.todayButton.frame = CGRectMake(width - 50 * 2, 20, 50, 20);
     self.optionsButton.frame = CGRectMake(width - 50 * 3, 20, 50, 20);
+    self.createEventButton.frame = CGRectMake(width - 50 * 5, 20, 100, 20);
     [self.previousButton setTitle:@"Previous" forState:UIControlStateNormal];
     [self.nextButton setTitle:@"Next" forState:UIControlStateNormal];
     [self.todayButton setTitle:@"Today" forState:UIControlStateNormal];
     [self.optionsButton setTitle:@"Option" forState:UIControlStateNormal];
+    [self.createEventButton setTitle:@"New Event" forState:UIControlStateNormal];
     
     
     self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - 200) / 2, 20, 200, 20)];
@@ -86,12 +91,14 @@
     [self.nextButton addTarget:self action:@selector(nextButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.todayButton addTarget:self action:@selector(todayButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsButton addTarget:self action:@selector(optionsButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    [self.createEventButton addTarget:self action:@selector(createEventButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.monthLabel];
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     [self.view addSubview:self.todayButton];
     [self.view addSubview:self.optionsButton];
+    [self.view addSubview:self.createEventButton];
     [self.monthlyView removeFromSuperview];
     self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, width, height - 50) delegate:self];
     [self.view addSubview:self.monthlyView];
@@ -158,6 +165,10 @@
     } else {
         
     }
+}
+
+- (void) createEventButtonSelected:(id)button {
+    
 }
 
 - (void)viewDidLoad
