@@ -14,6 +14,7 @@
 #import "DPCalendarIconEvent.h"
 #import "NSDate+DP.h"
 #import "DPCalendarTestOptionsViewController.h"
+#import "DPCalendarTestCreateEventViewController.h"
 
 @interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate>
 
@@ -72,7 +73,7 @@
     self.todayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.optionsButton  = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.createEventButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.previousButton.frame = CGRectMake(0, 20, 50, 20);
+    self.previousButton.frame = CGRectMake(0, 20, 100, 20);
     self.nextButton.frame = CGRectMake(width - 50, 20, 50, 20);
     self.todayButton.frame = CGRectMake(width - 50 * 2, 20, 50, 20);
     self.optionsButton.frame = CGRectMake(width - 50 * 3, 20, 50, 20);
@@ -97,8 +98,8 @@
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     [self.view addSubview:self.todayButton];
-    [self.view addSubview:self.optionsButton];
-    [self.view addSubview:self.createEventButton];
+//    [self.view addSubview:self.optionsButton];
+//    [self.view addSubview:self.createEventButton];
     [self.monthlyView removeFromSuperview];
     self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, width, height - 50) delegate:self];
     [self.view addSubview:self.monthlyView];
@@ -168,7 +169,20 @@
 }
 
 - (void) createEventButtonSelected:(id)button {
+    DPCalendarTestCreateEventViewController *createEventController = [DPCalendarTestCreateEventViewController new];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:createEventController];
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
     
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightBtn setTitle:@"Done" forState:UIControlStateNormal];
+    rightBtn.frame = CGRectMake(0, 0, 70, 40 );
+    UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+    navController.navigationItem.rightBarButtonItem = rightBarBtn;
+    if (IDIOM == IPAD) {
+        [self presentViewController:navController animated:YES completion:nil];
+    } else {
+        
+    }
 }
 
 - (void)viewDidLoad

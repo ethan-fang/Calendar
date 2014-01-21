@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DPCalendarEvent.h"
 
 @interface DPCalendarTestCreateEventViewController : UIViewController
 
+@property (nonatomic, strong) DPCalendarEvent *event;
 @end
