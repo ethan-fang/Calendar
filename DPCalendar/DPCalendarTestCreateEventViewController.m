@@ -8,6 +8,7 @@
 
 #import "DPCalendarTestCreateEventViewController.h"
 #import "DPCalendarTestOptionsCell.h"
+#import "NSDate+DP.h"
 
 @interface DPCalendarTestCreateEventViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -35,6 +36,8 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.tableView.allowsSelection = NO;
     
     [self.view addSubview:self.tableView];
 }
@@ -62,14 +65,20 @@
     DPCalendarTestOptionsCell *cell = [tableView dequeueReusableCellWithIdentifier:NEW_EVENT_CELL_IDENTIFIER];
     if (!cell) {
         cell = [[DPCalendarTestOptionsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NEW_EVENT_CELL_IDENTIFIER];
+        
     }
     switch (indexPath.row) {
         case 0:
-            
+            [cell setTitle:@"Event Name"];
+            [cell setTextValue:@"Test"];
             break;
         case 1:
+            [cell setTitle:@"Start Time"];
+            [cell setDate:[[NSDate date] dateByAddingYears:0 months:0 days:-1]];
             break;
         case 2:
+            [cell setTitle:@"End Time"];
+            [cell setDate:[[NSDate date] dateByAddingYears:0 months:0 days:1]];
             break;
         default:
             break;

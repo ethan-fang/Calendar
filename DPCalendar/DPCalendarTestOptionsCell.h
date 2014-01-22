@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "DPCalendarEvent.h"
+
+
 @interface DPCalendarTestOptionsCell : UITableViewCell
+
+- (void) setTitle:(NSString *)title;
+- (void) setTextValue:(NSString *)textValue;
+- (void) setDate:(NSDate *)date;
 
 @end
