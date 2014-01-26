@@ -10,11 +10,23 @@
 
 #import "DPCalendarEvent.h"
 
+@class DPCalendarTestOptionsCell;
+
+@protocol DPCalendarTestOptionsCellDelegate <NSObject>
+
+@optional
+- (void) cell:(DPCalendarTestOptionsCell *)cell valueChanged:(id)value;
+
+@end
 
 @interface DPCalendarTestOptionsCell : UITableViewCell
 
 - (void) setTitle:(NSString *)title;
-- (void) setTextValue:(NSString *)textValue;
-- (void) setDate:(NSDate *)date;
+
+@property (nonatomic, strong) NSString *textValue;
+@property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSString *identifier;
+
+@property (nonatomic, weak) id<DPCalendarTestOptionsCellDelegate> delegate;
 
 @end

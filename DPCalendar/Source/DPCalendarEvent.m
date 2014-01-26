@@ -21,4 +21,8 @@
     return self;
 }
 
+-(NSString *)description {
+    return [NSString stringWithFormat:@"Title:%@, StartTime:%@, EndTime:%@, colorIndex:%d", self.title, self.startTime, self.endTime, self.colorIndex];
+}
+
 @end

@@ -19,12 +19,12 @@ enum CellType{
 @interface DPCalendarTestOptionsCell()
 
 @property (nonatomic, strong) UILabel *nameLabel;
+
 @property (nonatomic, strong) UITextField *valueTextField;
 @property (nonatomic, strong) UISwitch *valueSwitch;
 @property (nonatomic, strong) UISlider *valueSlider;
 @property (nonatomic, strong) UILabel *dateLabel;
 
-@property (nonatomic, strong) NSDate *date;
 @property (nonatomic) enum CellType cellType;
 @property (nonatomic, strong) UIPopoverController *datePopover;
 
@@ -40,12 +40,15 @@ enum CellType{
     if (self) {
         self.nameLabel = [UILabel new];
         self.valueTextField = [UITextField new];
+        self.valueTextField.delegate = self;
         self.dateLabel = [UILabel new];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dateLabelTapped:)];
         [tap setNumberOfTapsRequired:1];
         self.dateLabel.userInteractionEnabled = YES;
         [self.dateLabel addGestureRecognizer:tap];
+        
+        [self.valueTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         
         [self addSubview:self.nameLabel];
         [self addSubview:self.valueTextField];
@@ -60,9 +63,6 @@ enum CellType{
 }
 
 - (void) dateLabelTapped: (UITapGestureRecognizer *)tapGesture {
-    
-    
-    
     [self.datePopover presentPopoverFromRect:self.dateLabel.frame inView:self
                     permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];//tempButton.frame where you need you can put that frame
 }
@@ -73,14 +73,13 @@ enum CellType{
         UIViewController* popoverContent = [[UIViewController alloc] init]; //ViewController
         
         UIView *popoverView = [[UIView alloc] init];   //view
-        popoverView.backgroundColor = [UIColor yellowColor];
         
         UIDatePicker *datePicker=[[UIDatePicker alloc]init];//Date picker
         datePicker.frame=CGRectMake(0,44,320, 216);
         datePicker.datePickerMode = UIDatePickerModeDateAndTime;
         [datePicker setMinuteInterval:5];
         [datePicker setTag:10];
-        [datePicker addTarget:self action:@selector(result) forControlEvents:UIControlEventValueChanged];
+        [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
         [popoverView addSubview:datePicker];
         
         popoverContent.view = popoverView;
@@ -88,12 +87,19 @@ enum CellType{
         
         _datePopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
         _datePopover.popoverContentSize = CGSizeMake(320.f, 250.f);
-        _datePopover.delegate = self;
     }
     
     return _datePopover;
 }
 
+- (void) dateChanged:(UIDatePicker *)picker{
+    self.date = picker.date;
+    [self.delegate cell:self valueChanged:self.date];
+}
+
+-(void) textFieldDidChange:(UITextField *)textField {
+    [self.delegate cell:self valueChanged:textField.text];
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -148,5 +154,7 @@ enum CellType{
     
     self.dateLabel.frame = valueFrame;
 }
+
+
 
 @end

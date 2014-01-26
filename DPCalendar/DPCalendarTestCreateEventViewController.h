@@ -9,7 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "DPCalendarEvent.h"
 
+@protocol DPCalendarTestCreateEventViewControllerDelegate <NSObject>
+
+- (void) eventCreated:(DPCalendarEvent *)event;
+
+@end
+
 @interface DPCalendarTestCreateEventViewController : UIViewController
 
 @property (nonatomic, strong) DPCalendarEvent *event;
+@property (nonatomic, weak) id<DPCalendarTestCreateEventViewControllerDelegate> delegate;
 @end

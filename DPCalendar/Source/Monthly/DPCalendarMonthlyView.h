@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DPCalendarMonthlySingleMonthCell.h"
+#import "DPCalendarEvent.h"
 
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight; //Height of weekday cell
 extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont; //Font of weekday
@@ -63,6 +64,7 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 
 - (void) setEvents:(NSArray *)events complete:(void (^)(void))complete;
 - (void) setIconEvents:(NSArray *)iconEvents complete:(void (^)(void))complete;
+- (void) addEvent:(DPCalendarEvent *)event complete:(void (^)(void))complete;
 
 -(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 

@@ -16,7 +16,7 @@
 #import "DPCalendarTestOptionsViewController.h"
 #import "DPCalendarTestCreateEventViewController.h"
 
-@interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate>
+@interface DPCalendarTestViewController ()<DPCalendarMonthlyViewDelegate, DPCalendarTestCreateEventViewControllerDelegate>
 
 @property (nonatomic, strong) UILabel *monthLabel;
 @property (nonatomic, strong) UIButton *previousButton;
@@ -99,7 +99,7 @@
     [self.view addSubview:self.nextButton];
     [self.view addSubview:self.todayButton];
 //    [self.view addSubview:self.optionsButton];
-//    [self.view addSubview:self.createEventButton];
+    [self.view addSubview:self.createEventButton];
     [self.monthlyView removeFromSuperview];
     self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, width, height - 50) delegate:self];
     [self.view addSubview:self.monthlyView];
@@ -170,6 +170,7 @@
 
 - (void) createEventButtonSelected:(id)button {
     DPCalendarTestCreateEventViewController *createEventController = [DPCalendarTestCreateEventViewController new];
+    createEventController.delegate = self;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:createEventController];
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
     
@@ -254,6 +255,11 @@
     } else {
         return [self iphoneMonthlyViewAttributes];
     }
+}
+
+#pragma mark - DPCalendarTestCreateEventViewControllerDelegate
+-(void)eventCreated:(DPCalendarEvent *)event {
+    [self.monthlyView addEvent:event complete:nil];
 }
 
 
