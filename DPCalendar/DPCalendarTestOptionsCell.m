@@ -40,7 +40,6 @@ enum CellType{
     if (self) {
         self.nameLabel = [UILabel new];
         self.valueTextField = [UITextField new];
-        self.valueTextField.delegate = self;
         self.dateLabel = [UILabel new];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dateLabelTapped:)];

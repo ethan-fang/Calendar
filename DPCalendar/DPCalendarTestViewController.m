@@ -25,8 +25,8 @@
 @property (nonatomic, strong) UIButton *createEventButton;
 @property (nonatomic, strong) UIButton *optionsButton;
 
-@property (nonatomic, strong) NSArray *events;
-@property (nonatomic, strong) NSArray *iconEvents;
+@property (nonatomic, strong) NSMutableArray *events;
+@property (nonatomic, strong) NSMutableArray *iconEvents;
 
 @property (nonatomic, strong) DPCalendarMonthlyView *monthlyView;
 
@@ -38,7 +38,9 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        [self generateData];
         [self commonInit];
+        
     }
     return self;
 }
@@ -46,6 +48,7 @@
 -(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        [self generateData];
         [self commonInit];
     }
     return self;
@@ -54,7 +57,6 @@
 -(void) commonInit {
     [self generateMonthlyView];
     [self updateLabelWithMonth:self.monthlyView.seletedMonth];
-    [self updateData];
 }
 
 - (void) generateMonthlyView {
@@ -103,11 +105,14 @@
     [self.monthlyView removeFromSuperview];
     self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, width, height - 50) delegate:self];
     [self.view addSubview:self.monthlyView];
+    
+    [self.monthlyView setEvents:self.events complete:nil];
+    [self.monthlyView setIconEvents:self.iconEvents complete:nil];
 }
 
-- (void) updateData {
-    NSMutableArray *events = @[].mutableCopy;
-    NSMutableArray *iconEvents = @[].mutableCopy;
+- (void) generateData {
+    self.events = @[].mutableCopy;
+    self.iconEvents = @[].mutableCopy;
     
     
     NSDate *date = [[NSDate date] dateByAddingYears:0 months:0 days:0];
@@ -120,23 +125,21 @@
         if (arc4random() % 2 > 0) {
             int index = arc4random() % 3;
             DPCalendarEvent *event = [[DPCalendarEvent alloc] initWithTitle:[titles objectAtIndex:index] startTime:date endTime:[date dateByAddingYears:0 months:0 days:arc4random() % 3] colorIndex:index];
-            [events addObject:event];
+            [self.events addObject:event];
         }
         
         if (arc4random() % 2 > 0) {
             DPCalendarIconEvent *iconEvent = [[DPCalendarIconEvent alloc] initWithStartTime:date endTime:[date dateByAddingYears:0 months:0 days:0] icon:icon];
-            [iconEvents addObject:iconEvent];
+            [self.iconEvents addObject:iconEvent];
             
             
             iconEvent = [[DPCalendarIconEvent alloc] initWithTitle:[NSString stringWithFormat:@"%d", i] startTime:date endTime:[date dateByAddingYears:0 months:0 days:0] icon:greyIcon bkgColorIndex:1];
-            [iconEvents addObject:iconEvent];
+            [self.iconEvents addObject:iconEvent];
         }
         
         date = [date dateByAddingYears:0 months:0 days:1];
     }
-    
-    [self.monthlyView setEvents:events complete:nil];
-    [self.monthlyView setIconEvents:iconEvents complete:nil];
+
 }
 
 -(void) previousButtonSelected:(id)button {
@@ -259,7 +262,9 @@
 
 #pragma mark - DPCalendarTestCreateEventViewControllerDelegate
 -(void)eventCreated:(DPCalendarEvent *)event {
-    [self.monthlyView addEvent:event complete:nil];
+    [self.events addObject:event];
+    [self.monthlyView setEvents:self.events complete:nil];
+    
 }
 
 

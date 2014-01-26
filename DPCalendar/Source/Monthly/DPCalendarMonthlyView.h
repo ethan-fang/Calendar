@@ -64,7 +64,6 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 
 - (void) setEvents:(NSArray *)events complete:(void (^)(void))complete;
 - (void) setIconEvents:(NSArray *)iconEvents complete:(void (^)(void))complete;
-- (void) addEvent:(DPCalendarEvent *)event complete:(void (^)(void))complete;
 
 -(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 
