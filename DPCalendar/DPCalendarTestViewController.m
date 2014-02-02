@@ -60,8 +60,8 @@
 }
 
 - (void) generateMonthlyView {
-    CGFloat width = self.view.bounds.size.height;
-    CGFloat height = self.view.bounds.size.width;
+    CGFloat width = [self.class currentSize].width;
+    CGFloat height = [self.class currentSize].height;
     
     [self.previousButton removeFromSuperview];
     [self.nextButton removeFromSuperview];
@@ -70,25 +70,27 @@
     [self.optionsButton removeFromSuperview];
     [self.createEventButton removeFromSuperview];
     
-    self.previousButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.nextButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - 150) / 2, 20, 150, 20)];
+    [self.monthLabel setTextAlignment:NSTextAlignmentCenter];
+    
+    self.previousButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.previousButton setBackgroundImage:[UIImage imageNamed:@"IconArrowPrev"] forState:UIControlStateNormal];
+    self.nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.nextButton setBackgroundImage:[UIImage imageNamed:@"IconArrowNext"] forState:UIControlStateNormal];
     self.todayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.optionsButton  = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.createEventButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.previousButton.frame = CGRectMake(0, 20, 100, 20);
-    self.nextButton.frame = CGRectMake(width - 50, 20, 50, 20);
-    self.todayButton.frame = CGRectMake(width - 50 * 2, 20, 50, 20);
+    self.createEventButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.createEventButton setBackgroundImage:[UIImage imageNamed:@"BtnAddSomething"] forState:UIControlStateNormal];
+    self.previousButton.frame = CGRectMake(self.monthLabel.frame.origin.x - 18, 20, 18, 20);
+    self.nextButton.frame = CGRectMake(CGRectGetMaxX(self.monthLabel.frame), 20, 18, 20);
+    self.todayButton.frame = CGRectMake(width - 60, 20, 60, 21);
     self.optionsButton.frame = CGRectMake(width - 50 * 3, 20, 50, 20);
-    self.createEventButton.frame = CGRectMake(width - 50 * 5, 20, 100, 20);
-    [self.previousButton setTitle:@"Previous" forState:UIControlStateNormal];
-    [self.nextButton setTitle:@"Next" forState:UIControlStateNormal];
+    self.createEventButton.frame = CGRectMake(10, 20, 20, 20);
     [self.todayButton setTitle:@"Today" forState:UIControlStateNormal];
     [self.optionsButton setTitle:@"Option" forState:UIControlStateNormal];
-    [self.createEventButton setTitle:@"New Event" forState:UIControlStateNormal];
     
     
-    self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - 200) / 2, 20, 200, 20)];
-    [self.monthLabel setTextAlignment:NSTextAlignmentCenter];
+    
     
     [self.previousButton addTarget:self action:@selector(previousButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.nextButton addTarget:self action:@selector(nextButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
@@ -197,7 +199,7 @@
 
 - (void) updateLabelWithMonth:(NSDate *)month {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MMMM YYYY"];
+    [formatter setDateFormat:@"MMM YYYY"];
     NSString *stringFromDate = [formatter stringFromDate:month];
     [self.monthLabel setText:stringFromDate];
 }
@@ -247,8 +249,7 @@
     return YES;
 }
 
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self commonInit];
 }
 
@@ -258,6 +259,21 @@
     } else {
         return [self iphoneMonthlyViewAttributes];
     }
+}
+
++(CGSize) currentSize
+{
+    return [self sizeInOrientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
++(CGSize) sizeInOrientation:(UIInterfaceOrientation)orientation
+{
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        size = CGSizeMake(size.height, size.width);
+    }
+    return size;
 }
 
 #pragma mark - DPCalendarTestCreateEventViewControllerDelegate
