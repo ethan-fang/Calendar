@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		66EAE592188BEAD300D539C0 /* DPCalendarTestOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAE591188BEAD300D539C0 /* DPCalendarTestOptionsViewController.m */; };
+		C80999CB189F01AB003A4F13 /* BtnAddSomething.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999C5189F01AB003A4F13 /* BtnAddSomething.png */; };
+		C80999CC189F01AB003A4F13 /* IconArrowNext.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999C6189F01AB003A4F13 /* IconArrowNext.png */; };
+		C80999CD189F01AB003A4F13 /* IconArrowNext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999C7189F01AB003A4F13 /* IconArrowNext@2x.png */; };
+		C80999CE189F01AB003A4F13 /* IconArrowPrev.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999C8189F01AB003A4F13 /* IconArrowPrev.png */; };
+		C80999CF189F01AB003A4F13 /* IconArrowPrev@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999C9189F01AB003A4F13 /* IconArrowPrev@2x.png */; };
+		C80999D0189F01AB003A4F13 /* BtnAddSomething@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999CA189F01AB003A4F13 /* BtnAddSomething@2x.png */; };
 		C81662F6186271D700D7F4B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81662F5186271D700D7F4B7 /* Foundation.framework */; };
 		C81662F8186271D700D7F4B7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81662F7186271D700D7F4B7 /* CoreGraphics.framework */; };
 		C81662FA186271D700D7F4B7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81662F9186271D700D7F4B7 /* UIKit.framework */; };
@@ -55,6 +61,12 @@
 /* Begin PBXFileReference section */
 		66EAE590188BEAD300D539C0 /* DPCalendarTestOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarTestOptionsViewController.h; sourceTree = "<group>"; };
 		66EAE591188BEAD300D539C0 /* DPCalendarTestOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarTestOptionsViewController.m; sourceTree = "<group>"; };
+		C80999C5189F01AB003A4F13 /* BtnAddSomething.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BtnAddSomething.png; sourceTree = "<group>"; };
+		C80999C6189F01AB003A4F13 /* IconArrowNext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconArrowNext.png; sourceTree = "<group>"; };
+		C80999C7189F01AB003A4F13 /* IconArrowNext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconArrowNext@2x.png"; sourceTree = "<group>"; };
+		C80999C8189F01AB003A4F13 /* IconArrowPrev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconArrowPrev.png; sourceTree = "<group>"; };
+		C80999C9189F01AB003A4F13 /* IconArrowPrev@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconArrowPrev@2x.png"; sourceTree = "<group>"; };
+		C80999CA189F01AB003A4F13 /* BtnAddSomething@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BtnAddSomething@2x.png"; sourceTree = "<group>"; };
 		C81662F2186271D700D7F4B7 /* DPCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DPCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C81662F5186271D700D7F4B7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C81662F7186271D700D7F4B7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -263,6 +275,12 @@
 		C8D18106187CFDB6001AA86D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C80999C5189F01AB003A4F13 /* BtnAddSomething.png */,
+				C80999C6189F01AB003A4F13 /* IconArrowNext.png */,
+				C80999C7189F01AB003A4F13 /* IconArrowNext@2x.png */,
+				C80999C8189F01AB003A4F13 /* IconArrowPrev.png */,
+				C80999C9189F01AB003A4F13 /* IconArrowPrev@2x.png */,
+				C80999CA189F01AB003A4F13 /* BtnAddSomething@2x.png */,
 				C8B1EE851884A96C009B27C5 /* IconPubHol.png */,
 				C8B1EE861884A96C009B27C5 /* IconPubHol@2x.png */,
 				C8D18107187CFDB6001AA86D /* IconCamera.png */,
@@ -350,13 +368,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8D1810C187CFDB6001AA86D /* IconCamera@2x.png in Resources */,
+				C80999CC189F01AB003A4F13 /* IconArrowNext.png in Resources */,
+				C80999D0189F01AB003A4F13 /* BtnAddSomething@2x.png in Resources */,
 				C8B1EE881884A96C009B27C5 /* IconPubHol@2x.png in Resources */,
 				C8D1810B187CFDB6001AA86D /* IconCamera.png in Resources */,
+				C80999CF189F01AB003A4F13 /* IconArrowPrev@2x.png in Resources */,
 				C8D1810E187CFDB6001AA86D /* IconDateGrey@2x.png in Resources */,
 				C8166302186271D700D7F4B7 /* InfoPlist.strings in Resources */,
 				C816630D186271D800D7F4B7 /* Images.xcassets in Resources */,
 				C8B1EE871884A96C009B27C5 /* IconPubHol.png in Resources */,
 				C8D1810D187CFDB6001AA86D /* IconDateGrey.png in Resources */,
+				C80999CE189F01AB003A4F13 /* IconArrowPrev.png in Resources */,
+				C80999CB189F01AB003A4F13 /* BtnAddSomething.png in Resources */,
+				C80999CD189F01AB003A4F13 /* IconArrowNext@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
