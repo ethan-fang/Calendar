@@ -507,6 +507,14 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     }];
 }
 
+-(NSArray *)eventsForDay:(NSDate *)date {
+    return [self.eventsForEachDay objectForKey:date];
+}
+
+-(NSArray *)iconEventsForDay:(NSDate *)date {
+    return [self.iconEventsForEachDay objectForKey:date];
+}
+
 - (NSIndexPath *) indexPathForCurrentMonthWithDate:(NSDate *)date {
     NSDateComponents *components =
     [self.calendar components:NSDayCalendarUnit

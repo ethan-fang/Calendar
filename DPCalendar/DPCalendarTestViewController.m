@@ -216,7 +216,7 @@
 }
 
 -(void)didSelectItemWithDate:(NSDate *)date {
-    NSLog(@"Select date %@", date);
+    NSLog(@"Select date %@ with \n events %@ \n and icon events %@", date, [self.monthlyView eventsForDay:date], [self.monthlyView iconEventsForDay:date]);
 }
 
 
