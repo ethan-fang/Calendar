@@ -227,7 +227,7 @@
     return @{
              DPCalendarMonthlyViewAttributeCellRowHeight: @23,
 //             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
-             
+             DPCalendarMonthlyViewAttributeStartDayOfWeek: @1,
              DPCalendarMonthlyViewAttributeWeekdayFont: [UIFont systemFontOfSize:18],
              DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:14],
              DPCalendarMonthlyViewAttributeEventFont: [UIFont systemFontOfSize:14],
