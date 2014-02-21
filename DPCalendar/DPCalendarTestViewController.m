@@ -108,8 +108,8 @@
     self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, width, height - 50) delegate:self];
     [self.view addSubview:self.monthlyView];
     
-    [self.monthlyView setEvents:self.events complete:nil];
-    [self.monthlyView setIconEvents:self.iconEvents complete:nil];
+    self.monthlyView.events = self.events;
+    self.monthlyView.iconEvents =  self.iconEvents;
 }
 
 - (void) generateData {
@@ -279,7 +279,7 @@
 #pragma mark - DPCalendarTestCreateEventViewControllerDelegate
 -(void)eventCreated:(DPCalendarEvent *)event {
     [self.events addObject:event];
-    [self.monthlyView setEvents:self.events complete:nil];
+    self.monthlyView.events = self.events;
     
 }
 
