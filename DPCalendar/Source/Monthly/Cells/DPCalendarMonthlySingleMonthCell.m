@@ -97,7 +97,7 @@
     NSDateComponents *components =
     [self.calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
                 fromDate:self.date];
-    NSString *dayString = [NSString stringWithFormat:@"%d", components.day];
+    NSString *dayString = [NSString stringWithFormat:@"%ld", (long)components.day];
     float dayWidth = [dayString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.dayFont.pointSize + 1)
                                                options:NSStringDrawingUsesLineFragmentOrigin
                                             attributes:@{
