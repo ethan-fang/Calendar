@@ -10,8 +10,13 @@
 #import "DPCalendarMonthlySingleMonthCell.h"
 #import "DPCalendarEvent.h"
 
-extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight; //Height of weekday cell
-extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont; //Font of weekday
+
+/*
+ Dictionary keys used by -monthlyViewAttributes: for view customizations
+ */
+
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight; //Height of weekday cell - Dafault: 20
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont; //Font of weekday - Dafault: [UIFont systemFontOfSize:12]
 
 extern NSString *const DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor; //Today's color in cell
 extern NSString *const DPCalendarMonthlyViewAttributeCellHeight; //Height of date cell
@@ -32,20 +37,9 @@ extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor; //Border co
 extern NSString *const DPCalendarMonthlyViewAttributeStartDayOfWeek; //Start day of the week (0 means starting from Sunday)
 extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient function to define the height of cell
 
-@protocol DPCalendarMonthlyViewDelegate <NSObject>
 
--(void) didScrollToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
+@protocol DPCalendarMonthlyViewDelegate;
 
-@optional
-- (Class) monthlyCellClass;
-- (Class) monthlyWeekdayClassClass;
-
-- (BOOL) shouldHighlightItemWithDate:(NSDate *)date;
-- (BOOL) shouldSelectItemWithDate:(NSDate *)date;
-- (void) didSelectItemWithDate:(NSDate *)date;
-
-- (NSDictionary *) monthlyViewAttributes;
-@end
 
 @interface DPCalendarMonthlyView : UIScrollView<UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -55,15 +49,14 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 //Current selected month
 @property (nonatomic, readonly) NSDate *seletedMonth;
 
-@property(nonatomic,strong) UIColor *separatorColor;
-
 //Background Color for monthly scroll view
 @property(nonatomic, strong) UIColor *monthlyViewBackgroundColor;
 
 @property (nonatomic, weak) id<DPCalendarMonthlyViewDelegate> monthlyViewDelegate;
 
-- (void) setEvents:(NSArray *)events complete:(void (^)(void))complete;
-- (void) setIconEvents:(NSArray *)iconEvents complete:(void (^)(void))complete;
+@property (nonatomic, strong) NSArray* events;
+@property (nonatomic, strong) NSArray* iconEvents;
+
 
 -(id)initWithFrame:(CGRect)frame delegate:(id<DPCalendarMonthlyViewDelegate>)monthViewDelegate;
 
@@ -78,5 +71,26 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 
 - (NSArray *)eventsForDay:(NSDate *)date;
 - (NSArray *)iconEventsForDay:(NSDate *)date;
+
+#pragma mark - Deprecated
+- (void) setEvents:(NSArray *)events complete:(void (^)(void))complete __attribute__((deprecated("use property events.")));
+- (void) setIconEvents:(NSArray *)iconEvents complete:(void (^)(void))complete __attribute__((deprecated("use property iconEvents")));
+
+@end
+
+
+@protocol DPCalendarMonthlyViewDelegate <NSObject>
+
+- (void) didScrollToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
+
+@optional
+- (Class) monthlyCellClass;
+- (Class) monthlyWeekdayClassClass;
+
+- (BOOL) shouldHighlightItemWithDate:(NSDate *)date;
+- (BOOL) shouldSelectItemWithDate:(NSDate *)date;
+- (void) didSelectItemWithDate:(NSDate *)date;
+
+- (NSDictionary *) monthlyViewAttributes;
 
 @end
