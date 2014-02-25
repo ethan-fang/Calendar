@@ -124,10 +124,12 @@ static NSInteger const DPCalendarNextMonth = 2;
     [self reloadPagingViews];
 }
 
+
 - (void) setIconEvents:(NSArray *)iconEvents {
     _iconEvents = iconEvents;
     [self reloadPagingViews];
 }
+
 
 - (NSMutableArray*) pagingMonths {
     
@@ -151,6 +153,12 @@ static NSInteger const DPCalendarNextMonth = 2;
     
     _monthlyViewBackgroundColor = monthlyViewBackgroundColor;
     self.backgroundColor = _monthlyViewBackgroundColor;
+}
+
+
+- (NSDate*) seletedMonth {
+    
+    return [self.pagingMonths objectAtIndex:DPCalendarCurrentMonth];
 }
 
 //- (NSOperationQueue*) processQueue {
@@ -288,7 +296,6 @@ static NSInteger const DPCalendarNextMonth = 2;
         
         [collectionView reloadData];
         
-        
         // Mark and Scroll to selected date
         
         NSDate *thisMonth = [self.pagingMonths objectAtIndex:DPCalendarCurrentMonth];
@@ -347,10 +354,6 @@ static NSInteger const DPCalendarNextMonth = 2;
     return [self.pagingMonths objectAtIndex:[self.pagingViews indexOfObject:collectionView]];
 }
 
-- (NSDate *) selectedMonth {
-    
-    return [self.pagingMonths objectAtIndex:DPCalendarCurrentMonth];
-}
 
 - (NSIndexPath *) indexPathForCurrentMonthWithDate:(NSDate *)date {
     NSDateComponents *components =
@@ -364,6 +367,41 @@ static NSInteger const DPCalendarNextMonth = 2;
 }
 
 
+- (BOOL) isDateInCurrentPresentedMonth: (NSDate*) date {
+    
+    BOOL isInTheCurrentMonth = NO;
+    
+    NSUInteger preservedDay = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+    NSUInteger preservedMonth = (NSYearCalendarUnit | NSMonthCalendarUnit);
+    
+    NSDateComponents *dateCompoments = [self.calendar components:preservedDay fromDate:date];
+    NSDate *dateWithDayOnly = [self.calendar dateFromComponents:dateCompoments];
+    
+    NSDateComponents* currentMonthComponents = [self.calendar components:preservedMonth fromDate:self.pagingMonths[DPCalendarCurrentMonth]];
+    NSDate* currentPresentedMonth = [self.calendar dateFromComponents:currentMonthComponents];
+    
+    // Last day of the previous month
+    NSDateComponents *compsforPreviousMonth = [self.calendar components:preservedMonth fromDate:currentPresentedMonth];
+    [compsforPreviousMonth setDay:-1];
+    NSDate *lastDayOfThePreviousMonth = [self.calendar dateFromComponents:compsforPreviousMonth];
+    
+    // First day of the next month
+    NSDateComponents *compsforNextMonth = [self.calendar components:preservedMonth fromDate:currentPresentedMonth];
+    [compsforNextMonth setMonth:[compsforNextMonth month]+1];
+    [compsforNextMonth setDay:1];
+    NSDate *firstDayOfNextMonth = [self.calendar dateFromComponents:compsforNextMonth];
+    
+    if ([[dateWithDayOnly earlierDate:lastDayOfThePreviousMonth] isEqualToDate:lastDayOfThePreviousMonth]) {
+        if ([[dateWithDayOnly laterDate:firstDayOfNextMonth] isEqualToDate:firstDayOfNextMonth]) {
+            isInTheCurrentMonth = YES;
+        }
+    }
+    
+    return isInTheCurrentMonth;
+    
+}
+
+
 #pragma mark - Scrolling
 
 - (void) scrollToMonth:(NSDate *)month complete:(void (^)(void))complete {
@@ -371,17 +409,15 @@ static NSInteger const DPCalendarNextMonth = 2;
     NSDate *firstDayOfDestinationMonth = [month dp_firstDateOfMonth:self.calendar];
     NSDate *firstDayOfOriginalMonth = [self.seletedMonth dp_firstDateOfMonth:self.calendar];
     
-    int scrollToPosition = 1;
+    int scrollToPosition = DPCalendarCurrentMonth;
     if ([firstDayOfDestinationMonth compare:firstDayOfOriginalMonth] == NSOrderedDescending) {
-        scrollToPosition = 2;
+        scrollToPosition = DPCalendarNextMonth;
     } else if ([firstDayOfDestinationMonth compare:firstDayOfOriginalMonth] == NSOrderedAscending) {
-        scrollToPosition = 0;
+        scrollToPosition = DPCalendarPastMonth;
     }
-    if (scrollToPosition == 1) {
-        [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1] firstDate:[self firstVisibleDateOfMonth:month] lastDate:[self lastVisibleDateOfMonth:month]];
-        if (complete) {
-            complete();
-        }
+    if (scrollToPosition == DPCalendarCurrentMonth) {
+        [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:DPCalendarCurrentMonth] firstDate:[self firstVisibleDateOfMonth:month] lastDate:[self lastVisibleDateOfMonth:month]];
+        if (complete) complete();
         return;
     }
     [self.pagingMonths setObject:month atIndexedSubscript:scrollToPosition];
@@ -405,7 +441,7 @@ static NSInteger const DPCalendarNextMonth = 2;
 
 - (void) scrollToCurrentMonth {
     
-    NSDate *today = [NSDate new];
+    NSDate *today = [NSDate date];
     [self.pagingMonths setObject:today atIndexedSubscript:1];
     self.selectedDate = today;
     
@@ -434,35 +470,48 @@ static NSInteger const DPCalendarNextMonth = 2;
     [self.pagingMonths setObject:[currentMonth dateByAddingYears:0 months:-1 days:0] atIndexedSubscript:0];
 }
 
+
 #pragma UIScrollViewDelegate
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)sender
-{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)sender {
+    
     // All data for the documents are stored in an array (documentTitles).
     // We keep track of the index that we are scrolling to so that we
     // know what data to load for each page.
-    if(self.contentOffset.x > self.frame.size.width)
-    {
-        NSDate *currentMonth = [self.pagingMonths objectAtIndex:2];
-        [self.pagingMonths setObject:currentMonth atIndexedSubscript:1];
-        [self adjustPreviousAndNextMonthPage];
-    } else if(self.contentOffset.x < self.frame.size.width)
-    {
-        NSDate *currentMonth = [self.pagingMonths objectAtIndex:0];
-        [self.pagingMonths setObject:currentMonth atIndexedSubscript:1];
-        [self adjustPreviousAndNextMonthPage];
-    } else {
-        return;
-    }
-    [self reloadPagingViews];
-    NSDate *month = [self.pagingMonths objectAtIndex:1];
-    [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:1] firstDate:[self firstVisibleDateOfMonth:month] lastDate:[self lastVisibleDateOfMonth:month]];
     
-    [self scrollRectToVisible:((UICollectionView *)[self.pagingViews objectAtIndex:1]).frame animated:NO];
+    if (self.contentOffset.x != self.frame.size.width) {
+        
+        NSDate* currentMonth;
+        
+        if (self.contentOffset.x > self.frame.size.width) {
+            
+            currentMonth = [self.pagingMonths objectAtIndex:DPCalendarNextMonth];
+            
+        } else {
+            
+            currentMonth = [self.pagingMonths objectAtIndex:DPCalendarPastMonth];
+        }
+        
+        [self.pagingMonths setObject:currentMonth atIndexedSubscript:1];
+        [self adjustPreviousAndNextMonthPage];
+        
+        self.selectedDate = nil;
+        
+        [self reloadPagingViews];
+        
+        NSDate *month = [self.pagingMonths objectAtIndex:DPCalendarCurrentMonth];
+        
+        [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:DPCalendarCurrentMonth]
+                                         firstDate:[self firstVisibleDateOfMonth:month]
+                                          lastDate:[self lastVisibleDateOfMonth:month]];
+        
+        UICollectionView* visibleColletionView = [self.pagingViews objectAtIndex:DPCalendarCurrentMonth];
+        [self scrollRectToVisible:visibleColletionView.frame animated:NO];
+    }
 }
 
 
-#pragma mark - Events for Conlletion Views
+#pragma mark - Events for Colletion Views
 
 - (NSPredicate*) predicateForDate: (NSDate *)date {
     
@@ -506,7 +555,7 @@ static NSInteger const DPCalendarNextMonth = 2;
 }
 
 
-#pragma mark UICollectionViewDataSource
+#pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
@@ -592,7 +641,7 @@ static NSInteger const DPCalendarNextMonth = 2;
     }
 }
 
-#pragma mark UICollectionViewDelegate
+#pragma mark - UICollectionViewDelegate
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -667,6 +716,33 @@ static NSInteger const DPCalendarNextMonth = 2;
         return NO;
     }
     return YES;
+}
+
+
+- (CGRect) rectForDay: (NSDate*) date {
+    
+    CGRect rect = CGRectZero;
+    
+    if ([self isDateInCurrentPresentedMonth:date]) {
+        
+        NSDateComponents *components = [self.calendar components:NSDayCalendarUnit
+                                                        fromDate:[self firstVisibleDateOfMonth:date]
+                                                          toDate:date
+                                                         options:0];
+        
+        NSIndexPath* indexPath = [NSIndexPath indexPathForItem:components.day + self.daysInWeek inSection:0];
+        
+        if (indexPath) {
+            UICollectionView* currentMonnthColletionView = self.pagingViews[DPCalendarCurrentMonth];
+            UICollectionViewCell* cell = [currentMonnthColletionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier forIndexPath:indexPath];
+            rect = cell.frame;
+            
+            // TODO: Can't figure out why the cell.frame is always above the selected cell. The next line should be replaced by proper code as soon as possible
+            rect.origin.y += cell.frame.size.height - 13;
+        }
+    }
+    
+    return rect;
 }
 
 #pragma mark - Default Colors
