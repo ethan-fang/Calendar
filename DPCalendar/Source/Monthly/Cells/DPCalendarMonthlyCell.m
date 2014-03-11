@@ -34,19 +34,6 @@ void DPContextDrawLine(CGContextRef c, CGPoint start, CGPoint end, CGColorRef co
     return self;
 }
 
--(void)drawRect:(CGRect)rect {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGColorRef separatorColor = self.separatorColor.CGColor;
-    
-    CGFloat pixel = 1.f / [UIScreen mainScreen].scale;
-    DPContextDrawLine(context,
-                      CGPointMake(0.f, self.bounds.size.height),
-                      CGPointMake(self.bounds.size.width, self.bounds.size.height),
-                      separatorColor,
-                      pixel);
-}
-
 - (void) drawCellWithColor:(UIColor *)color InRect: (CGRect)rect context: (CGContextRef)context{
     CGContextSaveGState(context);
     CGContextBeginPath(context);

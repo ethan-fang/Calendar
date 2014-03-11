@@ -75,11 +75,28 @@
     [super drawRect:rect];
     
     
+    //Right Border
     DPContextDrawLine(context,
                       CGPointMake(size.width - pixel, pixel),
                       CGPointMake(size.width - pixel, size.height),
                       self.separatorColor.CGColor,
                       pixel);
+    
+    //Bottom Border
+    DPContextDrawLine(context,
+                      CGPointMake(0.f, self.bounds.size.height),
+                      CGPointMake(self.bounds.size.width, self.bounds.size.height),
+                      self.separatorColor.CGColor,
+                      pixel);
+    
+    //Top Border if necessary
+    if (self.isFirstRow) {
+        DPContextDrawLine(context,
+                          CGPointMake(0.f, pixel),
+                          CGPointMake(self.bounds.size.width, pixel),
+                          self.separatorColor.CGColor,
+                          pixel);
+    }
     
     //Set text style
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];

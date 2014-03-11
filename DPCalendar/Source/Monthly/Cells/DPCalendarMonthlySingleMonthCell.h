@@ -21,6 +21,7 @@ typedef enum
 
 @property (nonatomic) NSDate *firstVisiableDateOfMonth;
 @property (nonatomic) BOOL isInSameMonth;
+@property (nonatomic) BOOL isFirstRow;
 
 @property (nonatomic, strong) UIColor *todayBannerBkgColor;
 

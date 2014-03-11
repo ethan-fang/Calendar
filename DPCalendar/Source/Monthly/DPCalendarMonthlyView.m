@@ -303,7 +303,9 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         [collectionView reloadData];
         
         NSDate *thisMonth = [self.pagingMonths objectAtIndex:1];
-        if ((collectionView == [self.pagingViews objectAtIndex:1]) && self.selectedDate && ([[self firstVisibleDateOfMonth:thisMonth] compare:self.selectedDate] == NSOrderedAscending) && ([[self lastVisibleDateOfMonth:thisMonth] compare:self.selectedDate] == NSOrderedDescending)) {
+        NSDate *firstVisibleDate = [self firstVisibleDateOfMonth:thisMonth];;
+        NSDate *lastVisibleDate = [self lastVisibleDateOfMonth:thisMonth];
+        if ((collectionView == [self.pagingViews objectAtIndex:1]) && self.selectedDate && ([firstVisibleDate compare:self.selectedDate] == NSOrderedAscending) && ([lastVisibleDate compare:self.selectedDate] == NSOrderedDescending)) {
             
             NSIndexPath *indexPath = [self indexPathForCurrentMonthWithDate:self.selectedDate];
             if ([self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath]) {
@@ -524,7 +526,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
 - (NSIndexPath *) indexPathForCurrentMonthWithDate:(NSDate *)date {
     NSDateComponents *components =
     [self.calendar components:NSDayCalendarUnit
-                     fromDate:[self firstVisibleDateOfMonth:date]
+                     fromDate:[self firstVisibleDateOfMonth:[self.pagingMonths objectAtIndex:1]]
                        toDate:date
                       options:0];
     
@@ -611,6 +613,8 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     DPCalendarMonthlySingleMonthCell *cell =
     [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                               forIndexPath:indexPath];
+    
+    cell.isFirstRow = indexPath.item < 2 * self.daysInWeek;
     
     cell.eventColors = self.eventColors;
     cell.todayBannerBkgColor = self.todayBannerBkgColor;
