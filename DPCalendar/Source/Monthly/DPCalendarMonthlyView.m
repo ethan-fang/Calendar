@@ -305,7 +305,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         NSDate *thisMonth = [self.pagingMonths objectAtIndex:1];
         NSDate *firstVisibleDate = [self firstVisibleDateOfMonth:thisMonth];;
         NSDate *lastVisibleDate = [self lastVisibleDateOfMonth:thisMonth];
-        if ((collectionView == [self.pagingViews objectAtIndex:1]) && self.selectedDate && ([firstVisibleDate compare:self.selectedDate] == NSOrderedAscending) && ([lastVisibleDate compare:self.selectedDate] == NSOrderedDescending)) {
+        if ((collectionView == [self.pagingViews objectAtIndex:1]) && self.selectedDate && ([firstVisibleDate compare:self.selectedDate] != NSOrderedDescending) && ([lastVisibleDate compare:self.selectedDate] != NSOrderedAscending)) {
             
             NSIndexPath *indexPath = [self indexPathForCurrentMonthWithDate:self.selectedDate];
             if ([self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath]) {
