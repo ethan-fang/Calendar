@@ -23,6 +23,13 @@
 
 @implementation DPCalendarMonthlySingleMonthCell
 
+#define DAY_TEXT_RIGHT_MARGIN 6.0f
+
+#define ROW_MARGIN 3.0f
+#define EVENT_START_MARGIN 1.0f
+#define EVENT_END_MARGIN 1.0f
+#define EVENT_TITLE_MARGIN 2.0f
+
 -(void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events iconEvents:(NSArray *)iconEvents {
     self.date = [calendar dateFromComponents:[calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:date]];
     self.events = events;
@@ -47,14 +54,7 @@
     [self setNeedsDisplay];
 }
 
-#define DAY_TEXT_RIGHT_MARGIN 6.0f
-#define ICON_EVENT_VERTICAL_MARGIN 3.0f
-#define ICON_EVENT_HORIZONTAL_MARGIN 4.0f
 
-#define ROW_MARGIN 3.0f
-#define EVENT_START_MARGIN 1.0f
-#define EVENT_END_MARGIN 1.0f
-#define EVENT_TITLE_MARGIN 2.0f
 
 -(void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -114,7 +114,7 @@
     NSDateComponents *components =
     [self.calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
                 fromDate:self.date];
-    NSString *dayString = [NSString stringWithFormat:@"%d", components.day];
+    NSString *dayString = [NSString stringWithFormat:@"%ld", (long)components.day];
     float dayWidth = [dayString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.dayFont.pointSize + 1)
                                                options:NSStringDrawingUsesLineFragmentOrigin
                                             attributes:@{
@@ -127,7 +127,7 @@
     int eventsNotShowingCount = 0;
 
     //Draw Icon events
-    float iconX = ICON_EVENT_HORIZONTAL_MARGIN;
+    float iconX = self.iconEventMarginX;
     for (int i = 0; i < self.iconEvents.count; i++) {
         DPCalendarIconEvent *event = [self.iconEvents objectAtIndex:i];
         CGFloat titleWidth = [event.title boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.iconEventFont.pointSize)
@@ -137,7 +137,7 @@
                                                            } context:stringContext].size.width;
         
         BOOL isWidthLonger = event.icon.size.width > event.icon.size.height;
-        float iconMaxHeight = self.rowHeight - ICON_EVENT_VERTICAL_MARGIN * 2;
+        float iconMaxHeight = self.rowHeight - self.iconEventMarginY * 2;
         float scale = (iconMaxHeight) / (isWidthLonger ? event.icon.size.width : event.icon.size.height);
         float iconWidth = isWidthLonger ? (iconMaxHeight) : event.icon.size.width * scale;
         float iconHeight = isWidthLonger ? event.icon.size.height * scale : (iconMaxHeight);
@@ -156,14 +156,14 @@
                 
                 
                 [event.icon drawInRect:CGRectMake(iconHeight / 2 + iconX + titleWidth, (self.rowHeight - iconHeight) / 2, iconWidth, iconHeight)];
-                iconX += iconWidth + titleWidth + iconWidth + 2 * iconHeight + ICON_EVENT_HORIZONTAL_MARGIN;
+                iconX += iconWidth + titleWidth + iconWidth + 2 * iconHeight + self.iconEventMarginX;
             }
         } else {
             if (iconX + iconWidth > rect.size.width - dayWidth - DAY_TEXT_RIGHT_MARGIN) {
                 //Not enough space
             } else {
                 [event.icon drawInRect:CGRectMake(iconX, (self.rowHeight - iconHeight) / 2, iconWidth, iconHeight)];
-                iconX += iconWidth + ICON_EVENT_HORIZONTAL_MARGIN;
+                iconX += iconWidth + self.iconEventMarginX;
             }
         }
     }

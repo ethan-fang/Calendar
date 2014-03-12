@@ -21,6 +21,8 @@ extern NSString *const DPCalendarMonthlyViewAttributeCellRowHeight; //Height of 
 extern NSString *const DPCalendarMonthlyViewAttributeEventColors; //Underline color of the event
 extern NSString *const DPCalendarMonthlyViewAttributeIconEventFont; //Font of icon event
 extern NSString *const DPCalendarMonthlyViewAttributeIconEventBkgColors; //Background color of icon event
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventMarginX;
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventMarginY;
 extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthColor; //Background color of the cell that is not in current month
 extern NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor; //Highlight color of the cell
 extern NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor; //Selected color of the cell

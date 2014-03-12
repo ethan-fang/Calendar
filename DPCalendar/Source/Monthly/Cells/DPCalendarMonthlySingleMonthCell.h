@@ -40,4 +40,8 @@ typedef enum
 @property (nonatomic) DPCalendarMonthlyViewEventDrawingStyle eventDrawingStyle;
 
 @property (nonatomic, setter = setIsPreviousSelectedCell:) BOOL isPreviousSelectedCell;
+
+
+@property(nonatomic) CGFloat iconEventMarginX;
+@property(nonatomic) CGFloat iconEventMarginY;
 @end
