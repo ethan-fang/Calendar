@@ -60,8 +60,8 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     //Draw borders
     CGFloat pixel = 1.f / [UIScreen mainScreen].scale;
-    CGSize size = self.bounds.size;
-    CGRect internalRect = CGRectMake(0, pixel, size.width - pixel, size.height - pixel);
+    CGSize size = rect.size;
+    CGRect internalRect = CGRectMake(0, 0, size.width - pixel, size.height);
     
     //Draw background colors
     if (self.isSelected || self.isPreviousSelectedCell) {
@@ -121,7 +121,8 @@
                                                          NSFontAttributeName: [UIFont systemFontOfSize:self.dayFont.pointSize]
                                                          } context:stringContext].size.width;
 
-    [dayString drawInRect:CGRectMake(size.width - dayWidth - DAY_TEXT_RIGHT_MARGIN, (self.rowHeight - self.dayFont.pointSize) / 2, dayWidth, self.dayFont.pointSize) withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:isDayToday ? [UIColor whiteColor] : self.dayTextColor}];
+    CGPoint dayPoint = CGPointMake(size.width - dayWidth - DAY_TEXT_RIGHT_MARGIN, (self.rowHeight - self.dayFont.pointSize) / 2);
+    [dayString drawAtPoint:dayPoint withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:isDayToday ? [UIColor whiteColor] : self.dayTextColor}];
     
     
     int eventsNotShowingCount = 0;

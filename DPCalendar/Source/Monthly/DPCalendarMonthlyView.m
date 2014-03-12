@@ -262,7 +262,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat width      = self.bounds.size.width;
     CGFloat itemWidth  = roundf(width / self.daysInWeek);
-    CGFloat itemHeight = indexPath.item < self.daysInWeek ? self.weekdayHeight : self.cellHeight;
+    CGFloat itemHeight = roundf(indexPath.item < self.daysInWeek ? self.weekdayHeight : self.cellHeight);
     
     NSUInteger weekday = indexPath.item % self.daysInWeek;
     
@@ -316,13 +316,18 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         NSDate *thisMonth = [self.pagingMonths objectAtIndex:1];
         NSDate *firstVisibleDate = [self firstVisibleDateOfMonth:thisMonth];;
         NSDate *lastVisibleDate = [self lastVisibleDateOfMonth:thisMonth];
-        if ((collectionView == [self.pagingViews objectAtIndex:1]) && self.selectedDate && ([firstVisibleDate compare:self.selectedDate] != NSOrderedDescending) && ([lastVisibleDate compare:self.selectedDate] != NSOrderedAscending)) {
-            
-            NSIndexPath *indexPath = [self indexPathForCurrentMonthWithDate:self.selectedDate];
-            if ([self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath]) {
-                [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-                [self collectionView:collectionView didSelectItemAtIndexPath:indexPath];
+        if ((collectionView == [self.pagingViews objectAtIndex:1])) {
+            //If needs to select selected date
+            if (self.selectedDate && ([firstVisibleDate compare:self.selectedDate] != NSOrderedDescending) && ([lastVisibleDate compare:self.selectedDate] != NSOrderedAscending)) {
+                NSIndexPath *indexPath = [self indexPathForCurrentMonthWithDate:self.selectedDate];
+                if ([self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath]) {
+                    [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+                    [self collectionView:collectionView didSelectItemAtIndexPath:indexPath];
+                }
+            } else {
+                [collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
             }
+            
         }
     }
 }
