@@ -38,6 +38,8 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 
 -(void) didScrollToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
 
+-(void) didSkipToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
+
 @optional
 - (Class) monthlyCellClass;
 - (Class) monthlyWeekdayClassClass;
@@ -80,5 +82,7 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 
 - (NSArray *)eventsForDay:(NSDate *)date;
 - (NSArray *)iconEventsForDay:(NSDate *)date;
+
+- (void) reloadView;
 
 @end

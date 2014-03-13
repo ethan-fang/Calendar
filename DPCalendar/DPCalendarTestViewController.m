@@ -209,6 +209,10 @@
     [self updateLabelWithMonth:month];
 }
 
+-(void)didSkipToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate {
+    [self updateLabelWithMonth:month];
+}
+
 -(BOOL)shouldHighlightItemWithDate:(NSDate *)date {
     return YES;
 }
