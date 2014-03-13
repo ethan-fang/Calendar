@@ -91,6 +91,10 @@ has the following functions:
 ```
 - (void) didSelectItemWithDate:(NSDate *)date;
 ```
+* Callback when user select an event
+```
+- (void)didTapEvent:(DPCalendarEvent *)event onDate:(NSDate *)date;
+```
 * Customise appearances of the calendar view
 ```
 - (NSDictionary *) monthlyViewAttributes;
