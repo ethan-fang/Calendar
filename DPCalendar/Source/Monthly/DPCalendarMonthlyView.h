@@ -37,7 +37,6 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 @protocol DPCalendarMonthlyViewDelegate <NSObject>
 
 -(void) didScrollToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
-
 -(void) didSkipToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
 
 @optional
@@ -47,6 +46,7 @@ extern NSString *const DPCalendarMonthlyViewAttributeMonthRows; //A convenient f
 - (BOOL) shouldHighlightItemWithDate:(NSDate *)date;
 - (BOOL) shouldSelectItemWithDate:(NSDate *)date;
 - (void) didSelectItemWithDate:(NSDate *)date;
+- (void)didTapEvent:(DPCalendarEvent *)event onDate:(NSDate *)date;
 
 - (NSDictionary *) monthlyViewAttributes;
 @end

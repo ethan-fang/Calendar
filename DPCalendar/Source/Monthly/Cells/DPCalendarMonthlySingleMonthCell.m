@@ -7,7 +7,6 @@
 //
 
 #import "DPCalendarMonthlySingleMonthCell.h"
-#import "DPCalendarEvent.h"
 #import "DPCalendarIconEvent.h"
 #import "NSDate+DP.h"
 
@@ -29,6 +28,15 @@
 #define EVENT_START_MARGIN 1.0f
 #define EVENT_END_MARGIN 1.0f
 #define EVENT_TITLE_MARGIN 2.0f
+
+-(id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapCell:)];
+        [self addGestureRecognizer:tapGestureRecognizer];
+    }
+    return self;
+}
 
 -(void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events iconEvents:(NSArray *)iconEvents {
     self.date = [calendar dateFromComponents:[calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:date]];
@@ -54,7 +62,22 @@
     [self setNeedsDisplay];
 }
 
+-(void) didTapCell:(UITapGestureRecognizer *)gesutreRecognizer {
+    CGPoint point = [gesutreRecognizer locationInView:self];
+    NSDate *day = self.date;
+    for (DPCalendarEvent *event in self.events) {
+        if (event.rowIndex == 0) {
+            continue;
+        }
+        CGFloat eventOriginY = event.rowIndex * self.rowHeight;
+        CGFloat eventMaxY = eventOriginY + self.rowHeight;
+        if ((point.y >= eventOriginY) && (point.y < eventMaxY)) {
+            [self.delegate didTapEvent:event onDate:day];
+            break;
+        }
+    }
 
+}
 
 -(void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();

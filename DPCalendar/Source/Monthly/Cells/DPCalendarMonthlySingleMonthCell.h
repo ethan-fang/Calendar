@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DPCalendarMonthlyCell.h"
+#import "DPCalendarEvent.h"
 
 typedef enum
 {
@@ -15,10 +16,17 @@ typedef enum
     DPCalendarMonthlyViewEventDrawingStyleBar
 } DPCalendarMonthlyViewEventDrawingStyle;
 
+@protocol DPCalendarMonthlySingleMonthCellDelegate <NSObject>
+
+-(void) didTapEvent:(DPCalendarEvent *)event onDate:(NSDate *)date;
+
+@end
+
 @interface DPCalendarMonthlySingleMonthCell : DPCalendarMonthlyCell
 
 -(void) setDate:(NSDate *)date calendar:(NSCalendar *)calendar events:(NSArray *)events iconEvents:(NSArray *)iconEvents;
 
+@property (nonatomic, weak) id<DPCalendarMonthlySingleMonthCellDelegate> delegate;
 @property (nonatomic) NSDate *firstVisiableDateOfMonth;
 @property (nonatomic) BOOL isInSameMonth;
 @property (nonatomic) BOOL isFirstRow;

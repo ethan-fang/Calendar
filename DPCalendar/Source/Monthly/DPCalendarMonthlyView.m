@@ -48,7 +48,7 @@ NSString *const DPCalendarMonthlyViewAttributeMonthRows = @"DPCalendarMonthlyVie
 #define ICON_EVENT_VERTICAL_MARGIN 3.0f
 #define ICON_EVENT_HORIZONTAL_MARGIN 4.0f
 
-@interface DPCalendarMonthlyView()<UIScrollViewDelegate, UICollectionViewDelegate>
+@interface DPCalendarMonthlyView()<UIScrollViewDelegate, UICollectionViewDelegate, DPCalendarMonthlySingleMonthCellDelegate>
 
 //Customize properties
 @property (nonatomic) CGFloat cellHeight;
@@ -675,6 +675,7 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     DPCalendarMonthlySingleMonthCell *cell =
     [collectionView dequeueReusableCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier
                                               forIndexPath:indexPath];
+    cell.delegate = self;
     
     cell.iconEventMarginX = self.iconEventMarginX;
     cell.iconEventMarginY = self.iconEventMarginY;
@@ -739,6 +740,11 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     if ([self.monthlyViewDelegate respondsToSelector:@selector(didSelectItemWithDate:)]) {
         return [self.monthlyViewDelegate didSelectItemWithDate:self.selectedDate];
     }
+}
+
+#pragma mark - DPCalendarMonthlySingleMonthCellDelegate
+-(void)didTapEvent:(DPCalendarEvent *)event onDate:(NSDate *)date {
+    [self.monthlyViewDelegate didTapEvent:event onDate:date];
 }
 
 @end

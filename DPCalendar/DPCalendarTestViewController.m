@@ -213,6 +213,10 @@
     [self updateLabelWithMonth:month];
 }
 
+-(void)didTapEvent:(DPCalendarEvent *)event onDate:(NSDate *)date {
+    NSLog(@"Touched event %@, date %@", event.title, date);
+}
+
 -(BOOL)shouldHighlightItemWithDate:(NSDate *)date {
     return YES;
 }
