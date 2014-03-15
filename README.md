@@ -18,6 +18,14 @@
 ## Example
 ```
 DPCalendarMonthView *calendarView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 0, 300, 200) delegate:self];
+```
+Or 
+```
+DPCalendarMonthView *calendarView = [Your calendar view loaded from storyboard];
+calendarView.monthlyViewDelegate = self;
+```
+Then
+```
 NSMutableArray *events = @[].mutableCopy;
 NSMutableArray *iconEvents = @[].mutableCopy;
     
@@ -31,15 +39,19 @@ for (int i = 0; i < 40; i++) {
    date = [date dateByAddingYears:0 months:0 days:1];
 }
 
-self.monthlyView.events = events;
-self.monthlyView.iconEvents = iconEvents;
+[self.monthlyView setEvents:self.events complete:nil];
+[self.monthlyView setIconEvents:self.iconEvents complete:nil];
 ```
 ## Initiate Calendar
 To achieve max flexible,```DPCalendarMonthView``` is only the calendar view without titles and Previous/Next Button. To add the calendar view, We can write
 ```
 DPCalendarMonthView *calendarView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 0, 300, 200) delegate:self];
 ```
-
+Or
+```
+DPCalendarMonthView *calendarView = [Your calendar view loaded from storyboard];
+calendarView.monthlyViewDelegate = self;
+```
 ## Provide events and icon events
 ### Events
 ```
@@ -68,7 +80,10 @@ has the following functions:
 ```
 -(void) didScrollToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
 ```
-
+* For performance reason, we will use skip function to tell delegate that the monthly view is flipping very fast. You should use this function to update your month label.
+```
+-(void) didSkipToMonth:(NSDate *)month firstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
+```
 * You can inherit ```DPCalendarMonthlySingleMonthCell``` and provides your own implementation
 ```
 - (Class) monthlyCellClass;
@@ -116,8 +131,8 @@ has the following functions:
 * References
 
 ```
-extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight; //Height of weekday cell
-extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont; //Font of weekday
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight; //Height of weekday cell - Dafault: 20
+extern NSString *const DPCalendarMonthlyViewAttributeWeekdayFont; //Font of weekday - Dafault: [UIFont systemFontOfSize:12]
 
 extern NSString *const DPCalendarMonthlyViewAttributeCellTodayBannerBkgColor; //Today's color in cell
 extern NSString *const DPCalendarMonthlyViewAttributeCellHeight; //Height of date cell
@@ -127,10 +142,13 @@ extern NSString *const DPCalendarMonthlyViewAttributeCellRowHeight; //Height of 
 extern NSString *const DPCalendarMonthlyViewAttributeEventColors; //Underline color of the event
 extern NSString *const DPCalendarMonthlyViewAttributeIconEventFont; //Font of icon event
 extern NSString *const DPCalendarMonthlyViewAttributeIconEventBkgColors; //Background color of icon event
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventMarginX;
+extern NSString *const DPCalendarMonthlyViewAttributeIconEventMarginY;
 extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthColor; //Background color of the cell that is not in current month
 extern NSString *const DPCalendarMonthlyViewAttributeCellHighlightedColor; //Highlight color of the cell
 extern NSString *const DPCalendarMonthlyViewAttributeCellSelectedColor; //Selected color of the cell
 extern NSString *const DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable; //Whether the cell that is not in current month can be selected
+extern NSString *const DPCalendarMonthlyViewAttributeEventDrawingStyle;//Drawing style of event
 
 extern NSString *const DPCalendarMonthlyViewAttributeSeparatorColor; //Border color of cell
 
