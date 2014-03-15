@@ -189,24 +189,11 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
         [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(self.bounds.size.width * i, 0, self.bounds.size.width, self.bounds.size.height)]];
     }
     
-//    [self.pagingMonths addObject:[today dateByAddingYears:0 months:-1 days:0]];
-//    [self.pagingMonths addObject:today];
-//    [self.pagingMonths addObject:[today dateByAddingYears:0 months:1 days:0]];
-    
-//    [self.pagingViews addObject:[self singleMonthViewInFrame:self.bounds]];
-//    [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(self.bounds.size.width, 0, self.bounds.size.width, self.bounds.size.height)]];
-//    [self.pagingViews addObject:[self singleMonthViewInFrame:CGRectMake(self.bounds.size.width * 2, 0, self.bounds.size.width, self.bounds.size.height)]];
-    
     for (int i = 0; i < self.pagingViews.count; i++) {
         [self addSubview:[self.pagingViews objectAtIndex:i]];
     }
     
-//    [self addSubview:[self.pagingViews objectAtIndex:0]];
-//    [self addSubview:[self.pagingViews objectAtIndex:1]];
-//    [self addSubview:[self.pagingViews objectAtIndex:2]];
-    
     [self setContentSize:CGSizeMake(self.bounds.size.width * count, self.bounds.size.height)];
-//    [self setContentSize:CGSizeMake(self.bounds.size.width * 3, self.bounds.size.height)];
     [self scrollRectToVisible:((UIView *)[self.pagingViews objectAtIndex:count / 2]).frame animated:NO];
 }
 
@@ -619,19 +606,6 @@ NSString *const DPCalendarViewDayCellIdentifier = @"DPCalendarViewDayCellIdentif
     [self reloadCurrentView];
     [self reloadPagingViews];
 }
-
-//- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset NS_AVAILABLE_IOS(5_0) {
-//    NSLog(@"scrollViewWillEndDragging targetContentOffset %f, %f", targetContentOffset->x, targetContentOffset->y);
-//    
-//    int position = (targetContentOffset->x / self.frame.size.width);
-//    NSDate *scrolledMonth = [self.pagingMonths objectAtIndex:position];
-//    
-//    [self.monthlyViewDelegate didScrollToMonth:scrolledMonth firstDate:[self firstVisibleDateOfMonth:scrolledMonth] lastDate:[self lastVisibleDateOfMonth:scrolledMonth]];
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//    NSLog(@"DidEndDragging decelerate %i", decelerate);
-//}
 
 -(NSDate *) dateForCollectionView:(UICollectionView *)collectionView IndexPath:(NSIndexPath *)indexPath {
     NSDate *monthDate = [self dateOfCollectionView:collectionView];
