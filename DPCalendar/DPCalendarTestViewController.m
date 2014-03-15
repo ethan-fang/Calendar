@@ -71,7 +71,7 @@
     [self.optionsButton removeFromSuperview];
     [self.createEventButton removeFromSuperview];
     
-    self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - 150) / 2, 20, 150, 20)];
+    self.monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - 100) / 2, 20, 100, 20)];
     [self.monthLabel setTextAlignment:NSTextAlignmentCenter];
     
     self.previousButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -262,14 +262,6 @@
     
 }
 
--(BOOL)shouldAutorotate {
-    return YES;
-}
-
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self commonInit];
-}
-
 -(NSDictionary *)monthlyViewAttributes {
     if (IDIOM == IPAD) {
         return [self ipadMonthlyViewAttributes];
@@ -277,6 +269,8 @@
         return [self iphoneMonthlyViewAttributes];
     }
 }
+
+#pragma mark - Utilities
 
 +(CGSize) currentSize
 {
@@ -300,5 +294,13 @@
     
 }
 
+#pragma mark - Rotation
+-(BOOL)shouldAutorotate {
+    return YES;
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self commonInit];
+}
 
 @end

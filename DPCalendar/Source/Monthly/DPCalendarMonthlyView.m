@@ -13,6 +13,7 @@
 #import "DPCalendarEvent.h"
 #import "DPCalendarIconEvent.h"
 
+
 NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight = @"DPCalendarMonthlyViewAttributeWeekdayHeight";
 NSString *const DPCalendarMonthlyViewAttributeWeekdayFont = @"DPCalendarMonthlyViewAttributeWeekdayFont";
 
@@ -171,6 +172,18 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
 
 -(void)setMonthlyViewDelegate:(id<DPCalendarMonthlyViewDelegate>)monthlyViewDelegate {
     _monthlyViewDelegate = monthlyViewDelegate;
+    [self applyCustomDefaults];
+}
+
+- (void) resetViews {
+    [self.pagingViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [obj removeFromSuperview];
+    }];
+    
+    _pagingViews = nil;
+    _pagingMonths = nil;
+    
+    [self commonInit];
     [self applyCustomDefaults];
 }
 
@@ -478,7 +491,7 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
 #pragma UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    int position = (self.contentOffset.x / self.frame.size.width);
+    int position = (self.contentOffset.x / self.bounds.size.width);
     
     NSDate *scrolledMonth = [self.pagingMonths objectAtIndex:position];
     
@@ -487,7 +500,7 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)sender
 {
-    int position = (self.contentOffset.x / self.frame.size.width);
+    int position = (self.contentOffset.x / self.bounds.size.width);
     
     if (position == CURERNT_MONTH_VIEW_POSITION) {
         return;

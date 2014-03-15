@@ -19,9 +19,14 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Ipad" bundle:nil];
-    [self.window setRootViewController:[storyboard instantiateInitialViewController]];
-    
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Ipad" bundle:nil];
+        [self.window setRootViewController:[storyboard instantiateInitialViewController]];
+    } else {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Iphone" bundle:nil];
+        [self.window setRootViewController:[storyboard instantiateInitialViewController]];
+    }
     return YES;
 }
 

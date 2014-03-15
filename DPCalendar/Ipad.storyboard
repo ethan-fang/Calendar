@@ -16,20 +16,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hD4-Yi-T3r">
-                                <rect key="frame" x="232" y="292" width="251" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hD4-Yi-T3r">
+                                <rect key="frame" x="283" y="147" width="203" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Push Calendar View from storyboard">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="203" id="VOl-Tr-CCo"/>
+                                    <constraint firstAttribute="height" constant="30" id="evV-87-CBj"/>
+                                </constraints>
+                                <state key="normal" title="Push Calendar View manually">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="showCalendarViewControllerFromStoryboard:" destination="aH3-2X-QA0" eventType="touchUpInside" id="w1r-wO-yHQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKF-7m-v3f">
-                                <rect key="frame" x="250" y="393" width="214" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKF-7m-v3f">
+                                <rect key="frame" x="253" y="202" width="262" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Create Calendar View manually">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="262" id="gI6-nv-qWQ"/>
+                                    <constraint firstAttribute="height" constant="30" id="oYU-fR-Lh1"/>
+                                </constraints>
+                                <state key="normal" title="Create Calendar View from storyboard">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -39,6 +47,12 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="gKF-7m-v3f" secondAttribute="centerX" id="7k6-CT-I4g"/>
+                            <constraint firstItem="hD4-Yi-T3r" firstAttribute="top" secondItem="Uo0-k5-4IB" secondAttribute="bottom" constant="83" id="mFJ-ys-xwF"/>
+                            <constraint firstItem="gKF-7m-v3f" firstAttribute="top" secondItem="hD4-Yi-T3r" secondAttribute="bottom" constant="25" id="nxS-N0-J0z"/>
+                            <constraint firstAttribute="centerX" secondItem="hD4-Yi-T3r" secondAttribute="centerX" id="rSw-r9-BPu"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="c4n-2z-dHA"/>
                 </viewController>
@@ -58,19 +72,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ySA-MM-fYe" customClass="DPCalendarMonthlyView">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ySA-MM-fYe" customClass="DPCalendarMonthlyView">
                                 <rect key="frame" x="0.0" y="57" width="768" height="967"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SE1-Vu-0fK">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SE1-Vu-0fK">
                                 <rect key="frame" x="284" y="20" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Typ-gl-cZb">
+                                <rect key="frame" x="20" y="16" width="35" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="EVM-PF-5cd" eventType="touchUpInside" id="Gg7-yZ-aF9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="a9D-XY-82k" firstAttribute="top" secondItem="ySA-MM-fYe" secondAttribute="bottom" id="36h-t5-KUo"/>
+                            <constraint firstItem="ySA-MM-fYe" firstAttribute="leading" secondItem="Gtb-Hs-7cw" secondAttribute="leading" id="Fwd-1s-JRa"/>
+                            <constraint firstItem="ySA-MM-fYe" firstAttribute="top" secondItem="Typ-gl-cZb" secondAttribute="bottom" constant="11" id="O91-4n-4gu"/>
+                            <constraint firstAttribute="trailing" secondItem="ySA-MM-fYe" secondAttribute="trailing" id="fXw-mn-hBC"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="calendarMonthlyView" destination="ySA-MM-fYe" id="M2E-ru-zeq"/>
