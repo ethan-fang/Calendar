@@ -102,7 +102,7 @@
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     [self.view addSubview:self.todayButton];
-//    [self.view addSubview:self.optionsButton];
+    //    [self.view addSubview:self.optionsButton];
     [self.view addSubview:self.createEventButton];
     [self.monthlyView removeFromSuperview];
     self.monthlyView = [[DPCalendarMonthlyView alloc] initWithFrame:CGRectMake(0, 50, width, height - 50) delegate:self];
@@ -141,7 +141,7 @@
         
         date = [date dateByAddingYears:0 months:0 days:1];
     }
-
+    
 }
 
 -(void) previousButtonSelected:(id)button {
@@ -234,7 +234,7 @@
 -(NSDictionary *) ipadMonthlyViewAttributes {
     return @{
              DPCalendarMonthlyViewAttributeCellRowHeight: @23,
-//             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
+             //             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
              DPCalendarMonthlyViewAttributeStartDayOfWeek: @0,
              DPCalendarMonthlyViewAttributeWeekdayFont: [UIFont systemFontOfSize:18],
              DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:14],

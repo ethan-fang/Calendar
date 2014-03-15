@@ -16,7 +16,7 @@
 
 @interface NSDate (DP)
 
-+ (int) monthsDifferenceBetweenStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
++ (NSInteger) monthsDifferenceBetweenStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 
 - (NSDate *)dateByAddingYears:(int)years months:(int)months days:(int)days;
 

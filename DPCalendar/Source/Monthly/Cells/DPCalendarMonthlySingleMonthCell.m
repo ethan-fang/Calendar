@@ -33,6 +33,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapCell:)];
+        tapGestureRecognizer.cancelsTouchesInView = NO;
         [self addGestureRecognizer:tapGestureRecognizer];
     }
     return self;
