@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66E98AA618D44D1400758131 /* Ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66E98AA518D44D1400758131 /* Ipad.storyboard */; };
+		66E98AA918D44E6F00758131 /* DPCalendarTestNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E98AA818D44E6F00758131 /* DPCalendarTestNavViewController.m */; };
+		66E98AAC18D451CF00758131 /* DPCalendarTestStoryboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E98AAB18D451CF00758131 /* DPCalendarTestStoryboardViewController.m */; };
 		66EAE592188BEAD300D539C0 /* DPCalendarTestOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAE591188BEAD300D539C0 /* DPCalendarTestOptionsViewController.m */; };
 		C80999CB189F01AB003A4F13 /* BtnAddSomething.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999C5189F01AB003A4F13 /* BtnAddSomething.png */; };
 		C80999CC189F01AB003A4F13 /* IconArrowNext.png in Resources */ = {isa = PBXBuildFile; fileRef = C80999C6189F01AB003A4F13 /* IconArrowNext.png */; };
@@ -59,6 +62,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		66E98AA518D44D1400758131 /* Ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Ipad.storyboard; sourceTree = "<group>"; };
+		66E98AA718D44E6F00758131 /* DPCalendarTestNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarTestNavViewController.h; sourceTree = "<group>"; };
+		66E98AA818D44E6F00758131 /* DPCalendarTestNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarTestNavViewController.m; sourceTree = "<group>"; };
+		66E98AAA18D451CF00758131 /* DPCalendarTestStoryboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarTestStoryboardViewController.h; sourceTree = "<group>"; };
+		66E98AAB18D451CF00758131 /* DPCalendarTestStoryboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarTestStoryboardViewController.m; sourceTree = "<group>"; };
 		66EAE590188BEAD300D539C0 /* DPCalendarTestOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCalendarTestOptionsViewController.h; sourceTree = "<group>"; };
 		66EAE591188BEAD300D539C0 /* DPCalendarTestOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCalendarTestOptionsViewController.m; sourceTree = "<group>"; };
 		C80999C5189F01AB003A4F13 /* BtnAddSomething.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BtnAddSomething.png; sourceTree = "<group>"; };
@@ -205,6 +213,11 @@
 				C8348CFF188E42720033DFBF /* DPCalendarTestOptionsCell.m */,
 				C8348D01188E45A90033DFBF /* DPCalendarTestCreateEventViewController.h */,
 				C8348D02188E45A90033DFBF /* DPCalendarTestCreateEventViewController.m */,
+				66E98AA718D44E6F00758131 /* DPCalendarTestNavViewController.h */,
+				66E98AA818D44E6F00758131 /* DPCalendarTestNavViewController.m */,
+				66E98AA518D44D1400758131 /* Ipad.storyboard */,
+				66E98AAA18D451CF00758131 /* DPCalendarTestStoryboardViewController.h */,
+				66E98AAB18D451CF00758131 /* DPCalendarTestStoryboardViewController.m */,
 			);
 			path = DPCalendar;
 			sourceTree = "<group>";
@@ -370,6 +383,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66E98AA618D44D1400758131 /* Ipad.storyboard in Resources */,
 				C8D1810C187CFDB6001AA86D /* IconCamera@2x.png in Resources */,
 				C80999CC189F01AB003A4F13 /* IconArrowNext.png in Resources */,
 				C80999D0189F01AB003A4F13 /* BtnAddSomething@2x.png in Resources */,
@@ -405,6 +419,7 @@
 				C816632F1862760800D7F4B7 /* DPCalendarTestViewController.m in Sources */,
 				C8166308186271D700D7F4B7 /* DPAppDelegate.m in Sources */,
 				C816630B186271D700D7F4B7 /* DPCalendar.xcdatamodeld in Sources */,
+				66E98AAC18D451CF00758131 /* DPCalendarTestStoryboardViewController.m in Sources */,
 				66EAE592188BEAD300D539C0 /* DPCalendarTestOptionsViewController.m in Sources */,
 				C8547265187A14050002DFB1 /* DPCalendarMonthlyCell.m in Sources */,
 				C8547267187A14050002DFB1 /* DPCalendarMonthlySingleMonthCell.m in Sources */,
@@ -412,6 +427,7 @@
 				C854726C187A14050002DFB1 /* DPCalendarMonthlyView.m in Sources */,
 				C8D18104187CE764001AA86D /* DPCalendarIconEvent.m in Sources */,
 				C8547268187A14050002DFB1 /* DPCalendarMonthlyWeekdayCell.m in Sources */,
+				66E98AA918D44E6F00758131 /* DPCalendarTestNavViewController.m in Sources */,
 				C8348D03188E45A90033DFBF /* DPCalendarTestCreateEventViewController.m in Sources */,
 				C8348D00188E42720033DFBF /* DPCalendarTestOptionsCell.m in Sources */,
 				C8A1B561187BA60C000DA3D7 /* DPCalendarEvent.m in Sources */,

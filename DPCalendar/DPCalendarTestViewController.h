@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCalendarTestViewController : UINavigationController
+@interface DPCalendarTestViewController : UIViewController
 
 
 

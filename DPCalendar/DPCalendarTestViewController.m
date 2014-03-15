@@ -24,6 +24,7 @@
 @property (nonatomic, strong) UIButton *todayButton;
 @property (nonatomic, strong) UIButton *createEventButton;
 @property (nonatomic, strong) UIButton *optionsButton;
+@property (nonatomic, strong) UIButton *backButton;
 
 @property (nonatomic, strong) NSMutableArray *events;
 @property (nonatomic, strong) NSMutableArray *iconEvents;
@@ -78,23 +79,26 @@
     self.nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.nextButton setBackgroundImage:[UIImage imageNamed:@"IconArrowNext"] forState:UIControlStateNormal];
     self.todayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.optionsButton  = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.createEventButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.createEventButton setBackgroundImage:[UIImage imageNamed:@"BtnAddSomething"] forState:UIControlStateNormal];
     self.previousButton.frame = CGRectMake(self.monthLabel.frame.origin.x - 18, 20, 18, 20);
     self.nextButton.frame = CGRectMake(CGRectGetMaxX(self.monthLabel.frame), 20, 18, 20);
     self.todayButton.frame = CGRectMake(width - 60, 20, 60, 21);
-    self.optionsButton.frame = CGRectMake(width - 50 * 3, 20, 50, 20);
+    self.backButton.frame = CGRectMake(40, 20, 50, 20);
+//    self.optionsButton.frame = CGRectMake(width - 50 * 3, 20, 50, 20);
     self.createEventButton.frame = CGRectMake(10, 20, 20, 20);
     [self.todayButton setTitle:@"Today" forState:UIControlStateNormal];
     [self.optionsButton setTitle:@"Option" forState:UIControlStateNormal];
-    
+    [self.backButton setTitle:@"Back" forState:UIControlStateNormal];
     
     
     
     [self.previousButton addTarget:self action:@selector(previousButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.nextButton addTarget:self action:@selector(nextButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.todayButton addTarget:self action:@selector(todayButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backButton addTarget:self action:@selector(backButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsButton addTarget:self action:@selector(optionsButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [self.createEventButton addTarget:self action:@selector(createEventButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -102,6 +106,7 @@
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.nextButton];
     [self.view addSubview:self.todayButton];
+    [self.view addSubview:self.backButton];
     //    [self.view addSubview:self.optionsButton];
     [self.view addSubview:self.createEventButton];
     [self.monthlyView removeFromSuperview];
@@ -142,6 +147,10 @@
         date = [date dateByAddingYears:0 months:0 days:1];
     }
     
+}
+
+- (void) backButtonSelected:(id)button {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) previousButtonSelected:(id)button {

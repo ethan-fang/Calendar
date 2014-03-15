@@ -115,7 +115,15 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
     
     self = [super initWithFrame:frame];
     if (self) {
+        [self commonInit];
         self.monthlyViewDelegate = monthViewDelegate;
+    }
+    return self;
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
         [self commonInit];
     }
     return self;
@@ -161,13 +169,16 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
     return _processQueue;
 }
 
+-(void)setMonthlyViewDelegate:(id<DPCalendarMonthlyViewDelegate>)monthlyViewDelegate {
+    _monthlyViewDelegate = monthlyViewDelegate;
+    [self applyCustomDefaults];
+}
+
 #pragma mark - Initial Config
 
 - (void) commonInit {
     
     [self applyDefaults];
-    [self applyCustomDefaults];
-    
     
     NSDate *today = [NSDate date];
     

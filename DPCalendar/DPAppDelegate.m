@@ -7,7 +7,6 @@
 //
 
 #import "DPAppDelegate.h"
-#import "DPCalendarTestViewController.h"
 
 @implementation DPAppDelegate
 
@@ -20,8 +19,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    DPCalendarTestViewController *monthlyViewVC = [DPCalendarTestViewController new];
-    [self.window setRootViewController:monthlyViewVC];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Ipad" bundle:nil];
+    [self.window setRootViewController:[storyboard instantiateInitialViewController]];
     
     return YES;
 }
