@@ -270,7 +270,7 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
     
     if ([self.monthlyViewDelegate respondsToSelector:@selector(monthlyWeekdayClassClass)]) {
         [singleMonthView registerClass:[self.monthlyViewDelegate monthlyWeekdayClassClass]
-            forCellWithReuseIdentifier:DPCalendarViewDayCellIdentifier];
+            forCellWithReuseIdentifier:DPCalendarViewWeekDayCellIdentifier];
     } else {
         [singleMonthView registerClass:DPCalendarMonthlyWeekdayCell.class
             forCellWithReuseIdentifier:DPCalendarViewWeekDayCellIdentifier];
