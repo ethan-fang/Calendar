@@ -935,7 +935,9 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
 
 #pragma mark - DPCalendarMonthlySingleMonthCellDelegate
 -(void)didTapEvent:(DPCalendarEvent *)event onDate:(NSDate *)date {
-    [self.monthlyViewDelegate didTapEvent:event onDate:date];
+    if ([self.monthlyViewDelegate respondsToSelector:@selector(didTapEvent:onDate:)]) {
+        [self.monthlyViewDelegate didTapEvent:event onDate:date];
+    }
 }
 
 
