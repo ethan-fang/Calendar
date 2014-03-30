@@ -237,9 +237,9 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
         attributes = [self.monthlyViewDelegate monthlyViewAttributes];
     }
     
-    self.startDayOfWeek = [attributes[DPCalendarMonthlyViewAttributeStartDayOfWeek]integerValue] ?: DPCalendarMonthlyViewAttributeStartDayOfWeekDefault;
-    self.weekdayHeight = [attributes[DPCalendarMonthlyViewAttributeWeekdayHeight]floatValue] ?: DPCalendarMonthlyViewAttributeWeekdayHeightDefault;
-    self.rowHeight = [attributes[DPCalendarMonthlyViewAttributeCellRowHeight]floatValue] ?:  DPCalendarMonthlyViewAttributeCellRowHeightDefault;
+    self.startDayOfWeek = attributes[DPCalendarMonthlyViewAttributeStartDayOfWeek] ? [attributes[DPCalendarMonthlyViewAttributeStartDayOfWeek]integerValue] : DPCalendarMonthlyViewAttributeStartDayOfWeekDefault;
+    self.weekdayHeight = attributes[DPCalendarMonthlyViewAttributeWeekdayHeight] ? [attributes[DPCalendarMonthlyViewAttributeWeekdayHeight]floatValue] : DPCalendarMonthlyViewAttributeWeekdayHeightDefault;
+    self.rowHeight = attributes[DPCalendarMonthlyViewAttributeCellRowHeight] ? [attributes[DPCalendarMonthlyViewAttributeCellRowHeight]floatValue] :  DPCalendarMonthlyViewAttributeCellRowHeightDefault;
     
     if (attributes[DPCalendarMonthlyViewAttributeMonthRows]) {
         NSInteger rows = [attributes[DPCalendarMonthlyViewAttributeMonthRows] integerValue];
@@ -266,8 +266,8 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
     
     self.isNoInSameMonthCellSeletable = [[attributes objectForKey:DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable]boolValue] ?: NO;
     
-    self.iconEventMarginX = [attributes[DPCalendarMonthlyViewAttributeIconEventMarginX]floatValue] ?: ICON_EVENT_HORIZONTAL_MARGIN;
-    self.iconEventMarginY = [attributes[DPCalendarMonthlyViewAttributeIconEventMarginY]floatValue] ?: ICON_EVENT_VERTICAL_MARGIN;
+    self.iconEventMarginX = attributes[DPCalendarMonthlyViewAttributeIconEventMarginX] ? [attributes[DPCalendarMonthlyViewAttributeIconEventMarginX]floatValue] : ICON_EVENT_HORIZONTAL_MARGIN;
+    self.iconEventMarginY = attributes[DPCalendarMonthlyViewAttributeIconEventMarginY] ?[attributes[DPCalendarMonthlyViewAttributeIconEventMarginY]floatValue] : ICON_EVENT_VERTICAL_MARGIN;
 }
 
 

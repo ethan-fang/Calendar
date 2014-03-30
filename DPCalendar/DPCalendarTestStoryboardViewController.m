@@ -12,12 +12,15 @@
 #import "DPCalendarIconEvent.h"
 #import "NSDate+DP.h"
 
-@interface DPCalendarTestStoryboardViewController ()<DPCalendarMonthlyViewDelegate>
+@interface DPCalendarTestStoryboardViewController ()<DPCalendarMonthlyViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet DPCalendarMonthlyView *calendarMonthlyView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, strong) NSMutableArray *events;
 @property (nonatomic, strong) NSMutableArray *iconEvents;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *titleCollectionView;
+@property (nonatomic, strong) NSArray *titles;
 @end
 
 
@@ -26,6 +29,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.titleCollectionView.backgroundColor = [UIColor whiteColor];
+    self.titleCollectionView.delegate = self;
+    self.titleCollectionView.dataSource = self;
+    self.titles = @[@"Sun", @"Mon", @"Tue",@"Wed",@"Thu",@"Fri",@"Sat"];
+    
+    UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.sectionInset = UIEdgeInsetsZero;
+    layout.minimumInteritemSpacing = 0.f;
+    layout.minimumLineSpacing = 0.f;
+    layout.headerReferenceSize = CGSizeZero;
+    layout.footerReferenceSize = CGSizeZero;
+    self.titleCollectionView.collectionViewLayout = layout;
     
     self.calendarMonthlyView.monthlyViewDelegate = self;
     
@@ -115,20 +131,21 @@
     return @{
              DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
              DPCalendarMonthlyViewAttributeCellNotInSameMonthSelectable: @YES,
-             DPCalendarMonthlyViewAttributeMonthRows:@3
+             DPCalendarMonthlyViewAttributeMonthRows:@3,
+             DPCalendarMonthlyViewAttributeWeekdayHeight: @0.f
              };
 }
 
 -(NSDictionary *) ipadMonthlyViewAttributes {
     return @{
              DPCalendarMonthlyViewAttributeCellRowHeight: @23,
-             //             DPCalendarMonthlyViewAttributeEventDrawingStyle: [NSNumber numberWithInt:DPCalendarMonthlyViewEventDrawingStyleUnderline],
              DPCalendarMonthlyViewAttributeStartDayOfWeek: @0,
              DPCalendarMonthlyViewAttributeWeekdayFont: [UIFont systemFontOfSize:18],
              DPCalendarMonthlyViewAttributeDayFont: [UIFont systemFontOfSize:14],
              DPCalendarMonthlyViewAttributeEventFont: [UIFont systemFontOfSize:14],
              DPCalendarMonthlyViewAttributeMonthRows:@5,
-             DPCalendarMonthlyViewAttributeIconEventBkgColors: @[[UIColor clearColor], [UIColor colorWithRed:239/255.f green:239/255.f blue:244/255.f alpha:1]]
+             DPCalendarMonthlyViewAttributeIconEventBkgColors: @[[UIColor clearColor], [UIColor colorWithRed:239/255.f green:239/255.f blue:244/255.f alpha:1]],
+             DPCalendarMonthlyViewAttributeWeekdayHeight: @0.f
              };
 }
 
@@ -136,6 +153,7 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self.calendarMonthlyView resetViews];
+    [self.titleCollectionView reloadData];
 }
 
 -(BOOL)shouldAutorotate {
@@ -150,6 +168,32 @@
 - (void)orientationChanged:(NSNotification *)notification
 {
     [self.calendarMonthlyView resetViews];
+}
+
+#pragma mark - UICollectionViewDataSource
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 7;
+}
+
+#define CalendarTitleCellIdentifier @"CalendarTitleCellIdentifier"
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CalendarTitleCellIdentifier forIndexPath:indexPath];
+    UILabel *label = (UILabel *)[cell viewWithTag:1];
+    CGSize size = [self collectionView:collectionView layout:collectionView.collectionViewLayout sizeForItemAtIndexPath:indexPath];
+    label.frame = CGRectMake(0, 0, size.width, size.height);
+    label.text = [self.titles objectAtIndex:indexPath.row];
+    return cell;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout*)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat itemWidth  = floorf(self.titleCollectionView.bounds.size.width / self.titles.count);
+    CGFloat itemHeight = roundf(self.titleCollectionView.bounds.size.height);
+    
+    return CGSizeMake(itemWidth, itemHeight);
 }
 
 @end

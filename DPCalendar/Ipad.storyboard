@@ -16,28 +16,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hD4-Yi-T3r">
-                                <rect key="frame" x="283" y="147" width="203" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hD4-Yi-T3r">
+                                <rect key="frame" x="292" y="147" width="185" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="203" id="VOl-Tr-CCo"/>
                                     <constraint firstAttribute="height" constant="30" id="evV-87-CBj"/>
                                 </constraints>
-                                <state key="normal" title="Push Calendar View manually">
+                                <state key="normal" title="Manually (Header scrolling)">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="showCalendarViewControllerFromStoryboard:" destination="aH3-2X-QA0" eventType="touchUpInside" id="w1r-wO-yHQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKF-7m-v3f">
-                                <rect key="frame" x="253" y="202" width="262" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKF-7m-v3f">
+                                <rect key="frame" x="254" y="202" width="261" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="262" id="gI6-nv-qWQ"/>
                                     <constraint firstAttribute="height" constant="30" id="oYU-fR-Lh1"/>
                                 </constraints>
-                                <state key="normal" title="Create Calendar View from storyboard">
+                                <state key="normal" title="Storyboard (Header not scrolling trick)">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -73,7 +73,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ySA-MM-fYe" customClass="DPCalendarMonthlyView">
-                                <rect key="frame" x="0.0" y="57" width="768" height="967"/>
+                                <rect key="frame" x="0.0" y="86" width="768" height="938"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SE1-Vu-0fK">
@@ -93,17 +93,51 @@
                                     <action selector="backButtonClicked:" destination="EVM-PF-5cd" eventType="touchUpInside" id="Gg7-yZ-aF9"/>
                                 </connections>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="13W-PC-IrF">
+                                <rect key="frame" x="0.0" y="61" width="768" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LdN-m7-rWh">
+                                    <size key="itemSize" width="133" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CalendarTitleCellIdentifier" id="6Sr-BE-WVs">
+                                        <rect key="frame" x="0.0" y="0.0" width="133" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="133" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z42-A2-HQs">
+                                                    <rect key="frame" x="0.0" y="0.0" width="109" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="a9D-XY-82k" firstAttribute="top" secondItem="ySA-MM-fYe" secondAttribute="bottom" id="36h-t5-KUo"/>
-                            <constraint firstItem="ySA-MM-fYe" firstAttribute="leading" secondItem="Gtb-Hs-7cw" secondAttribute="leading" id="Fwd-1s-JRa"/>
-                            <constraint firstItem="ySA-MM-fYe" firstAttribute="top" secondItem="Typ-gl-cZb" secondAttribute="bottom" constant="11" id="O91-4n-4gu"/>
-                            <constraint firstAttribute="trailing" secondItem="ySA-MM-fYe" secondAttribute="trailing" id="fXw-mn-hBC"/>
+                            <constraint firstItem="a9D-XY-82k" firstAttribute="top" secondItem="ySA-MM-fYe" secondAttribute="bottom" id="F2p-i4-hQM"/>
+                            <constraint firstItem="ySA-MM-fYe" firstAttribute="top" secondItem="13W-PC-IrF" secondAttribute="bottom" id="Pem-tC-nB1"/>
+                            <constraint firstItem="ySA-MM-fYe" firstAttribute="leading" secondItem="Gtb-Hs-7cw" secondAttribute="leading" id="bjP-dJ-Bis"/>
+                            <constraint firstItem="13W-PC-IrF" firstAttribute="top" secondItem="Typ-gl-cZb" secondAttribute="bottom" constant="15" id="ceu-gH-lpi"/>
+                            <constraint firstAttribute="trailing" secondItem="ySA-MM-fYe" secondAttribute="trailing" id="fol-G6-B4I"/>
+                            <constraint firstAttribute="trailing" secondItem="13W-PC-IrF" secondAttribute="trailing" id="jIL-fb-BHz"/>
+                            <constraint firstItem="13W-PC-IrF" firstAttribute="leading" secondItem="Gtb-Hs-7cw" secondAttribute="leading" id="scT-oT-hN3"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="calendarMonthlyView" destination="ySA-MM-fYe" id="M2E-ru-zeq"/>
+                        <outlet property="titleCollectionView" destination="13W-PC-IrF" id="NyF-Or-hPk"/>
                         <outlet property="titleLabel" destination="SE1-Vu-0fK" id="yZt-96-cuZ"/>
                     </connections>
                 </viewController>
