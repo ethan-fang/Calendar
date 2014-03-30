@@ -371,9 +371,10 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
 
 
 - (NSIndexPath *) indexPathForCurrentMonthWithDate:(NSDate *)date {
+    NSDate *firstVisibleDate = [self firstVisibleDateOfMonth:[self.pagingMonths objectAtIndex:CURERNT_MONTH_VIEW_POSITION]];
     NSDateComponents *components =
     [self.calendar components:NSDayCalendarUnit
-                     fromDate:[self firstVisibleDateOfMonth:[self.pagingMonths objectAtIndex:CURERNT_MONTH_VIEW_POSITION]]
+                     fromDate:firstVisibleDate
                        toDate:date
                       options:0];
     
@@ -449,11 +450,12 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
         UICollectionView *view = [self.pagingViews objectAtIndex:CURERNT_MONTH_VIEW_POSITION];
         [self scrollRectToVisible:view.frame animated:NO];
         [self.monthlyViewDelegate didScrollToMonth:[self.pagingMonths objectAtIndex:CURERNT_MONTH_VIEW_POSITION] firstDate:[self firstVisibleDateOfMonth:month] lastDate:[self lastVisibleDateOfMonth:month]];
+        [self reloadCurrentView];
+        [self reloadPagingViews];
         if (complete) {
             complete();
         }
-        [self reloadCurrentView];
-        [self reloadPagingViews];
+        
     }];
 }
 
