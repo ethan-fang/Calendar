@@ -9,6 +9,8 @@
 #import "DPCalendarMonthlySingleMonthCell.h"
 #import "DPCalendarIconEvent.h"
 #import "NSDate+DP.h"
+#import "DPConstants.h"
+#import "NSString+DP.h"
 
 @interface DPCalendarMonthlySingleMonthCell()
 
@@ -139,14 +141,16 @@
     [self.calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit
                 fromDate:self.date];
     NSString *dayString = [NSString stringWithFormat:@"%ld", (long)components.day];
-    float dayWidth = [dayString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.dayFont.pointSize + 1)
-                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                            attributes:@{
-                                                         NSFontAttributeName: [UIFont systemFontOfSize:self.dayFont.pointSize]
-                                                         } context:stringContext].size.width;
+    
+    CGSize daySize = [dayString dp_boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.dayFont.pointSize + 1)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{
+                                                     NSFontAttributeName: [UIFont systemFontOfSize:self.dayFont.pointSize]
+                                                     } context:stringContext].size;
+    
 
-    CGPoint dayPoint = CGPointMake(size.width - dayWidth - DAY_TEXT_RIGHT_MARGIN, (self.rowHeight - self.dayFont.pointSize) / 2);
-    [dayString drawAtPoint:dayPoint withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:isDayToday ? [UIColor whiteColor] : self.dayTextColor}];
+    CGRect dayRect = CGRectMake(size.width - daySize.width - DAY_TEXT_RIGHT_MARGIN, (self.rowHeight - self.dayFont.pointSize) / 2, daySize.width, daySize.height);
+    [dayString dp_drawInRect:dayRect withAttributes:@{NSFontAttributeName:self.dayFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:isDayToday ? [UIColor whiteColor] : self.dayTextColor}];
     
     
     int eventsNotShowingCount = 0;
@@ -155,7 +159,7 @@
     float iconX = self.iconEventMarginX;
     for (int i = 0; i < self.iconEvents.count; i++) {
         DPCalendarIconEvent *event = [self.iconEvents objectAtIndex:i];
-        CGFloat titleWidth = [event.title boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.iconEventFont.pointSize)
+        CGFloat titleWidth = [event.title dp_boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.iconEventFont.pointSize)
                                                  options:NSStringDrawingUsesLineFragmentOrigin
                                               attributes:@{
                                                            NSFontAttributeName: [UIFont systemFontOfSize:self.iconEventFont.pointSize]
@@ -168,7 +172,7 @@
         float iconHeight = isWidthLonger ? event.icon.size.height * scale : (iconMaxHeight);
         
         if (event.title.length) {
-            if (iconX + titleWidth + iconWidth> rect.size.width - dayWidth - DAY_TEXT_RIGHT_MARGIN) {
+            if (iconX + titleWidth + iconWidth> rect.size.width - daySize.width - DAY_TEXT_RIGHT_MARGIN) {
                 //Not enough space
             } else {
                 [self drawRoundedRect:CGRectMake(iconX, 0, titleWidth + iconWidth + iconHeight, self.rowHeight) radius:self.rowHeight / 2 withColor:[self.iconEventBkgColors objectAtIndex:event.bkgColorIndex]];
@@ -177,14 +181,14 @@
                 textStyle.lineBreakMode = NSLineBreakByWordWrapping;
                 textStyle.alignment = NSTextAlignmentLeft;
                 
-                [event.title drawInRect:CGRectMake(iconX + iconHeight / 2, (self.rowHeight - self.iconEventFont.pointSize) / 2, titleWidth, self.iconEventFont.pointSize) withAttributes:@{NSFontAttributeName:self.iconEventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor whiteColor]}];
+                [event.title dp_drawInRect:CGRectMake(iconX + iconHeight / 2, (self.rowHeight - self.iconEventFont.pointSize) / 2, titleWidth, self.iconEventFont.pointSize) withAttributes:@{NSFontAttributeName:self.iconEventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor whiteColor]}];
                 
                 
                 [event.icon drawInRect:CGRectMake(iconHeight / 2 + iconX + titleWidth, (self.rowHeight - iconHeight) / 2, iconWidth, iconHeight)];
                 iconX += iconWidth + titleWidth + iconWidth + 2 * iconHeight + self.iconEventMarginX;
             }
         } else {
-            if (iconX + iconWidth > rect.size.width - dayWidth - DAY_TEXT_RIGHT_MARGIN) {
+            if (iconX + iconWidth > rect.size.width - daySize.width - DAY_TEXT_RIGHT_MARGIN) {
                 //Not enough space
             } else {
                 [event.icon drawInRect:CGRectMake(iconX, (self.rowHeight - iconHeight) / 2, iconWidth, iconHeight)];
@@ -227,7 +231,7 @@
             
             
             [[UIColor blackColor] set];
-            [event.title drawInRect:CGRectMake(startPosition + 2 +  EVENT_TITLE_MARGIN, event.rowIndex * self.rowHeight + ROW_MARGIN, rect.size.width - EVENT_END_MARGIN, self.rowHeight - ROW_MARGIN) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor colorWithRed:67/255.0f green:67/255.0f blue:67/255.0f alpha:1]}];
+            [event.title dp_drawInRect:CGRectMake(startPosition + 2 +  EVENT_TITLE_MARGIN, event.rowIndex * self.rowHeight + ROW_MARGIN, rect.size.width - EVENT_END_MARGIN, self.rowHeight - ROW_MARGIN) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor colorWithRed:67/255.0f green:67/255.0f blue:67/255.0f alpha:1]}];
         }
         
         
@@ -235,7 +239,7 @@
     }
     if (eventsNotShowingCount > 0) {
         //show more
-        [[NSString stringWithFormat:@"%d more...", eventsNotShowingCount] drawInRect:CGRectMake(5, rect.size.height - self.rowHeight, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor colorWithRed:67/255.0f green:67/255.0f blue:67/255.0f alpha:1]}];
+        [[NSString stringWithFormat:@"%d more...", eventsNotShowingCount] dp_drawInRect:CGRectMake(5, rect.size.height - self.rowHeight, rect.size.width - 5, self.rowHeight - 2) withAttributes:@{NSFontAttributeName:self.eventFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor colorWithRed:67/255.0f green:67/255.0f blue:67/255.0f alpha:1]}];
     }
     
     
