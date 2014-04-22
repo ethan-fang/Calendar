@@ -12,7 +12,7 @@
 #import "NSDate+DP.h"
 #import "DPCalendarEvent.h"
 #import "DPCalendarIconEvent.h"
-
+#import "DPConstants.h"
 
 NSString *const DPCalendarMonthlyViewAttributeWeekdayHeight = @"DPCalendarMonthlyViewAttributeWeekdayHeight";
 NSString *const DPCalendarMonthlyViewAttributeWeekdayFont = @"DPCalendarMonthlyViewAttributeWeekdayFont";
@@ -940,6 +940,14 @@ static NSInteger const DPCalendarMonthlyViewAttributeStartDayOfWeekDefault = 0; 
     }
 }
 
+//TODO: Fix NSCalendar thread issue
+-(NSCalendar *)calendar {
+    if (IS_OS_7_OR_LATER) {
+        return _calendar;
+    } else {
+        return [NSCalendar currentCalendar];
+    }
+}
 
 
 @end
